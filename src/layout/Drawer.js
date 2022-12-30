@@ -20,6 +20,7 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import {CurrencyExchange, Help, Info, Movie, Newspaper, Work} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
+import {useLocation} from "react-router";
 
 const drawerWidth = 240;
 
@@ -92,7 +93,17 @@ export default function MiniDrawer() {
     const theme = useTheme()
     const navigate = useNavigate()
     const [open, setOpen] = React.useState(false)
-    const [activeIndex, setActiveIndex] = React.useState(0)
+    const menuOptions = [{text: 'Stories', icon: <Movie></Movie>}, {text: 'News', icon: <Newspaper></Newspaper>},
+        {text: 'Investors', icon: <Work></Work>}, {text: 'Exchange', icon: <CurrencyExchange></CurrencyExchange>},
+        {text: 'About', icon: <Info></Info>}, {text:'Help', icon:<Help></Help>}]
+    const location = useLocation();
+    let pathname = location.pathname
+    let currentOption = menuOptions.find((i) => pathname.includes(i.text))
+    let index = 0
+    if (currentOption !== undefined){
+        index = menuOptions.indexOf(currentOption)
+    }
+    const [activeIndex, setActiveIndex] = React.useState(index)
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -102,9 +113,6 @@ export default function MiniDrawer() {
         setOpen(false);
     };
 
-    const menuOptions = [{text: 'Stories', icon: <Movie></Movie>}, {text: 'News', icon: <Newspaper></Newspaper>},
-        {text: 'Investors', icon: <Work></Work>}, {text: 'Exchange', icon: <CurrencyExchange></CurrencyExchange>},
-        {text: 'About', icon: <Info></Info>}, {text:'Help', icon:<Help></Help>}]
 
     return (
         <Box sx={{ display: 'flex' }}>

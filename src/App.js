@@ -91,7 +91,7 @@ function Layout(props) {
             <header>
                 <MiniDrawer></MiniDrawer>
             </header>
-            <Container maxWidth="lg" sx={{marginTop: '30px'}}>
+            <Container maxWidth="lg" sx={{marginTop: '70px'}}>
                 <main>
                     {
                         <Outlet/>
