@@ -18,6 +18,7 @@ import {InvestorsComp} from "./components/InvestorsComp";
 import {AboutComp} from "./components/AboutComp";
 import {HelpComp} from "./components/HelpComp";
 import {MyStoriesComp} from "./components/MyStoriesComp";
+import CreateStoryComp from "./components/CreateStoryComp";
 
 
 function App() {
@@ -52,25 +53,17 @@ function App2() {
 
                     <Route path='/' element={<><Layout loggedIn={loggedIn} //student={student} setStudent={setStudent}
                                                        doLogout={doLogout}></Layout></>}>
-                        <Route path='/' element={!loggedIn ? <>
-                            <div style={{paddingTop: '50px'}}></div>
-                        </> : <Navigate to='/home'/>}></Route>
-                        <Route path='/home' element={loggedIn ? <HomePageComp loggedIn={loggedIn}></HomePageComp> :
-                            <Navigate to='/login'/>}/>
-                        <Route path='/login' element={<LoginComp loggedIn={loggedIn} setLoggedIn={setLoggedIn}
-                            //setStudent={setStudent}
-                            //setSearchingPlan={setSearchingPlan}
-                        ></LoginComp>}></Route>
+                        <Route path='/' element={<Navigate to='/Stories'/>}></Route>
+                        <Route path='/login' element={<LoginComp loggedIn={loggedIn} setLoggedIn={setLoggedIn}></LoginComp>}></Route>
                         <Route path='/stories' element={<StoriesComp></StoriesComp>}></Route>
                         <Route path='/news' element={<NewsComp></NewsComp>}></Route>
                         <Route path='/investors' element={<InvestorsComp></InvestorsComp>}></Route>
                         <Route path='/exchange' element={<ExchangeComp></ExchangeComp>}></Route>
                         <Route path='/about' element={<AboutComp></AboutComp>}></Route>
                         <Route path='/help' element={<HelpComp></HelpComp>}></Route>
-                        {//testing
-
-                        }
                         <Route path='/myStories' element={<MyStoriesComp></MyStoriesComp>}></Route>
+                        <Route path='/createStory' element={<CreateStoryComp></CreateStoryComp>}></Route>
+
                     </Route>
 
                     <Route path='*' element={<h1>Error 404, Page Not Found</h1>}/>
