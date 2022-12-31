@@ -1,15 +1,10 @@
 import {
     Button,
     Card, CardActionArea, CardActions, CardContent, CardMedia,
-    Dialog, DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
     Divider, Grid,
-    Switch,
     Typography
 } from "@mui/material";
-import {Add, Favorite, FilterList, Folder, Info, Search, Share} from "@mui/icons-material";
+import {Add, Favorite, FilterList, Search, Share} from "@mui/icons-material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {useState} from "react";
 import IconButton from "@mui/material/IconButton";
@@ -24,7 +19,6 @@ export default function MyStoriesComp(props) {
                 'species, ranging across all continents except Antarctica with ranging across all continents except Antarctica', img:'cover_3', views: 687, likes: 90, liked: true, width: 3,state:"Published"},
     ]
 
-    const [open, setOpen] = useState(false);
     const [storiesState, setStoriesState] = useState(stories);
 
     const setFavourite = (i) => {
@@ -32,14 +26,6 @@ export default function MyStoriesComp(props) {
         newNews[i.id-1].liked = !newNews[i.id-1].liked
         setStoriesState((newNews) => [...newNews])
     }
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
 
     return (
         <>

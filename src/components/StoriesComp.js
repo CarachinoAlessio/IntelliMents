@@ -68,7 +68,7 @@ export default function StoriesComp(props) {
         <>
             <Grid2 container spacing={0}>
                 <Grid2 item xs={2}>
-                    <Button variant={"outlined"} startIcon={<Add></Add>}>Create a story</Button>
+                    <Button onClick={() => navigate('/createStory')} variant={"outlined"} startIcon={<Add></Add>}>Create a story</Button>
                 </Grid2>
                 <Grid2 item xsOffset={8} xs={2} display={"flex"} justifyContent={"end"} alignItems={"end"}>
                     <Button onClick={()=>navigate('/myStories')} variant={"outlined"} startIcon={<Folder></Folder>}>My stories</Button>
