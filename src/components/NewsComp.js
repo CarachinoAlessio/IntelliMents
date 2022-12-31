@@ -5,7 +5,7 @@ import {
     CardMedia,
     CardContent,
     Typography,
-    CardActions, Button,
+    CardActions,
 } from "@mui/material";
 import {Favorite, Share} from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
