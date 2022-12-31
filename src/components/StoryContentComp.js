@@ -27,11 +27,8 @@ import {useLocation} from 'react-router-dom';
     width: i.width
  */
 export default function StoryContentComp(props) {
-    console.log(props)
     const navigate=useNavigate();
     const location = useLocation();
-    console.log("WGUARDA STORIE")
-    console.log(location.state)
     return (
         <>
         <h2>{location.state.titolo}</h2>
