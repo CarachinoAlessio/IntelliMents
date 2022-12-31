@@ -17,6 +17,7 @@ import {ExchangeComp} from "./components/ExchangeComp";
 import {InvestorsComp} from "./components/InvestorsComp";
 import {AboutComp} from "./components/AboutComp";
 import {HelpComp} from "./components/HelpComp";
+import {MyStoriesComp} from "./components/MyStoriesComp";
 
 
 function App() {
@@ -66,6 +67,10 @@ function App2() {
                         <Route path='/exchange' element={<ExchangeComp></ExchangeComp>}></Route>
                         <Route path='/about' element={<AboutComp></AboutComp>}></Route>
                         <Route path='/help' element={<HelpComp></HelpComp>}></Route>
+                        {//testing
+
+                        }
+                        <Route path='/myStories' element={<MyStoriesComp></MyStoriesComp>}></Route>
                     </Route>
 
                     <Route path='*' element={<h1>Error 404, Page Not Found</h1>}/>
