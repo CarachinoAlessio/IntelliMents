@@ -158,7 +158,7 @@ export default function MiniDrawer() {
                 <List>
                     {menuOptions.slice(0,4).map(({text, icon}, index) => (
                         <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-                            <ListItemButton onClick={()=>{setActiveIndex(index); navigate('/'+text)}} selected={index === activeIndex}
+                            <ListItemButton onClick={()=>{setActiveIndex(index); navigate('/'+text); handleDrawerClose()}} selected={index === activeIndex}
                                 sx={{
                                     minHeight: 48,
                                     justifyContent: open ? 'initial' : 'center',
