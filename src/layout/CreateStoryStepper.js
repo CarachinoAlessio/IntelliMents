@@ -135,7 +135,21 @@ function CreateStoryStepper(props) {
                             </TableContainer>
 
                         </>
-                    ) : <></>}
+                    ) :
+                        activeStep === 1 ?
+                            <>
+                            </>
+                            : activeStep===2?
+                                <>
+                                </>:
+                                activeStep===3?
+                                    <>
+                                    </>:
+                                    activeStep===4?
+                                        <>
+                                        </> :
+                                        ''
+                    }
                     {activeStep === 4 ? (
                             <>
                                 <Typography sx={{ mt: 2, mb: 1 }}>
