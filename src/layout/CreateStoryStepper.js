@@ -6,8 +6,8 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import {useState} from "react";
 import {
-    Card,
-    CardContent, Checkbox,
+    Card, CardActionArea,
+    CardContent, Checkbox, Grid,
     Paper,
     Table,
     TableBody,
@@ -28,6 +28,7 @@ function CreateStoryStepper(props) {
     const [investments, setInvestments] = useState(investmentsArr)
     const [activeStep, setActiveStep] = useState(0);
     const [skipped, setSkipped] = useState(new Set());
+    const [aiPicked, setAiPicked] = useState(true)
 
     const selectInvestment = (index) => {
         setInvestments((old) => {
@@ -138,6 +139,43 @@ function CreateStoryStepper(props) {
                     ) :
                         activeStep === 1 ?
                             <>
+                                <Grid container spacing={2}
+                                      justifyContent="center"
+                                      alignItems="center"
+                                      sx={{paddingTop: '35px', paddingBottom: '20px'}}>
+                                    <Grid item xs={3}>
+                                        <Card raised={true}>
+                                            <CardActionArea onClick={() => setAiPicked(true)}
+                                                            style={aiPicked ? {backgroundColor: '#ccddff'} : {}}>
+                                                <CardContent>
+                                                    <Typography gutterBottom variant="h5" component="div">
+                                                        AI
+                                                    </Typography>
+                                                    <Typography variant="body2" color="text.secondary">
+                                                        Our AI system will generate a story that you can edit<br /><br />
+                                                        The generated story will be inspired by your selected investments
+                                                    </Typography>
+                                                </CardContent>
+                                            </CardActionArea>
+                                        </Card>
+                                    </Grid>
+                                    <Grid item xs={3}>
+                                        <Card raised={true}>
+                                            <CardActionArea onClick={() => setAiPicked(false)}
+                                                            style={!aiPicked ? {backgroundColor: '#ccddff'} : {}}>
+                                                <CardContent>
+                                                    <Typography gutterBottom variant="h5" component="div">
+                                                        Blank
+                                                    </Typography>
+                                                    <Typography variant="body2" color="text.secondary">
+                                                        You will start from empty fields <br /><br />
+                                                        You will have to write it entirely
+                                                    </Typography>
+                                                </CardContent>
+                                            </CardActionArea>
+                                        </Card>
+                                    </Grid>
+                                </Grid>
                             </>
                             : activeStep===2?
                                 <>
