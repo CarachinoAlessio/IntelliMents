@@ -45,7 +45,7 @@ species, ranging across all continents except Antarctica with ranging across all
                 </Col>
 
                 <Box m={1} display="flex" justifyContent="flex-end" alignItems="flex-end">
-                    <Button style={{marginTop: "50px"}} variant="contained" color="primary" size='large'>Contact us</Button>
+                    <Button style={{marginTop: "50px"}} variant="contained" color="primary" size='large' onClick={()=> window.location.href='/About/Contact'}>Contact us</Button>
                 </Box>
             </Row>
         </Container>
