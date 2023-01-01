@@ -16,11 +16,10 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import {CurrencyExchange, Help, Info, Movie, Newspaper, Work} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
 import {useLocation} from "react-router";
+import {cloneElement, useEffect, useState} from "react";
 
 const drawerWidth = 240;
 
@@ -93,9 +92,10 @@ export default function MiniDrawer() {
     const theme = useTheme()
     const navigate = useNavigate()
     const [open, setOpen] = React.useState(false)
-    const menuOptions = [{text: 'Stories', icon: <Movie></Movie>}, {text: 'News', icon: <Newspaper></Newspaper>},
+    const menuOptionsArr = [{text: 'Stories', icon: <Movie></Movie>}, {text: 'News', icon: <Newspaper></Newspaper>},
         {text: 'Investors', icon: <Work></Work>}, {text: 'Exchange', icon: <CurrencyExchange></CurrencyExchange>},
         {text: 'About', icon: <Info></Info>}, {text:'Help', icon:<Help></Help>}]
+    const [menuOptions, setMenuOptions] = useState(menuOptionsArr)
     const location = useLocation();
     let pathname = location.pathname
     let currentOption = menuOptions.find((i) => pathname.includes(i.text))
@@ -105,6 +105,18 @@ export default function MiniDrawer() {
     }
     const [activeIndex, setActiveIndex] = React.useState(index)
 
+    useEffect(()=>{
+        setMenuOptions(menuOptions.map((o, index) => {
+            let newI
+            if (activeIndex === index){
+                newI = cloneElement(o.icon, {color: "primary"});
+            }
+            else{
+                newI = cloneElement(o.icon, {color: ""});
+            }
+            return {...o, icon: newI}
+        }))
+    }, [activeIndex])
     const handleDrawerOpen = () => {
         setOpen(true);
     };
