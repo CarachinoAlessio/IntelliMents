@@ -39,7 +39,7 @@ export default function NewsComp(props) {
     }
 
     return (
-        <Grid container spacing={2} style={{paddingBottom: '50px'}}>
+        <Grid container fluid="sm" spacing={2} style={{paddingBottom: '50px'}}>
             {newsState.map(i => (
                 <Grid  key={i.id} item xs={i.width}>
                     <Card>
