@@ -28,21 +28,9 @@ export default function ContactComp(props) {
                     <p><b>Send us an email</b></p>
                     <Box component="form" sx={{'& .MuiTextField-root': { m: 1, width: '25ch' },}} noValidate autoComplete="off">
                     <div>
-                        <TextField
-                        id="filled-multiline-flexible"
-                        label="Email"
-                        multiline
-                        maxRows={4}
-                        variant="filled"
-                        />
-                        <TextField
-                        id="filled-multiline-static"
-                        label="Message"
-                        multiline
-                        rows={4}
-                        defaultValue="Your message"
-                        variant="filled"
-                        />
+                        <TextField id="filled-multiline-flexible" label="Email" multiline maxRows={4} variant="filled"/>
+
+                        <TextField id="filled-multiline-static" label="Message" multiline rows={4} defaultValue="Your message" variant="filled"/>
                     </div>
                     </Box>
 

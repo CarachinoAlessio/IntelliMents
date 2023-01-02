@@ -27,13 +27,9 @@ export default function AboutComp(props) {
                 <hr/>
 
                 <Typography variant="h5" gutterBottom style={styleObjBold}>Our story</Typography>
-                <Typography variant="body1" gutterBottom>Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica with ranging across all continents except Antarctica</Typography>
+                <Typography variant="body1" gutterBottom>The moderate task is covered in the Investor section. The user here can search the top investors in the platform and follow them, to understand their investments and how they did act in those. The user can also search for a particular investor if he wants. The user can also visualize the followed investors. The user can also read stories in the Stories section. Here the user will see some stories that an algorithm think could be useful for him. Stories are wrote from humans or from an Artificial Intelligence.</Typography>
                 
-                <Typography variant="h5" gutterBottom style={styleObjBold}>Our story</Typography>
-                <Typography variant="body1" gutterBottom>Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica with ranging across all continents except Antarctica</Typography>
-
-                <Typography variant="h5" gutterBottom style={styleObjBold}>Our story</Typography>
-                <Typography variant="body1" gutterBottom>Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica with ranging across all continents except Antarctica</Typography>
+                <Typography variant="body1" gutterBottom>The complex task can be found in the Stories section, when the user decide to write a story. The user can decide of which investments he wants to talk about in a story, then he will write the story and, eventually, become a storyteller if the staff approves.</Typography>
                 </Col>
 
                 <Box m={1} display="flex" justifyContent="flex-end" alignItems="flex-end">
