@@ -1,9 +1,8 @@
-import Container from '@mui/material/Container';
 import Row from '@mui/material/Container';
 import Col from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 
-import {Box, Button} from "@mui/material";
+import {Grid, Box, Button} from "@mui/material";
 
 const styleObj = {
     paddingTop: "50px",
@@ -13,7 +12,7 @@ const styleObj = {
 export default function ContactComp(props) {
 
     return (
-        <Container fluid="lg">
+        <Grid container fluid>
             <Row>
                 <Col>
                 <p style={styleObj}>Mobile phone: +123456789</p>
@@ -55,7 +54,7 @@ export default function ContactComp(props) {
 
                 </Col>
             </Row>
-        </Container>
+        </Grid>
     );
 }
 
