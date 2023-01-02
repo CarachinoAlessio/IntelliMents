@@ -7,6 +7,7 @@ import {
 import {Add, Favorite, FilterList, Search, Share} from "@mui/icons-material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {useState} from "react";
+import {useNavigate} from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 import InfoIcon from '@mui/icons-material/Info';
 export default function MyStoriesComp(props) {
@@ -20,7 +21,7 @@ export default function MyStoriesComp(props) {
     ]
 
     const [storiesState, setStoriesState] = useState(stories);
-
+    const navigate=useNavigate();
     const setFavourite = (i) => {
         let newNews = [...storiesState]
         newNews[i.id-1].liked = !newNews[i.id-1].liked
@@ -31,7 +32,7 @@ export default function MyStoriesComp(props) {
         <>
             <Grid2 container spacing={0}>
                 <Grid2 item xs={2}>
-                    <Button variant={"outlined"} startIcon={<Add></Add>}>Create a story</Button>
+                <Button onClick={() => navigate('/createStory')} variant={"outlined"} startIcon={<Add></Add>}>Create a story</Button>
                 </Grid2>
             </Grid2>
             <div style={{paddingTop: '30px'}}></div>
