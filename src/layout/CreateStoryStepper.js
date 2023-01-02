@@ -7,8 +7,8 @@ import Typography from '@mui/material/Typography';
 import {useState} from "react";
 import {
     Card, CardActionArea,
-    CardContent, Checkbox, Grid,
-    Paper,
+    CardContent, CardHeader, Checkbox, Grid,
+    Paper, Select, Stack,
     Table,
     TableBody,
     TableCell,
@@ -16,6 +16,7 @@ import {
     TableHead,
     TableRow
 } from "@mui/material";
+import {CheckCircleRounded, SelectAll, TaskAlt} from "@mui/icons-material";
 
 
 const steps = ['Select Investments', 'Choose Modality', 'Write the story', 'Upload Material', 'Overview'];
@@ -140,17 +141,29 @@ function CreateStoryStepper(props) {
                         activeStep === 1 ?
                             <>
                                 <Grid container spacing={2}
+                                      direction="row"
                                       justifyContent="center"
-                                      alignItems="center"
+                                      alignItems="stretch"
                                       sx={{paddingTop: '35px', paddingBottom: '20px'}}>
-                                    <Grid item xs={3}>
+                                    <Grid item style={{height:'100%'}} xs={3}>
                                         <Card raised={true}>
                                             <CardActionArea onClick={() => setAiPicked(true)}
                                                             style={aiPicked ? {backgroundColor: '#ccddff'} : {}}>
                                                 <CardContent>
-                                                    <Typography gutterBottom variant="h5" component="div">
-                                                        AI
-                                                    </Typography>
+                                                    <Stack
+                                                        direction="row"
+                                                        justifyContent="space-between"
+                                                        alignItems="center"
+                                                        spacing={2}
+                                                    >
+                                                            <Typography  variant="h3" >
+                                                                AI
+                                                            </Typography>
+
+                                                        {aiPicked ? <CheckCircleRounded color={"primary"} fontSize={"large"}></CheckCircleRounded>: ''}
+
+                                                    </Stack>
+
                                                     <Typography variant="body2" color="text.secondary">
                                                         Our AI system will generate a story that you can edit<br /><br />
                                                         The generated story will be inspired by your selected investments
@@ -159,14 +172,25 @@ function CreateStoryStepper(props) {
                                             </CardActionArea>
                                         </Card>
                                     </Grid>
-                                    <Grid item xs={3}>
-                                        <Card raised={true}>
+                                    <Grid item xs={3} minHeight={'100%'}>
+                                        <Card raised={true} style={{height:'100%'}}>
                                             <CardActionArea onClick={() => setAiPicked(false)}
-                                                            style={!aiPicked ? {backgroundColor: '#ccddff'} : {}}>
-                                                <CardContent>
-                                                    <Typography gutterBottom variant="h5" component="div">
-                                                        Blank
-                                                    </Typography>
+                                                            style={!aiPicked ? {backgroundColor: '#ccddff', height:'100%'} : {height:'100%'}}
+                                                            >
+                                                <CardContent style={{height:'100%'}}>
+                                                    <Stack
+                                                        direction="row"
+                                                        justifyContent="space-between"
+                                                        alignItems="center"
+                                                        spacing={2}
+                                                    >
+                                                        <Typography  variant="h3" >
+                                                            Blank
+                                                        </Typography>
+
+                                                        {!aiPicked ? <CheckCircleRounded color={"primary"} fontSize={"large"}></CheckCircleRounded>: ''}
+
+                                                    </Stack>
                                                     <Typography variant="body2" color="text.secondary">
                                                         You will start from empty fields <br /><br />
                                                         You will have to write it entirely
