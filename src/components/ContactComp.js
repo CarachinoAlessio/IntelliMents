@@ -22,7 +22,7 @@ export default function ContactComp(props) {
                     <Button style={{marginTop: "20px"}} variant="contained" color="primary" size='large'>Chat with us</Button>
                 </Box>
 
-                <Box display="flex" justifyContent="center" alignItems="center" style={{padding: "20px", margin: "30px", backgroundColor: "#eee"}} sx={{ border: 1, borderRadius: '16px' }}>
+                <Box display="flex" justifyContent="center" alignItems="center" style={{padding: "20px", marginTop: "30px", marginBottom: "30px", backgroundColor: "#eee"}} sx={{ border: 1, borderRadius: '16px' }}>
                 
                 <form style = {{marginTop: "20px"}}>
                     <p><b>Send us an email</b></p>
