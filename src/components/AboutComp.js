@@ -16,32 +16,26 @@ const styleObjBold = {
     fontSize: 25,
     color: "#000",
     fontWeight: "bold",
+    paddingTop: "30px",
 }
 
 export default function AboutComp(props) {
 
     return (
-        <Container fluid="lg">
+        <Container fluid="xl">
             <Row>
                 <Col>
-                <p style={styleObj}>Learn from stories of successful and bad investments with<br/> detailed reasoning</p>
-
+                <p style={styleObj}>Learn from stories of successful and bad investments with detailed reasoning</p>
                 <hr/><br/>
 
                 <p style={styleObjBold}>Our story</p>
-                <p>Lizards are a widespread group of squamate reptiles, with over 6,000
-species, ranging across all continents except Antarctica with ranging across all continents except Antarctica</p><br/>
-
+                <p>Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica with ranging across all continents except Antarctica</p>
 
                 <p style={styleObjBold}>Our story</p>
-                                <p>Lizards are a widespread group of squamate reptiles, with over 6,000
-                species, ranging across all continents except Antarctica with ranging across all continents except Antarctica</p><br/>
-
+                <p>Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica with ranging across all continents except Antarctica</p>
 
                 <p style={styleObjBold}>Our story</p>
-                                <p>Lizards are a widespread group of squamate reptiles, with over 6,000
-                species, ranging across all continents except Antarctica with ranging across all continents except Antarctica</p>
-
+                <p>Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica with ranging across all continents except Antarctica</p>
                 </Col>
 
                 <Box m={1} display="flex" justifyContent="flex-end" alignItems="flex-end">
