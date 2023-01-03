@@ -7,16 +7,16 @@ import Typography from '@mui/material/Typography';
 import {useState} from "react";
 import {
     Card, CardActionArea,
-    CardContent, CardHeader, Checkbox, Grid,
-    Paper, Select, Stack,
+    CardContent, CardHeader, Checkbox, Container, Divider, FormControl, Grid, InputAdornment, InputLabel, MenuItem,
+    Paper, rgbToHex, Select, Stack,
     Table,
     TableBody,
     TableCell,
     TableContainer,
     TableHead,
-    TableRow
+    TableRow, TextField
 } from "@mui/material";
-import {CheckCircleRounded, SelectAll, TaskAlt} from "@mui/icons-material";
+import {CheckCircleRounded, SelectAll, TaskAlt, Verified} from "@mui/icons-material";
 
 
 const steps = ['Select Investments', 'Choose Modality', 'Write the story', 'Upload Material', 'Overview'];
@@ -30,6 +30,9 @@ function CreateStoryStepper(props) {
     const [activeStep, setActiveStep] = useState(0);
     const [skipped, setSkipped] = useState(new Set());
     const [aiPicked, setAiPicked] = useState(true)
+    const [notebook, setNotebook] = useState([{type: 'Subtitle', content: 'Lorem Ipsum'}, {type: 'Paragraph', content: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'}])
+    const fragmentOptions = ['Title', 'Subtitle', 'Paragraph']
+    const [notebookTitle, setNotebookTitle] = useState('Example of AI-generated Title')
 
     const selectInvestment = (index) => {
         setInvestments((old) => {
@@ -164,7 +167,7 @@ function CreateStoryStepper(props) {
 
                                                     </Stack>
 
-                                                    <Typography variant="body2" color="text.secondary">
+                                                    <Typography variant="body1" color="text.secondary">
                                                         Our AI system will generate a story that you can edit<br /><br />
                                                         The generated story will be inspired by your selected investments
                                                     </Typography>
@@ -191,7 +194,7 @@ function CreateStoryStepper(props) {
                                                         {!aiPicked ? <CheckCircleRounded color={"primary"} fontSize={"large"}></CheckCircleRounded>: ''}
 
                                                     </Stack>
-                                                    <Typography variant="body2" color="text.secondary">
+                                                    <Typography variant="body1" color="text.secondary">
                                                         You will start from empty fields <br /><br />
                                                         You will have to write it entirely
                                                     </Typography>
@@ -203,6 +206,47 @@ function CreateStoryStepper(props) {
                             </>
                             : activeStep===2?
                                 <>
+                                    <Typography variant="h4">Title</Typography>
+                                    <div style={{paddingTop: '20px'}}></div>
+                                    <Box sx={{p: 2}}>
+                                        <TextField InputProps={{
+                                            startAdornment: (
+                                                <InputAdornment position="start">
+                                                    <Verified color={"primary"} />
+                                                </InputAdornment>
+                                            ),
+                                        }} style={{width: '40%'}} label="Title" variant="outlined" defaultValue={notebookTitle}></TextField>
+                                    </Box>
+
+                                    <div style={{paddingTop: '30px'}}></div>
+
+                                    <Typography variant="h3">Body</Typography>
+                                    <div style={{paddingTop: '20px'}}></div>
+                                    {notebook.map((fragment, index) => {
+                                        return (
+                                            <>
+                                                <Box key={index} sx={{ borderRadius: 1, backgroundColor: '#f5f5f5', p: 2}}>
+                                                        <FormControl style={{width: '20%'}}>
+                                                            <InputLabel id="select-type">Fragment type</InputLabel>
+                                                            <Select labelId="select-type"
+                                                                    id="select-type"
+                                                                    label="Fragment type" value={fragment.type}>
+                                                                {fragmentOptions.map((option) => {
+                                                                    return (
+                                                                    <MenuItem value={option}>{option}</MenuItem>
+                                                                )})}
+                                                            </Select>
+                                                        </FormControl>
+                                                        <Divider></Divider>
+                                                        <div style={{paddingTop: '20px'}}></div>
+                                                        <TextField multiline rows={3} style={{width: '100%'}} label={fragment.type} variant="outlined" defaultValue={fragment.content}></TextField>
+                                                        <Divider></Divider>
+                                                </Box>
+
+                                                <div style={{paddingTop: '50px'}}></div>
+                                            </>
+                                        )
+                                    })}
                                 </>:
                                 activeStep===3?
                                     <>

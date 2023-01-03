@@ -14,7 +14,6 @@ import {Search} from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import Chip from '@mui/material/Chip';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 
 const theme = createTheme({
@@ -31,20 +30,6 @@ const theme = createTheme({
     },
   },
 });
-
-// const useStyles = makeStyles(theme => ({
-//     alignItemsAndJustifyContent: {
-//       display: 'grid',
-//       alignItems: 'center',
-//       justifyContent: 'right',
-//     },
-
-//     alignUserAvatar: {
-//       display: 'grid',
-//       alignItems: 'center',
-//       justifyContent: 'left',
-//     },
-// }))
 
 export default function InvestorsProfileComp(props) {
     return (
@@ -67,7 +52,6 @@ export default function InvestorsProfileComp(props) {
                             <Grid container spacing={3}>
                                 <Grid item xs={2}>
                                     <IconButton aria-label="favorite">
-                                        <Icon icon="mdi:bitcoin" />
                                         <AccountCircleOutlinedIcon sx={{ fontSize: 200 }} />
                                     </IconButton>
                                 </Grid>
@@ -80,10 +64,11 @@ export default function InvestorsProfileComp(props) {
                                     </Typography>
                                     <Typography gutterBottom variant="h5" component="div">
                                             <ThemeProvider theme={theme}>
-                                                <Chip icon={<AccountCircleOutlinedIcon />} label="BTC" />
+                                                <Icon icon="mdi:bitcoin" /> BTC
                                             </ThemeProvider>
+                                            
                                             <ThemeProvider theme={theme}>
-                                                <Chip icon={<AccountCircleOutlinedIcon />} label="BTC" />
+                                                <Icon icon="mdi:bitcoin" /> BTC
                                             </ThemeProvider>             
                                     </Typography>
                                 </Grid>
@@ -125,16 +110,17 @@ export default function InvestorsProfileComp(props) {
                                 <Typography variant="body2" color="text.secondary">
                                     context
                                 </Typography>
-                                <Box m="auto" display="flex" style={{margin: 0}} >
-                                    <IconButton aria-label="favorite">
-                                        <FavoriteBorderIcon />
-                                    </IconButton>
-                                </Box>
-                                <Box m="auto" display="flex" style={{margin: 0}} >
-                                    <IconButton aria-label="chart">
-                                        <ShowChartIcon />
-                                    </IconButton>
-                                </Box>
+                                    <Box display="flex" m="auto" style={{margin: 0}} >
+                                        <IconButton aria-label="favorite">
+                                            <FavoriteBorderIcon />
+                                        </IconButton>
+                                    </Box>
+
+                                    <Box m="auto" display="flex" style={{margin: 0}} >
+                                        <IconButton aria-label="chart">
+                                            <ShowChartIcon />
+                                        </IconButton>
+                                    </Box>
                             </Box>
                         </Grid>
                         
@@ -146,16 +132,17 @@ export default function InvestorsProfileComp(props) {
                                 <Typography variant="body2" color="text.secondary">
                                     context
                                 </Typography>
-                                <Box m="auto" display="flex" style={{margin: 0}} >
+                                    <Box display="flex" m="auto" style={{margin: 0}} >
                                         <IconButton aria-label="favorite">
                                             <FavoriteBorderIcon />
                                         </IconButton>
-                                </Box>
-                                <Box m="auto" display="flex" style={{margin: 0}} >
-                                    <IconButton aria-label="chart">
-                                        <ShowChartIcon />
-                                    </IconButton>
-                                </Box>
+                                    </Box>
+
+                                    <Box m="auto" display="flex" style={{margin: 0}} >
+                                        <IconButton aria-label="chart">
+                                            <ShowChartIcon />
+                                        </IconButton>
+                                    </Box>
                             </Box>
                         </Grid>
                     </Grid>  
