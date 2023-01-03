@@ -32,19 +32,19 @@ const theme = createTheme({
   },
 });
 
-const useStyles = makeStyles(theme => ({
-    alignItemsAndJustifyContent: {
-      display: 'grid',
-      alignItems: 'center',
-      justifyContent: 'right',
-    },
+// const useStyles = makeStyles(theme => ({
+//     alignItemsAndJustifyContent: {
+//       display: 'grid',
+//       alignItems: 'center',
+//       justifyContent: 'right',
+//     },
 
-    alignUserAvatar: {
-      display: 'grid',
-      alignItems: 'center',
-      justifyContent: 'left',
-    },
-}))
+//     alignUserAvatar: {
+//       display: 'grid',
+//       alignItems: 'center',
+//       justifyContent: 'left',
+//     },
+// }))
 
 export default function InvestorsProfileComp(props) {
     return (
@@ -63,49 +63,43 @@ export default function InvestorsProfileComp(props) {
             <Row>
                 <Col>
                     <Box sx={{ border: 1, borderRadius: '16px' }} style={{ padding: "10px", marginTop: "5px", marginBottom: "5px", backgroundColor: "#eee" , borderBlockColor: '#000'}}>
-                        <Box display="flex">
-                            <Box sx={{ flexGrow: 1 }}>
-                                <Grid container spacing={3}>
-                                    <Grid item xs>
-                                        <IconButton aria-label="favorite">
-                                            <Icon icon="mdi:bitcoin" />
-                                            <AccountCircleOutlinedIcon sx={{ fontSize: 150 }} />
-                                        </IconButton>
-                                    </Grid>
-                                    <Grid item xs={6}>
-                                        <Typography gutterBottom variant="h3" component="div">
-                                            Alessio Carachino                                    
-                                        </Typography>
-
-                                        <Typography gutterBottom variant="h6" component="div">
-                                            Story teller                                   
-                                        </Typography>
-
-                                        <Typography gutterBottom variant="h5" component="div">
-                                            <Box>
-                                                <ThemeProvider theme={theme}>
-                                                    <Chip icon={<AccountCircleOutlinedIcon />} label="BTC" />
-                                                </ThemeProvider>
-
-                                                <ThemeProvider theme={theme}>
-                                                    <Chip icon={<AccountCircleOutlinedIcon />} label="BTC" />
-                                                </ThemeProvider>
-                                            </Box>                               
-                                        </Typography>
-                                    </Grid>
-                                    <Grid item xs>
-                                        <Box display="flex" className={classes.alignItemsAndJustifyContent}>
-                                            <Box m="auto" style={{margin: 0}} >
-                                                <IconButton aria-label="favorite">
-                                                    <FavoriteBorderIcon />
-                                                </IconButton>
-                                            </Box>
-                                        </Box>
-                                    </Grid>
+                        <Box display="flex" sx={{ flexGrow: 1 }}>
+                            <Grid container spacing={3}>
+                                <Grid item xs={2}>
+                                    <IconButton aria-label="favorite">
+                                        <Icon icon="mdi:bitcoin" />
+                                        <AccountCircleOutlinedIcon sx={{ fontSize: 200 }} />
+                                    </IconButton>
                                 </Grid>
-                            </Box>
+                                <Grid item xs={7}>
+                                    <Typography gutterBottom variant="h3" component="div">
+                                        Alessio Carachino                                    
+                                    </Typography>
+                                    <Typography gutterBottom component="div">
+                                        Story teller                                   
+                                    </Typography>
+                                    <Typography gutterBottom variant="h5" component="div">
+                                            <ThemeProvider theme={theme}>
+                                                <Chip icon={<AccountCircleOutlinedIcon />} label="BTC" />
+                                            </ThemeProvider>
+                                            <ThemeProvider theme={theme}>
+                                                <Chip icon={<AccountCircleOutlinedIcon />} label="BTC" />
+                                            </ThemeProvider>             
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs>
+                                    <Box m="auto" display="flex" style={{margin: 0}} >
+                                        <IconButton aria-label="favorite">
+                                            <FavoriteBorderIcon />
+                                        </IconButton>
+                                    </Box>
+                                </Grid>
+                            </Grid>
                         </Box>
-                        sdsd
+                        
+                        <Typography component="div">
+                            Context
+                        </Typography>
                     </Box>
                 </Col>
             </Row>
@@ -122,63 +116,49 @@ export default function InvestorsProfileComp(props) {
 
             <Row>
                 <Col>
-                    <Box>
-                        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                            <Grid item xs={6}>
-                                <Box sx={{ border: 1, borderRadius: '16px' }} style={{ padding: "10px", marginTop: "5px", marginBottom: "5px", backgroundColor: "#eee" , borderBlockColor: '#000'}}>
-                                    <Typography gutterBottom variant="h5" component="div">
-                                        Alessio Carachino                                    
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        context
-                                    </Typography>
-
-                                    <Box display="flex" className={classes.alignItemsAndJustifyContent}>
-                                        <Box m="auto" style={{margin: 0}} >
-                                            <IconButton aria-label="favorite">
-                                                <FavoriteBorderIcon />
-                                            </IconButton>
-                                        </Box>
-                                    </Box>
-
-                                    <Box display="flex" className={classes.alignItemsAndJustifyContent}>
-                                        <Box m="auto" style={{margin: 0}} >
-                                            <IconButton aria-label="chart">
-                                                <ShowChartIcon />
-                                            </IconButton>
-                                        </Box>
-                                    </Box>
+                    <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                        <Grid item xs={6}>
+                            <Box sx={{ border: 1, borderRadius: '16px' }} style={{ padding: "10px", marginTop: "5px", marginBottom: "5px", backgroundColor: "#eee" , borderBlockColor: '#000'}}>
+                                <Typography gutterBottom variant="h5" component="div">
+                                    Alessio Carachino                                    
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    context
+                                </Typography>
+                                <Box m="auto" display="flex" style={{margin: 0}} >
+                                    <IconButton aria-label="favorite">
+                                        <FavoriteBorderIcon />
+                                    </IconButton>
                                 </Box>
-                            </Grid>
-                            
-                            <Grid item xs={6}>
-                                <Box sx={{ border: 1, borderRadius: '16px' }} style={{ padding: "10px", marginTop: "5px", marginBottom: "5px", backgroundColor: "#eee" , borderBlockColor: '#000'}}>
-                                    <Typography gutterBottom variant="h5" component="div">
-                                        Alessio Carachino                                    
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        context
-                                    </Typography>
-
-                                    <Box display="flex" className={classes.alignItemsAndJustifyContent}>
-                                        <Box m="auto" style={{margin: 0}} >
-                                            <IconButton aria-label="favorite">
-                                                <FavoriteBorderIcon />
-                                            </IconButton>
-                                        </Box>
-                                    </Box>
-
-                                    <Box display="flex" className={classes.alignItemsAndJustifyContent}>
-                                        <Box m="auto" style={{margin: 0}} >
-                                            <IconButton aria-label="chart">
-                                                <ShowChartIcon />
-                                            </IconButton>
-                                        </Box>
-                                    </Box>
+                                <Box m="auto" display="flex" style={{margin: 0}} >
+                                    <IconButton aria-label="chart">
+                                        <ShowChartIcon />
+                                    </IconButton>
                                 </Box>
-                            </Grid>
-                        </Grid>  
-                    </Box>
+                            </Box>
+                        </Grid>
+                        
+                        <Grid item xs={6}>
+                            <Box sx={{ border: 1, borderRadius: '16px' }} style={{ padding: "10px", marginTop: "5px", marginBottom: "5px", backgroundColor: "#eee" , borderBlockColor: '#000'}}>
+                                <Typography gutterBottom variant="h5" component="div">
+                                    Alessio Carachino                                    
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    context
+                                </Typography>
+                                <Box m="auto" display="flex" style={{margin: 0}} >
+                                        <IconButton aria-label="favorite">
+                                            <FavoriteBorderIcon />
+                                        </IconButton>
+                                </Box>
+                                <Box m="auto" display="flex" style={{margin: 0}} >
+                                    <IconButton aria-label="chart">
+                                        <ShowChartIcon />
+                                    </IconButton>
+                                </Box>
+                            </Box>
+                        </Grid>
+                    </Grid>  
                 </Col>
             </Row>
         </Grid></>

@@ -39,7 +39,7 @@ export default function InvestorsComp(props) {
                                         context
                                     </Typography>
 
-                                    <Box display="flex" className={classes.alignItemsAndJustifyContent}>
+                                    <Box display="flex">
                                         <Box m="auto" style={{margin: 0}} >
                                             <IconButton aria-label="favorite">
                                                 <FavoriteBorderIcon />
@@ -47,7 +47,7 @@ export default function InvestorsComp(props) {
                                         </Box>
                                     </Box>
 
-                                    <Box display="flex" className={classes.alignItemsAndJustifyContent}>
+                                    <Box display="flex">
                                         <Box m="auto" style={{margin: 0}} >
                                             <IconButton aria-label="chart">
                                                 <ShowChartIcon />
@@ -66,7 +66,7 @@ export default function InvestorsComp(props) {
                                         context
                                     </Typography>
 
-                                    <Box display="flex" className={classes.alignItemsAndJustifyContent}>
+                                    <Box display="flex">
                                         <Box m="auto" style={{margin: 0}} >
                                             <IconButton aria-label="favorite">
                                                 <FavoriteBorderIcon />
@@ -74,7 +74,7 @@ export default function InvestorsComp(props) {
                                         </Box>
                                     </Box>
 
-                                    <Box display="flex" className={classes.alignItemsAndJustifyContent}>
+                                    <Box display="flex">
                                         <Box m="auto" style={{margin: 0}} >
                                             <IconButton aria-label="chart">
                                                 <ShowChartIcon />
