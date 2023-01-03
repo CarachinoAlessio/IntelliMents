@@ -6,17 +6,42 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import {useState} from "react";
 import {
-    Card, CardActionArea,
-    CardContent, CardHeader, Checkbox, Container, Divider, FormControl, Grid, InputAdornment, InputLabel, MenuItem,
-    Paper, rgbToHex, Select, Stack,
+    Card,
+    CardActionArea,
+    CardContent,
+    Checkbox,
+    Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
+    FormControl,
+    Grid,
+    InputAdornment,
+    InputLabel,
+    MenuItem,
+    Paper, Rating,
+    Select,
+    Stack,
     Table,
     TableBody,
     TableCell,
     TableContainer,
     TableHead,
-    TableRow, TextField
+    TableRow,
+    TextField
 } from "@mui/material";
-import {CheckCircleRounded, SelectAll, TaskAlt, Verified} from "@mui/icons-material";
+import {
+    Add, ArrowDropDown,
+    CheckCircleRounded,
+    FormatAlignCenter,
+    FormatAlignJustify,
+    FormatAlignLeft,
+    FormatAlignRight,
+    FormatBold, FormatColorFill,
+    FormatItalic, FormatUnderlined,
+    Refresh,
+    Star,
+    Verified
+} from "@mui/icons-material";
+import Grid2 from "@mui/material/Unstable_Grid2";
+import { ToggleButtonGroup, ToggleButton } from '@mui/material'
 
 
 const steps = ['Select Investments', 'Choose Modality', 'Write the story', 'Upload Material', 'Overview'];
@@ -30,7 +55,10 @@ function CreateStoryStepper(props) {
     const [activeStep, setActiveStep] = useState(0);
     const [skipped, setSkipped] = useState(new Set());
     const [aiPicked, setAiPicked] = useState(true)
-    const [notebook, setNotebook] = useState([{type: 'Subtitle', content: 'Lorem Ipsum'}, {type: 'Paragraph', content: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'}])
+    const [openRateDialog, setOpenRateDialog] = useState(false);
+    const [openGenerateAgainDialog, setOpenGenerateAgainDialog] = useState(false);
+
+    const [notebook, setNotebook] = useState([{type: 'Subtitle', content: 'Lorem Ipsum', show_buttons: false, alignment: 'left', formats: []}, {type: 'Paragraph', content: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.', show_buttons: false, alignment: 'left', formats: []}])
     const fragmentOptions = ['Title', 'Subtitle', 'Paragraph']
     const [notebookTitle, setNotebookTitle] = useState('Example of AI-generated Title')
 
@@ -84,6 +112,37 @@ function CreateStoryStepper(props) {
     };
 
 
+    const showButtonsOfFragment = (index, b) => {
+        setNotebook((old) => {
+            let newN = [...old]
+            newN[index].show_buttons = b
+            return newN
+        })
+    }
+
+    const addFragment = (index) => {
+        setNotebook((old) => {
+            let fragment = {type: 'Paragraph', content: 'A new Fragment has been added', show_buttons: false, alignment: 'left', formats: []}
+            return [...old.slice(0, index), {...fragment}, ...old.slice(index)]
+        })
+    }
+
+    const updateContent = (value, index) => {
+        setNotebook((old) => [...old.slice(0, index), {...old[index], content: value}, ...old.slice(index+1)])
+    }
+
+    function updateTypeOfFragment(value, index) {
+        setNotebook((old) => [...old.slice(0, index), {...old[index], type: value}, ...old.slice(index+1)])
+    }
+
+    const handleAlignment = (event, newAlignment, index) => {
+        setNotebook((old) => [...old.slice(0, index), {...old[index], alignment: newAlignment}, ...old.slice(index+1)])
+    };
+
+    const handleFormat = (event, newFormats, index) => {
+        setNotebook((old) => [...old.slice(0, index), {...old[index], formats: newFormats}, ...old.slice(index+1)])
+    };
+
     return (
         <Box sx={{ width: '100%' }}>
             <Stepper activeStep={activeStep} alternativeLabel>
@@ -108,39 +167,39 @@ function CreateStoryStepper(props) {
             <Card>
                 <CardContent>
                     {activeStep === 0 ? (
-                        <>
+                            <>
 
-                            <Typography variant='h4' align='center'>Select among your investments the ones you want to write about</Typography>
-                            <div style={{paddingTop: '20px'}}></div>
-                            <TableContainer component={Paper} elevation={15}>
-                                <Table aria-label="collapsible table">
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell align='center'>Start date</TableCell>
-                                            <TableCell align='center'>End date</TableCell>
-                                            <TableCell align='center'>Title</TableCell>
-                                            <TableCell align='center'>Revenue</TableCell>
-                                            <TableCell />
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-
-                                        {investments.map((row, index) => (
-                                            <TableRow key={index} hover selected={row.selected} sx={{backgroundColor: 'white'}}>
-                                                <TableCell align='center'>{row.startDate}</TableCell>
-                                                <TableCell align='center'>{row.endDate}</TableCell>
-                                                <TableCell align='center'>{row.title}</TableCell>
-                                                <TableCell align='center'>{row.revenue}</TableCell>
-                                                <TableCell align='center'><Checkbox onChange={() => selectInvestment(index)} checked={row.selected}></Checkbox></TableCell>
+                                <Typography variant='h4' align='center'>Select among your investments the ones you want to write about</Typography>
+                                <div style={{paddingTop: '20px'}}></div>
+                                <TableContainer component={Paper} elevation={15}>
+                                    <Table aria-label="collapsible table">
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell align='center'>Start date</TableCell>
+                                                <TableCell align='center'>End date</TableCell>
+                                                <TableCell align='center'>Title</TableCell>
+                                                <TableCell align='center'>Revenue</TableCell>
+                                                <TableCell />
                                             </TableRow>
-                                        ))}
+                                        </TableHead>
+                                        <TableBody>
 
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
+                                            {investments.map((row, index) => (
+                                                <TableRow key={index} hover selected={row.selected} sx={{backgroundColor: 'white'}}>
+                                                    <TableCell align='center'>{row.startDate}</TableCell>
+                                                    <TableCell align='center'>{row.endDate}</TableCell>
+                                                    <TableCell align='center'>{row.title}</TableCell>
+                                                    <TableCell align='center'>{row.revenue}</TableCell>
+                                                    <TableCell align='center'><Checkbox onChange={() => selectInvestment(index)} checked={row.selected}></Checkbox></TableCell>
+                                                </TableRow>
+                                            ))}
 
-                        </>
-                    ) :
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+
+                            </>
+                        ) :
                         activeStep === 1 ?
                             <>
                                 <Grid container spacing={2}
@@ -159,9 +218,9 @@ function CreateStoryStepper(props) {
                                                         alignItems="center"
                                                         spacing={2}
                                                     >
-                                                            <Typography  variant="h3" >
-                                                                AI
-                                                            </Typography>
+                                                        <Typography  variant="h3" >
+                                                            AI
+                                                        </Typography>
 
                                                         {aiPicked ? <CheckCircleRounded color={"primary"} fontSize={"large"}></CheckCircleRounded>: ''}
 
@@ -179,7 +238,7 @@ function CreateStoryStepper(props) {
                                         <Card raised={true} style={{height:'100%'}}>
                                             <CardActionArea onClick={() => setAiPicked(false)}
                                                             style={!aiPicked ? {backgroundColor: '#ccddff', height:'100%'} : {height:'100%'}}
-                                                            >
+                                            >
                                                 <CardContent style={{height:'100%'}}>
                                                     <Stack
                                                         direction="row"
@@ -206,7 +265,57 @@ function CreateStoryStepper(props) {
                             </>
                             : activeStep===2?
                                 <>
-                                    <Typography variant="h4">Title</Typography>
+                                    <Grid2 container spacing={0}>
+                                        <Grid2 xs={3}></Grid2>
+                                        <Grid2 display={"flex"} justifyContent={"center"} alignItems={"center"} xs={6}>
+                                            <Button onClick={() => setOpenGenerateAgainDialog(true)} variant={"outlined"} startIcon={<Refresh></Refresh>}>Generate again</Button>
+                                            <Dialog
+                                                open={openGenerateAgainDialog}
+                                                onClose={() => setOpenGenerateAgainDialog(false)}
+                                                aria-labelledby="alert-dialog-title"
+                                                aria-describedby="alert-dialog-description"
+                                            >
+                                                <DialogTitle id="alert-dialog-title">
+                                                    {"Are you sure?"}
+                                                </DialogTitle>
+                                                <DialogContent>
+                                                    <DialogContentText id="alert-dialog-description">
+                                                        Are you sure you want to generate the story again?
+                                                        <br /><br/>
+                                                        Once our AI generates a new story, there is no way back to your previous editing session.
+                                                    </DialogContentText>
+                                                </DialogContent>
+                                                <DialogActions>
+                                                    <Button onClick={() => setOpenGenerateAgainDialog(false)}>Undo</Button>
+                                                    <Button onClick={() => setOpenGenerateAgainDialog(false)}>Generate</Button>
+                                                </DialogActions>
+                                            </Dialog>
+                                            <div style={{paddingRight: '15px'}}></div>
+                                            <Button onClick={() => setOpenRateDialog(true)} variant={"outlined"} startIcon={<Star></Star>}>Rate suggested story</Button>
+                                            <Dialog
+                                                open={openRateDialog}
+                                                onClose={() => setOpenRateDialog(false)}
+                                                aria-labelledby="alert-dialog-title"
+                                                aria-describedby="alert-dialog-description"
+                                            >
+                                                <DialogTitle id="alert-dialog-title">
+                                                    {"Make you count!"}
+                                                </DialogTitle>
+                                                <DialogContent>
+                                                    <DialogContentText id="alert-dialog-description">
+                                                        Do you like what our AI suggested to you?
+                                                        <Rating></Rating>
+                                                    </DialogContentText>
+                                                </DialogContent>
+                                                <DialogActions>
+                                                    <Button onClick={() => setOpenRateDialog(false)}>Cancel</Button>
+                                                    <Button onClick={() => setOpenRateDialog(false)}>Send</Button>
+                                                </DialogActions>
+                                            </Dialog>
+                                        </Grid2>
+                                        <Grid2 xs={3}></Grid2>
+                                    </Grid2>
+                                    <Typography variant="h3">Title</Typography>
                                     <div style={{paddingTop: '20px'}}></div>
                                     <Box sx={{p: 2}}>
                                         <TextField InputProps={{
@@ -215,7 +324,7 @@ function CreateStoryStepper(props) {
                                                     <Verified color={"primary"} />
                                                 </InputAdornment>
                                             ),
-                                        }} style={{width: '40%'}} label="Title" variant="outlined" defaultValue={notebookTitle}></TextField>
+                                        }} style={{width: '40%'}} label="Title" variant="filled" defaultValue={notebookTitle} onChange={(e) => setNotebookTitle(e.target.value)}></TextField>
                                     </Box>
 
                                     <div style={{paddingTop: '30px'}}></div>
@@ -225,28 +334,87 @@ function CreateStoryStepper(props) {
                                     {notebook.map((fragment, index) => {
                                         return (
                                             <>
-                                                <Box key={index} sx={{ borderRadius: 1, backgroundColor: '#f5f5f5', p: 2}}>
-                                                        <FormControl style={{width: '20%'}}>
-                                                            <InputLabel id="select-type">Fragment type</InputLabel>
-                                                            <Select labelId="select-type"
-                                                                    id="select-type"
-                                                                    label="Fragment type" value={fragment.type}>
-                                                                {fragmentOptions.map((option) => {
-                                                                    return (
-                                                                    <MenuItem value={option}>{option}</MenuItem>
-                                                                )})}
-                                                            </Select>
-                                                        </FormControl>
-                                                        <Divider></Divider>
+                                                <Box onMouseEnter={() => {showButtonsOfFragment(index, true)}} onMouseLeave={() => showButtonsOfFragment(index, false)}
+                                                     key={'a' + index} sx={{ borderRadius: 1, backgroundColor: '#fcf5f5', border: 2, borderColor: 'primary.main', p: 2}}>
+
+                                                    {fragment.show_buttons ? <><Box display="flex" justifyContent="center"
+                                                                                  alignItems="flex-start">
+                                                        <Button startIcon={<Add></Add>} size={"small"} variant="outlined" onClick={() => addFragment(index)}>Add Fragment</Button><br />
+                                                    </Box><div style={{paddingBottom: '15px'}}></div></> : <div style={{paddingBottom: '30px'}}></div>}
+
+                                                    <FormControl fullWidth>
+                                                        <Grid container direction="row"
+                                                              justifyContent="center"
+                                                              alignItems="stretch">
+                                                            <Grid item xs={4}>
+                                                                <InputLabel id="demo-simple-select-label">Fragment type</InputLabel>
+                                                                <Select
+                                                                    style={{height: '60px', width: '200px', backgroundColor: 'f0f0f0'}}
+                                                                    labelId="demo-simple-select-label"
+                                                                    id="demo-simple-select"
+                                                                    label="Fragment type"
+                                                                    variant="filled"
+                                                                    value={fragment.type}
+                                                                    onChange={(e) => updateTypeOfFragment(e.target.value, index)}
+                                                                >
+                                                                    {fragmentOptions.map((option, i) => {
+                                                                        return (
+                                                                            <MenuItem key={'b' + index + i} value={option}>{option}</MenuItem>
+                                                                        )})}
+                                                                </Select>
+                                                            </Grid>
+                                                            <Grid item xs={4}>
+                                                                <Box justifyContent='center' display='flex'>
+                                                                    <ToggleButtonGroup
+                                                                        value={fragment.alignment}
+                                                                        exclusive
+                                                                        onChange={(e, n) => handleAlignment(e, n, index)}
+                                                                        aria-label="text alignment"
+                                                                    >
+                                                                        <ToggleButton value="left" aria-label="left aligned">
+                                                                            <FormatAlignLeft />
+                                                                        </ToggleButton>
+                                                                        <ToggleButton value="center" aria-label="centered">
+                                                                            <FormatAlignCenter />
+                                                                        </ToggleButton>
+                                                                        <ToggleButton value="right" aria-label="right aligned">
+                                                                            <FormatAlignRight />
+                                                                        </ToggleButton>
+                                                                    </ToggleButtonGroup>
+                                                                </Box>
+                                                            </Grid>
+                                                            <Grid item xs={4}>
+                                                                <Box justifyContent='right' display='flex'>
+                                                                    <ToggleButtonGroup
+                                                                        value={fragment.formats}
+                                                                        onChange={(e, n) => handleFormat(e, n, index)}
+                                                                        aria-label="text formatting"
+                                                                    >
+                                                                        <ToggleButton value="bold" aria-label="bold">
+                                                                            <FormatBold />
+                                                                        </ToggleButton>
+                                                                        <ToggleButton value="italic" aria-label="italic">
+                                                                            <FormatItalic />
+                                                                        </ToggleButton>
+                                                                        <ToggleButton value="underlined" aria-label="underlined">
+                                                                            <FormatUnderlined />
+                                                                        </ToggleButton>
+                                                                    </ToggleButtonGroup>
+                                                                </Box>
+                                                            </Grid>
+                                                        </Grid>
                                                         <div style={{paddingTop: '20px'}}></div>
-                                                        <TextField multiline rows={3} style={{width: '100%'}} label={fragment.type} variant="outlined" defaultValue={fragment.content}></TextField>
-                                                        <Divider></Divider>
+
+                                                    </FormControl>
+                                                    <TextField multiline rows={3} style={{width: '100%', backgroundColor: 'f0f0f0'}} label={fragment.type} variant="filled" value={fragment.content} onChange={(e) => (updateContent(e.target.value, index))}></TextField>
+                                                    <div style={{paddingBottom: '15px'}}></div>
+
                                                 </Box>
 
-                                                <div style={{paddingTop: '50px'}}></div>
+                                                <div style={{paddingTop: '10px'}}></div>
                                             </>
                                         )
-                                    })}
+                                    })}<div style={{paddingTop: '10px'}}></div>
                                 </>:
                                 activeStep===3?
                                     <>

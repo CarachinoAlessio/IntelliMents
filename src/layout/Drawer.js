@@ -160,7 +160,7 @@ export default function MiniDrawer() {
                         <ListItem key={text} disablePadding sx={{ display: 'block' }}>
                             <ListItemButton onClick={()=>{setActiveIndex(index); navigate('/'+text); handleDrawerClose()}} selected={index === activeIndex}
                                 sx={{
-                                    minHeight: 48,
+                                    minHeight: 60,
                                     justifyContent: open ? 'initial' : 'center',
                                     px: 2.5,
                                 }}
@@ -185,7 +185,7 @@ export default function MiniDrawer() {
                         <ListItem key={text} disablePadding sx={{ display: 'block' }}>
                             <ListItemButton onClick={()=>{setActiveIndex(4+index); navigate('/'+text)}} selected={4+index === activeIndex}
                                 sx={{
-                                    minHeight: 48,
+                                    minHeight: 60,
                                     justifyContent: open ? 'initial' : 'center',
                                     px: 2.5,
                                 }}
