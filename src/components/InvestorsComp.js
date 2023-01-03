@@ -37,12 +37,12 @@ export default function InvestorsComp(props) {
                                 <Typography variant="body2" color="text.secondary">
                                     context
                                 </Typography>
-                                <Box display="flex" m="auto" style={{margin: 0}} >
+                                <Box display="flex" m="auto">
                                     <IconButton aria-label="favorite">
                                         <FavoriteBorderIcon />
                                     </IconButton>
                                 </Box>
-                                <Box m="auto" display="flex" style={{margin: 0}} >
+                                <Box display="flex" m="auto">
                                     <IconButton aria-label="chart">
                                         <ShowChartIcon />
                                     </IconButton>
@@ -58,12 +58,12 @@ export default function InvestorsComp(props) {
                                 <Typography variant="body2" color="text.secondary">
                                     context
                                 </Typography>
-                                <Box display="flex" m="auto" style={{margin: 0}} >
+                                <Box display="flex" m="auto">
                                     <IconButton aria-label="favorite">
                                         <FavoriteBorderIcon />
                                     </IconButton>
                                 </Box>
-                                <Box m="auto" display="flex" style={{margin: 0}} >
+                                <Box display="flex" m="auto">
                                     <IconButton aria-label="chart">
                                         <ShowChartIcon />
                                     </IconButton>

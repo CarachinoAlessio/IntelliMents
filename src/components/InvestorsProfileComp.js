@@ -63,17 +63,17 @@ export default function InvestorsProfileComp(props) {
                                         Story teller                                   
                                     </Typography>
                                     <Typography gutterBottom variant="h5" component="div">
-                                            <ThemeProvider theme={theme}>
-                                                <Icon icon="mdi:bitcoin" /> BTC
-                                            </ThemeProvider>
-                                            
-                                            <ThemeProvider theme={theme}>
-                                                <Icon icon="mdi:bitcoin" /> BTC
-                                            </ThemeProvider>             
+                                       <ThemeProvider theme={theme}>
+                                           <Icon icon="mdi:bitcoin" />
+                                       </ThemeProvider>
+                                       
+                                       <ThemeProvider theme={theme}>
+                                           <Icon icon="mdi:bitcoin" />
+                                       </ThemeProvider>             
                                     </Typography>
                                 </Grid>
                                 <Grid item xs>
-                                    <Box m="auto" display="flex" style={{margin: 0}} >
+                                    <Box m="auto" display="flex">
                                         <IconButton aria-label="favorite">
                                             <FavoriteBorderIcon />
                                         </IconButton>
@@ -89,7 +89,6 @@ export default function InvestorsProfileComp(props) {
                 </Col>
             </Row>
 
-
             <Row>
                 <Col>
                     <Typography gutterBottom variant="h5" component="div">
@@ -101,26 +100,25 @@ export default function InvestorsProfileComp(props) {
 
             <Row>
                 <Col>
-                    <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                         <Grid item xs={6}>
                             <Box sx={{ border: 1, borderRadius: '16px' }} style={{ padding: "10px", marginTop: "5px", marginBottom: "5px", backgroundColor: "#eee" , borderBlockColor: '#000'}}>
-                                <Typography gutterBottom variant="h5" component="div">
+                                <Typography onClick={()=> window.location.href='/Investors/Profile'} gutterBottom variant="h5" component="div">
                                     Alessio Carachino                                    
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary">
                                     context
                                 </Typography>
-                                    <Box display="flex" m="auto" style={{margin: 0}} >
-                                        <IconButton aria-label="favorite">
-                                            <FavoriteBorderIcon />
-                                        </IconButton>
-                                    </Box>
-
-                                    <Box m="auto" display="flex" style={{margin: 0}} >
-                                        <IconButton aria-label="chart">
-                                            <ShowChartIcon />
-                                        </IconButton>
-                                    </Box>
+                                <Box display="flex" m="auto">
+                                    <IconButton aria-label="favorite">
+                                        <FavoriteBorderIcon />
+                                    </IconButton>
+                                </Box>
+                                <Box display="flex" m="auto">
+                                    <IconButton aria-label="chart">
+                                        <ShowChartIcon />
+                                    </IconButton>
+                                </Box>
                             </Box>
                         </Grid>
                         
@@ -132,17 +130,16 @@ export default function InvestorsProfileComp(props) {
                                 <Typography variant="body2" color="text.secondary">
                                     context
                                 </Typography>
-                                    <Box display="flex" m="auto" style={{margin: 0}} >
-                                        <IconButton aria-label="favorite">
-                                            <FavoriteBorderIcon />
-                                        </IconButton>
-                                    </Box>
-
-                                    <Box m="auto" display="flex" style={{margin: 0}} >
-                                        <IconButton aria-label="chart">
-                                            <ShowChartIcon />
-                                        </IconButton>
-                                    </Box>
+                                <Box display="flex" m="auto">
+                                    <IconButton aria-label="favorite">
+                                        <FavoriteBorderIcon />
+                                    </IconButton>
+                                </Box>
+                                <Box m="auto" display="flex">
+                                    <IconButton aria-label="chart">
+                                        <ShowChartIcon />
+                                    </IconButton>
+                                </Box>
                             </Box>
                         </Grid>
                     </Grid>  
