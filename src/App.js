@@ -15,6 +15,7 @@ import {StoriesComp} from "./components/StoriesComp";
 import {NewsComp} from "./components/NewsComp";
 import {ExchangeComp} from "./components/ExchangeComp";
 import {InvestorsComp} from "./components/InvestorsComp";
+import {InvestorsProfileComp} from "./components/InvestorsProfileComp";
 import {AboutComp} from "./components/AboutComp";
 import {ContactComp} from "./components/ContactComp";
 import {HelpComp} from "./components/HelpComp";
@@ -59,6 +60,7 @@ function App2() {
                         <Route path='/stories' element={<StoriesComp></StoriesComp>}></Route>
                         <Route path='/news' element={<NewsComp></NewsComp>}></Route>
                         <Route path='/investors' element={<InvestorsComp></InvestorsComp>}></Route>
+                        <Route path='/investors/profile' element={<InvestorsProfileComp></InvestorsProfileComp>}></Route>
                         <Route path='/exchange' element={<ExchangeComp></ExchangeComp>}></Route>
                         <Route path='/about' element={<AboutComp></AboutComp>}></Route>
                         <Route path='/about/contact' element={<ContactComp></ContactComp>}></Route>

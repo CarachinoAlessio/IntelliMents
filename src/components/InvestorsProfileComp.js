@@ -1,6 +1,7 @@
 import Row from '@mui/material/Container';
 import Col from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
+import { Icon } from '@iconify/react';
 
 import {
     Grid, Box,
@@ -12,7 +13,40 @@ import ShowChartIcon from '@mui/icons-material/ShowChart';
 import {Search} from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 
-export default function InvestorsComp(props) {
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import Chip from '@mui/material/Chip';
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+
+const theme = createTheme({
+  components: {
+    MuiIcon: {
+      styleOverrides: {
+        root: {
+          // Match 24px = 3 * 2 + 1.125 * 16
+          boxSizing: 'content-box',
+          padding: 3,
+          fontSize: '1.125rem',
+        },
+      },
+    },
+  },
+});
+
+const useStyles = makeStyles(theme => ({
+    alignItemsAndJustifyContent: {
+      display: 'grid',
+      alignItems: 'center',
+      justifyContent: 'right',
+    },
+
+    alignUserAvatar: {
+      display: 'grid',
+      alignItems: 'center',
+      justifyContent: 'left',
+    },
+}))
+
+export default function InvestorsProfileComp(props) {
     return (
         <><Grid container fluid>
             <Row>
@@ -28,11 +62,71 @@ export default function InvestorsComp(props) {
         <Grid container fluid>
             <Row>
                 <Col>
+                    <Box sx={{ border: 1, borderRadius: '16px' }} style={{ padding: "10px", marginTop: "5px", marginBottom: "5px", backgroundColor: "#eee" , borderBlockColor: '#000'}}>
+                        <Box display="flex">
+                            <Box sx={{ flexGrow: 1 }}>
+                                <Grid container spacing={3}>
+                                    <Grid item xs>
+                                        <IconButton aria-label="favorite">
+                                            <Icon icon="mdi:bitcoin" />
+                                            <AccountCircleOutlinedIcon sx={{ fontSize: 150 }} />
+                                        </IconButton>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <Typography gutterBottom variant="h3" component="div">
+                                            Alessio Carachino                                    
+                                        </Typography>
+
+                                        <Typography gutterBottom variant="h6" component="div">
+                                            Story teller                                   
+                                        </Typography>
+
+                                        <Typography gutterBottom variant="h5" component="div">
+                                            <Box>
+                                                <ThemeProvider theme={theme}>
+                                                    <Chip icon={<AccountCircleOutlinedIcon />} label="BTC" />
+                                                </ThemeProvider>
+
+                                                <ThemeProvider theme={theme}>
+                                                    <Chip icon={<AccountCircleOutlinedIcon />} label="BTC" />
+                                                </ThemeProvider>
+                                            </Box>                               
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs>
+                                        <Box display="flex" className={classes.alignItemsAndJustifyContent}>
+                                            <Box m="auto" style={{margin: 0}} >
+                                                <IconButton aria-label="favorite">
+                                                    <FavoriteBorderIcon />
+                                                </IconButton>
+                                            </Box>
+                                        </Box>
+                                    </Grid>
+                                </Grid>
+                            </Box>
+                        </Box>
+                        sdsd
+                    </Box>
+                </Col>
+            </Row>
+
+
+            <Row>
+                <Col>
+                    <Typography gutterBottom variant="h5" component="div">
+                            <center>User's Stories</center>
+                        <hr/>
+                   </Typography>
+                </Col>
+            </Row>
+
+            <Row>
+                <Col>
                     <Box>
                         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                             <Grid item xs={6}>
                                 <Box sx={{ border: 1, borderRadius: '16px' }} style={{ padding: "10px", marginTop: "5px", marginBottom: "5px", backgroundColor: "#eee" , borderBlockColor: '#000'}}>
-                                    <Typography onClick={()=> window.location.href='/Investors/Profile'} gutterBottom variant="h5" component="div">
+                                    <Typography gutterBottom variant="h5" component="div">
                                         Alessio Carachino                                    
                                     </Typography>
                                     <Typography variant="body2" color="text.secondary">
@@ -90,4 +184,4 @@ export default function InvestorsComp(props) {
         </Grid></>
         );
     }
-export {InvestorsComp}
+export {InvestorsProfileComp}
