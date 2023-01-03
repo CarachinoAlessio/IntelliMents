@@ -9,21 +9,16 @@ import {
     Card,
     CardActionArea,
     CardContent,
-    CardHeader,
     Checkbox,
-    Container,
     Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
-    Divider,
     FormControl,
     Grid,
     InputAdornment,
     InputLabel,
     MenuItem,
     Paper, Rating,
-    rgbToHex,
     Select,
     Stack,
-    Switch,
     Table,
     TableBody,
     TableCell,
@@ -33,18 +28,20 @@ import {
     TextField
 } from "@mui/material";
 import {
-    Add,
+    Add, ArrowDropDown,
     CheckCircleRounded,
-    FilterList,
-    Info,
+    FormatAlignCenter,
+    FormatAlignJustify,
+    FormatAlignLeft,
+    FormatAlignRight,
+    FormatBold, FormatColorFill,
+    FormatItalic, FormatUnderlined,
     Refresh,
-    Search,
-    SelectAll,
     Star,
-    TaskAlt,
     Verified
 } from "@mui/icons-material";
 import Grid2 from "@mui/material/Unstable_Grid2";
+import { ToggleButtonGroup, ToggleButton } from '@mui/material'
 
 
 const steps = ['Select Investments', 'Choose Modality', 'Write the story', 'Upload Material', 'Overview'];
@@ -61,7 +58,7 @@ function CreateStoryStepper(props) {
     const [openRateDialog, setOpenRateDialog] = useState(false);
     const [openGenerateAgainDialog, setOpenGenerateAgainDialog] = useState(false);
 
-    const [notebook, setNotebook] = useState([{type: 'Subtitle', content: 'Lorem Ipsum', show_buttons: false}, {type: 'Paragraph', content: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.', show_buttons: false}])
+    const [notebook, setNotebook] = useState([{type: 'Subtitle', content: 'Lorem Ipsum', show_buttons: false, alignment: 'left', formats: []}, {type: 'Paragraph', content: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.', show_buttons: false, alignment: 'left', formats: []}])
     const fragmentOptions = ['Title', 'Subtitle', 'Paragraph']
     const [notebookTitle, setNotebookTitle] = useState('Example of AI-generated Title')
 
@@ -125,7 +122,7 @@ function CreateStoryStepper(props) {
 
     const addFragment = (index) => {
         setNotebook((old) => {
-            let fragment = {type: 'Paragraph', content: 'A new Fragment has been added', show_buttons: false}
+            let fragment = {type: 'Paragraph', content: 'A new Fragment has been added', show_buttons: false, alignment: 'left', formats: []}
             return [...old.slice(0, index), {...fragment}, ...old.slice(index)]
         })
     }
@@ -137,6 +134,14 @@ function CreateStoryStepper(props) {
     function updateTypeOfFragment(value, index) {
         setNotebook((old) => [...old.slice(0, index), {...old[index], type: value}, ...old.slice(index+1)])
     }
+
+    const handleAlignment = (event, newAlignment, index) => {
+        setNotebook((old) => [...old.slice(0, index), {...old[index], alignment: newAlignment}, ...old.slice(index+1)])
+    };
+
+    const handleFormat = (event, newFormats, index) => {
+        setNotebook((old) => [...old.slice(0, index), {...old[index], formats: newFormats}, ...old.slice(index+1)])
+    };
 
     return (
         <Box sx={{ width: '100%' }}>
@@ -338,26 +343,71 @@ function CreateStoryStepper(props) {
                                                     </Box><div style={{paddingBottom: '15px'}}></div></> : <div style={{paddingBottom: '30px'}}></div>}
 
                                                     <FormControl fullWidth>
-                                                        <InputLabel id="demo-simple-select-label">Fragment type</InputLabel>
-                                                        <Select
-                                                            style={{height: '60px', backgroundColor: 'f0f0f0'}}
-                                                            labelId="demo-simple-select-label"
-                                                            id="demo-simple-select"
-                                                            label="Fragment type"
-                                                            variant="filled"
-                                                            value={fragment.type}
-                                                            onChange={(e) => updateTypeOfFragment(e.target.value, index)}
-                                                        >
-                                                            {fragmentOptions.map((option, i) => {
-                                                                return (
-                                                                    <MenuItem key={'b' + index + i} value={option}>{option}</MenuItem>
-                                                                )})}
-                                                        </Select>
+                                                        <Grid container direction="row"
+                                                              justifyContent="center"
+                                                              alignItems="stretch">
+                                                            <Grid item xs={4}>
+                                                                <InputLabel id="demo-simple-select-label">Fragment type</InputLabel>
+                                                                <Select
+                                                                    style={{height: '60px', width: '200px', backgroundColor: 'f0f0f0'}}
+                                                                    labelId="demo-simple-select-label"
+                                                                    id="demo-simple-select"
+                                                                    label="Fragment type"
+                                                                    variant="filled"
+                                                                    value={fragment.type}
+                                                                    onChange={(e) => updateTypeOfFragment(e.target.value, index)}
+                                                                >
+                                                                    {fragmentOptions.map((option, i) => {
+                                                                        return (
+                                                                            <MenuItem key={'b' + index + i} value={option}>{option}</MenuItem>
+                                                                        )})}
+                                                                </Select>
+                                                            </Grid>
+                                                            <Grid item xs={4}>
+                                                                <Box justifyContent='center' display='flex'>
+                                                                    <ToggleButtonGroup
+                                                                        value={fragment.alignment}
+                                                                        exclusive
+                                                                        onChange={(e, n) => handleAlignment(e, n, index)}
+                                                                        aria-label="text alignment"
+                                                                    >
+                                                                        <ToggleButton value="left" aria-label="left aligned">
+                                                                            <FormatAlignLeft />
+                                                                        </ToggleButton>
+                                                                        <ToggleButton value="center" aria-label="centered">
+                                                                            <FormatAlignCenter />
+                                                                        </ToggleButton>
+                                                                        <ToggleButton value="right" aria-label="right aligned">
+                                                                            <FormatAlignRight />
+                                                                        </ToggleButton>
+                                                                    </ToggleButtonGroup>
+                                                                </Box>
+                                                            </Grid>
+                                                            <Grid item xs={4}>
+                                                                <Box justifyContent='right' display='flex'>
+                                                                    <ToggleButtonGroup
+                                                                        value={fragment.formats}
+                                                                        onChange={(e, n) => handleFormat(e, n, index)}
+                                                                        aria-label="text formatting"
+                                                                    >
+                                                                        <ToggleButton value="bold" aria-label="bold">
+                                                                            <FormatBold />
+                                                                        </ToggleButton>
+                                                                        <ToggleButton value="italic" aria-label="italic">
+                                                                            <FormatItalic />
+                                                                        </ToggleButton>
+                                                                        <ToggleButton value="underlined" aria-label="underlined">
+                                                                            <FormatUnderlined />
+                                                                        </ToggleButton>
+                                                                    </ToggleButtonGroup>
+                                                                </Box>
+                                                            </Grid>
+                                                        </Grid>
                                                         <div style={{paddingTop: '20px'}}></div>
-                                                        <TextField multiline rows={3} style={{width: '100%', backgroundColor: 'f0f0f0'}} label={fragment.type} variant="filled" value={fragment.content} onChange={(e) => (updateContent(e.target.value, index))}></TextField>
-                                                        <div style={{paddingBottom: '15px'}}></div>
-                                                    </FormControl>
 
+                                                    </FormControl>
+                                                    <TextField multiline rows={3} style={{width: '100%', backgroundColor: 'f0f0f0'}} label={fragment.type} variant="filled" value={fragment.content} onChange={(e) => (updateContent(e.target.value, index))}></TextField>
+                                                    <div style={{paddingBottom: '15px'}}></div>
 
                                                 </Box>
 
