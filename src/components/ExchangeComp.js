@@ -17,15 +17,6 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import ButtonGroup from '@mui/material/ButtonGroup';
 
-const bull = (
-    <Box
-    component="span"
-    sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
-    >
-    •
-    </Box>
-);
-
 export default function ExchangeComp(prop) {
     const [expanded, setExpanded] = React.useState(false);
     const navigate=useNavigate();
@@ -83,7 +74,7 @@ export default function ExchangeComp(prop) {
                     </Grid2>
                     <Grid2 container spacing={2} columns={16} style={{paddingTop: '30px'}}>
                         <Grid2 xs={8}>
-                            <img src="./static/images/news/chartExchange.png" alt='Graph' width="124" height="124"/>
+                        <img src="./static/images/news/chartExchange.png" alt='Graph' width="124" height="124"/>
                         </Grid2>
                         <Grid2 xs={8}>
                             <img src="./static/images/news/secondchartExchange.png" alt='Graph' width="500" height="200"/>
@@ -99,52 +90,46 @@ export default function ExchangeComp(prop) {
             aria-controls="panel2bh-content"
             id="panel2bh-header"
             >
-            <Typography sx={{ width: '33%', flexShrink: 0 }}>Users</Typography>
+            <Typography sx={{ width: '33%', flexShrink: 0 }}>BTC</Typography>
             <Typography sx={{ color: 'text.secondary' }}>
-                You are currently not an owner
+                Check your BITCOIN balance
             </Typography>
             </AccordionSummary>
             <AccordionDetails>
-            <Typography>
-                Donec placerat, lectus sed mattis semper, neque lectus feugiat lectus,
-                varius pulvinar diam eros in elit. Pellentesque convallis laoreet
-                laoreet.
-            </Typography>
-            </AccordionDetails>
-        </Accordion>
-        <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
-            <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel3bh-content"
-            id="panel3bh-header"
-            >
-            <Typography sx={{ width: '33%', flexShrink: 0 }}>
-                Advanced settings
-            </Typography>
-            <Typography sx={{ color: 'text.secondary' }}>
-                Filtering has been entirely disabled for whole web server
-            </Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-            <Typography>
-                Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit
-                amet egestas eros, vitae egestas augue. Duis vel est augue.
-            </Typography>
-            </AccordionDetails>
-        </Accordion>
-        <Accordion expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
-            <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel4bh-content"
-            id="panel4bh-header"
-            >
-            <Typography sx={{ width: '33%', flexShrink: 0 }}>Personal data</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-            <Typography>
-                Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit
-                amet egestas eros, vitae egestas augue. Duis vel est augue.
-            </Typography>
+            <Card sx={{ minWidth: 1024 }}>
+                <CardContent>
+                    <Grid2 container spacing={2} columns={16} style={{paddingTop: '30px'}}>
+                        <Grid2 xs={8}>
+                            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                            Your BTC balance: 
+                            </Typography>
+                            <Typography variant="h5" component="div">
+                            +$19.855
+                            </Typography>
+                        </Grid2>
+                        <Grid2 xs={8}>
+                            <ButtonGroup variant="text" aria-label="text button group">
+                                <Button>All</Button>
+                                <Button>1m</Button>
+                                <Button>1y</Button>
+                                <Button>1h</Button>
+                                <Button>1d</Button>
+                            </ButtonGroup>
+                        </Grid2>
+                    </Grid2>
+                    <Grid2 container spacing={2} columns={16} style={{paddingTop: '30px'}}>
+                        <Grid2 xs={8}>
+                        <ButtonGroup variant="contained" aria-label="outlined primary button group">
+                                <Button onClick={() => navigate('/ExchangeBuy')}>Buy</Button>
+                                <Button>Sell</Button>
+                            </ButtonGroup>
+                        </Grid2>
+                        <Grid2 xs={8}>
+                            <img src="./static/images/news/secondchartExchange.png" alt='Graph' width="500" height="200"/>
+                        </Grid2>
+                    </Grid2>
+                </CardContent>
+                </Card>
             </AccordionDetails>
         </Accordion>
         </Grid2>
