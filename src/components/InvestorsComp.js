@@ -29,45 +29,45 @@ export default function InvestorsComp(props) {
             <Row>
                 <Col>
                     <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                    <Grid item xs={6}>
+                            <Box sx={{ border: 1, borderRadius: '16px' }} style={{ padding: "10px", marginTop: "5px", marginBottom: "5px", backgroundColor: "#eee" , borderBlockColor: '#000'}}>
+                                <Typography onClick={()=> window.location.href='/Investors/Profile'} gutterBottom variant="h5" component="div">
+                                    Alessio Carachino                                    
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                <Box display="flex" m="auto" style={{float:'right', marginBottom: "5px"}}>
+                                    <IconButton aria-label="favorite">
+                                        <FavoriteBorderIcon />
+                                    </IconButton>
+                                    <IconButton aria-label="chart">
+                                        <ShowChartIcon />
+                                    </IconButton>
+                                </Box>
+                                context<br/>
+                                context<br/>
+                                context
+                                </Typography>
+                            </Box>
+                        </Grid>
+                        
                         <Grid item xs={6}>
                             <Box sx={{ border: 1, borderRadius: '16px' }} style={{ padding: "10px", marginTop: "5px", marginBottom: "5px", backgroundColor: "#eee" , borderBlockColor: '#000'}}>
                                 <Typography onClick={()=> window.location.href='/Investors/Profile'} gutterBottom variant="h5" component="div">
                                     Alessio Carachino                                    
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary">
-                                    context
-                                </Typography>
-                                <Box display="flex" m="auto">
+                                <Box display="flex" m="auto" style={{float:'right', marginBottom: "5px"}}>
                                     <IconButton aria-label="favorite">
                                         <FavoriteBorderIcon />
                                     </IconButton>
-                                </Box>
-                                <Box display="flex" m="auto">
                                     <IconButton aria-label="chart">
                                         <ShowChartIcon />
                                     </IconButton>
                                 </Box>
-                            </Box>
-                        </Grid>
-                        
-                        <Grid item xs={6}>
-                            <Box sx={{ border: 1, borderRadius: '16px' }} style={{ padding: "10px", marginTop: "5px", marginBottom: "5px", backgroundColor: "#eee" , borderBlockColor: '#000'}}>
-                                <Typography gutterBottom variant="h5" component="div">
-                                    Alessio Carachino                                    
+                                context<br/>
+                                context<br/>
+                                context
                                 </Typography>
-                                <Typography variant="body2" color="text.secondary">
-                                    context
-                                </Typography>
-                                <Box display="flex" m="auto">
-                                    <IconButton aria-label="favorite">
-                                        <FavoriteBorderIcon />
-                                    </IconButton>
-                                </Box>
-                                <Box display="flex" m="auto">
-                                    <IconButton aria-label="chart">
-                                        <ShowChartIcon />
-                                    </IconButton>
-                                </Box>
                             </Box>
                         </Grid>
                     </Grid>  

@@ -2,12 +2,14 @@ import Row from '@mui/material/Container';
 import Col from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import { Icon } from '@iconify/react';
+import {useNavigate} from 'react-router-dom';
 
 import {
     Grid, Box,
     Typography,
 } from "@mui/material";
 
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
 import {Search} from "@mui/icons-material";
@@ -32,14 +34,17 @@ const theme = createTheme({
 });
 
 export default function InvestorsProfileComp(props) {
+    const navigate = useNavigate();
     return (
         <><Grid container fluid>
             <Row>
                 <Col>
-                    <Box sx={{ border: 1, borderRadius: '16px' }} display="flex" justifyContent="center" alignItems="center" style={{ padding: "7px", marginTop: "5px", marginBottom: "5px", backgroundColor: "#eee" }}>
-                        <TextField fullWidth id="input-with-sx" label="Search" variant="standard" />
-                        <Search sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
-                    </Box>
+                    <IconButton aria-label="account" onClick={() => navigate(-1)}>
+                        <ArrowBackIcon sx={{ fontSize: 50 }} />
+                    </IconButton>
+                    <Typography gutterBottom variant="h2" component="div" justifyContent="center" alignItems="center">
+                        <center>Overviews</center>
+                    </Typography>
                 </Col>
             </Row>
         </Grid>
@@ -51,11 +56,11 @@ export default function InvestorsProfileComp(props) {
                         <Box display="flex" sx={{ flexGrow: 1 }}>
                             <Grid container spacing={3}>
                                 <Grid item xs={2}>
-                                    <IconButton aria-label="favorite">
-                                        <AccountCircleOutlinedIcon sx={{ fontSize: 200 }} />
+                                    <IconButton aria-label="account">
+                                        <AccountCircleOutlinedIcon sx={{ fontSize: 180 }} />
                                     </IconButton>
                                 </Grid>
-                                <Grid item xs={7}>
+                                <Grid item xs={7} sm>
                                     <Typography gutterBottom variant="h3" component="div">
                                         Alessio Carachino                                    
                                     </Typography>
@@ -73,7 +78,7 @@ export default function InvestorsProfileComp(props) {
                                     </Typography>
                                 </Grid>
                                 <Grid item xs>
-                                    <Box m="auto" display="flex">
+                                    <Box display="flex" m="auto" style={{float:'right', marginBottom: "5px"}}>
                                         <IconButton aria-label="favorite">
                                             <FavoriteBorderIcon />
                                         </IconButton>
@@ -101,45 +106,46 @@ export default function InvestorsProfileComp(props) {
             <Row>
                 <Col>
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+
                         <Grid item xs={6}>
                             <Box sx={{ border: 1, borderRadius: '16px' }} style={{ padding: "10px", marginTop: "5px", marginBottom: "5px", backgroundColor: "#eee" , borderBlockColor: '#000'}}>
                                 <Typography onClick={()=> window.location.href='/Investors/Profile'} gutterBottom variant="h5" component="div">
                                     Alessio Carachino                                    
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary">
-                                    context
-                                </Typography>
-                                <Box display="flex" m="auto">
+                                <Box display="flex" m="auto" style={{float:'right', marginBottom: "5px"}}>
                                     <IconButton aria-label="favorite">
                                         <FavoriteBorderIcon />
                                     </IconButton>
-                                </Box>
-                                <Box display="flex" m="auto">
                                     <IconButton aria-label="chart">
                                         <ShowChartIcon />
                                     </IconButton>
                                 </Box>
+                                context<br/>
+                                context<br/>
+                                context
+                                </Typography>
                             </Box>
                         </Grid>
                         
                         <Grid item xs={6}>
                             <Box sx={{ border: 1, borderRadius: '16px' }} style={{ padding: "10px", marginTop: "5px", marginBottom: "5px", backgroundColor: "#eee" , borderBlockColor: '#000'}}>
-                                <Typography gutterBottom variant="h5" component="div">
+                                <Typography onClick={()=> window.location.href='/Investors/Profile'} gutterBottom variant="h5" component="div">
                                     Alessio Carachino                                    
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary">
-                                    context
-                                </Typography>
-                                <Box display="flex" m="auto">
+                                <Box display="flex" m="auto" style={{float:'right', marginBottom: "5px"}}>
                                     <IconButton aria-label="favorite">
                                         <FavoriteBorderIcon />
                                     </IconButton>
-                                </Box>
-                                <Box m="auto" display="flex">
                                     <IconButton aria-label="chart">
                                         <ShowChartIcon />
                                     </IconButton>
                                 </Box>
+                                context<br/>
+                                context<br/>
+                                context
+                                </Typography>
                             </Box>
                         </Grid>
                     </Grid>  
