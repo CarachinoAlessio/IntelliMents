@@ -23,6 +23,7 @@ import {MyStoriesComp} from "./components/MyStoriesComp";
 import CreateStoryComp from "./components/CreateStoryComp";
 import {StoryContentComp} from "./components/StoryContentComp";
 import ExchangeBuyComp from "./components/ExchangeBuyComp"
+import ExchangeExploreComp from "./components/ExchangeExploreComp"
 
 function App() {
     return (
@@ -70,6 +71,7 @@ function App2() {
                         <Route path='/watchStory' element={<StoryContentComp/>}></Route>
                         <Route path='/createStory' element={<CreateStoryComp></CreateStoryComp>}></Route>
                         <Route path='/exchangebuy' element={<ExchangeBuyComp></ExchangeBuyComp>}></Route>
+                        <Route path='/Exchange/Explore' element={<ExchangeExploreComp></ExchangeExploreComp>}></Route>
                     </Route>
 
                     <Route path='*' element={<h1>Error 404, Page Not Found</h1>}/>

@@ -78,11 +78,9 @@ export default function ExchangeBuyComp(prop) {
         <>
         {/* Insert Balance and Explore instead of Story and my stories
         */}
-        <Grid container rowSpacing={1}>
-                <Grid item xs={2}>
-                    <Button onClick={() => navigate('/Exchange')} variant={"outlined"} startIcon={<CurrencyBitcoinIcon></CurrencyBitcoinIcon>}>Balance</Button>
-                </Grid>
-                <Grid item xs={2}>
+        <Grid container rowSpacing={2}>
+                <Grid item xs={3}>
+                    <Button onClick={() => navigate('/Exchange')} variant={"outlined"} startIcon={<CurrencyBitcoinIcon></CurrencyBitcoinIcon>}>Balance</Button>&nbsp;&nbsp;
                     <Button onClick={()=>navigate('/Exchange/Explore')} variant={"outlined"} startIcon={<ExploreIcon></ExploreIcon>}>Explore</Button>
                 </Grid>
         </Grid>
