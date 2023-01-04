@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField';
 
 import {
     Grid, Card, Box, CardContent,
-    CardActionArea, Typography,
+    CardActionArea, Typography, CardActions,
 } from "@mui/material";
 
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -13,19 +13,14 @@ import {Search} from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import {useState} from "react";
 
-const posts = [
-    {id: 1, title: 'Hossein Javadi', body:'Lizards are a widespread group of squamate reptiles, with over 6,000\n' +
-    'species, ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents'},
-    {id: 2, title: 'Alessio Carachino', body:'Lizards are a widespread group of squamate reptiles, with over 6,000\n' +
-    'species, ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents'},
-    {id: 3, title: 'Lorenzo Lorenzo', body:'Lizards are a widespread group of squamate reptiles, with over 6,000\n' +
-    'species, ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents'},
-    {id: 4, title: 'Francesco Di Gangi', body:'Lizards are a widespread group of squamate reptiles, with over 6,000\n' +
-    'species, ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents'},
-        ]
+const profilesArr = [
+    {id: 1, name: 'Hossein Javadi', description: 'Since 3 years'},
+    {id: 2, name: 'Alessio Carachino', description: 'Since 2 years'},
+    {id: 3, name: 'Lorenzo Santo', description: 'Since 3 years'},
+    ]
 
 export default function InvestorsComp(props) {
-    const [newsState] = useState(posts)
+    const [profiles, setProfiles] = useState(profilesArr)
 
     return (
         <><Grid container fluid>
@@ -42,32 +37,38 @@ export default function InvestorsComp(props) {
         <Grid container fluid>
             <Row>
                 <Col>
-                    <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                        {newsState.map(i => (
+                    <Grid container rowSpacing={1} columnSpacing={{ xs: 6, sm: 6, md: 6 }}>
+                        {profiles.map(i => (
                         <Grid key={i.id} item xs={6}>
-                            <Card sx style={{ padding: "10px", marginTop: "5px", marginBottom: "5px"}}>
-                                <CardActionArea onClick={()=> window.location.href='/Investors/Profile'}>
-                                    <CardContent>
-                                        <Typography gutterBottom variant="h5" component="div">
-                                            {i.title}                                   
+                            <Card raised={true} style={{ padding: "10px", marginTop: "5px", marginBottom: "5px"}}>
+                                <CardActionArea>
+                                    <CardContent onClick={()=> window.location.href='/Investors/Profile'}>
+                                        <Typography variant="h3" component="div">
+                                            {i.name}
                                         </Typography>
-                                        <Box display="flex" m="auto" style={{float:'right', marginBottom: "5px"}}>
-                                            <IconButton aria-label="favorite">
-                                                <FavoriteBorderIcon />
-                                            </IconButton>
-                                            <IconButton aria-label="chart">
-                                                <ShowChartIcon />
-                                            </IconButton>
-                                        </Box>
-                                        <Typography variant="body2" color="text.secondary">
-                                            {i.body}
+                                        <Typography variant="body1" color="text.secondary">
+                                            {i.description}
                                         </Typography>
                                     </CardContent>
+                                        <CardActions>
+                                            <Grid container>
+                                                <Grid item xs={8}></Grid>
+                                                <Grid item xs={4} display={"flex"} justifyContent={"right"} alignItems={"center"}>
+                                                    <IconButton aria-label="favorite">
+                                                        <FavoriteBorderIcon />
+                                                    </IconButton>
+                                                    <IconButton aria-label="chart">
+                                                        <ShowChartIcon />
+                                                    </IconButton>
+                                                </Grid>
+                                            </Grid>
+
+                                        </CardActions>
                                 </CardActionArea>
                             </Card>
                         </Grid>
                         ))}
-                    </Grid>  
+                    </Grid>
                 </Col>
             </Row>
         </Grid></>
