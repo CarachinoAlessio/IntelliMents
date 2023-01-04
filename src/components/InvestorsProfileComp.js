@@ -5,8 +5,8 @@ import { Icon } from '@iconify/react';
 import {useNavigate} from 'react-router-dom';
 
 import {
-    Grid, Box,
-    Typography,
+    Grid, Card, Box, CardContent,
+    CardActionArea, Typography,
 } from "@mui/material";
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -14,9 +14,22 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
 import {Search} from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
+import {useState} from "react";
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+
+const posts = [
+    {id: 1, title: 'Hossein Javadi', body:'Lizards are a widespread group of squamate reptiles, with over 6,000\n' +
+    'species, ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents'},
+    {id: 2, title: 'Alessio Carachino', body:'Lizards are a widespread group of squamate reptiles, with over 6,000\n' +
+    'species, ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents'},
+    {id: 3, title: 'Lorenzo Lorenzo', body:'Lizards are a widespread group of squamate reptiles, with over 6,000\n' +
+    'species, ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents'},
+    {id: 4, title: 'Francesco Di Gangi', body:'Lizards are a widespread group of squamate reptiles, with over 6,000\n' +
+    'species, ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents'},
+        ]
+
 
 const theme = createTheme({
   components: {
@@ -35,6 +48,8 @@ const theme = createTheme({
 
 export default function InvestorsProfileComp(props) {
     const navigate = useNavigate();
+    const [newsState] = useState(posts)
+
     return (
         <><Grid container fluid>
             <Row>
@@ -52,20 +67,20 @@ export default function InvestorsProfileComp(props) {
         <Grid container fluid>
             <Row>
                 <Col>
-                    <Box sx={{ border: 1, borderRadius: '16px' }} style={{ padding: "10px", marginTop: "5px", marginBottom: "5px", backgroundColor: "#eee" , borderBlockColor: '#000'}}>
+                    <Grid sx={{ border: 1, borderRadius: '16px' }} style={{ padding: "10px", marginTop: "5px", marginBottom: "25px", backgroundColor: "#eee"}}>
                         <Box display="flex" sx={{ flexGrow: 1 }}>
                             <Grid container spacing={3}>
-                                <Grid item xs={2}>
+                                <Grid item xs sm={3}>
                                     <IconButton aria-label="account">
-                                        <AccountCircleOutlinedIcon sx={{ fontSize: 180 }} />
+                                        <AccountCircleOutlinedIcon sx={{ fontSize: 180 }}/>
                                     </IconButton>
                                 </Grid>
-                                <Grid item xs={7} sm>
+                                <Grid item xs={3} sm={8}>
                                     <Typography gutterBottom variant="h3" component="div">
                                         Alessio Carachino                                    
                                     </Typography>
-                                    <Typography gutterBottom component="div">
-                                        Story teller                                   
+                                    <Typography gutterBottom variant="h6" component="div">
+                                        Story teller
                                     </Typography>
                                     <Typography gutterBottom variant="h5" component="div">
                                        <ThemeProvider theme={theme}>
@@ -77,26 +92,26 @@ export default function InvestorsProfileComp(props) {
                                        </ThemeProvider>             
                                     </Typography>
                                 </Grid>
-                                <Grid item xs>
-                                    <Box display="flex" m="auto" style={{float:'right', marginBottom: "5px"}}>
+                                <Grid item xs={1} sm={1}>
+                                    <Card display="flex" m="auto" style={{float:'right', marginBottom: "5px"}}>
                                         <IconButton aria-label="favorite">
                                             <FavoriteBorderIcon />
                                         </IconButton>
-                                    </Box>
+                                    </Card>
                                 </Grid>
                             </Grid>
                         </Box>
                         
                         <Typography component="div">
-                            Context
+                            Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents'
                         </Typography>
-                    </Box>
+                    </Grid>
                 </Col>
             </Row>
 
             <Row>
                 <Col>
-                    <Typography gutterBottom variant="h5" component="div">
+                    <Typography gutterBottom variant="h2" component="div">
                             <center>User's Stories</center>
                         <hr/>
                    </Typography>
@@ -106,48 +121,30 @@ export default function InvestorsProfileComp(props) {
             <Row>
                 <Col>
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-
-                        <Grid item xs={6}>
-                            <Box sx={{ border: 1, borderRadius: '16px' }} style={{ padding: "10px", marginTop: "5px", marginBottom: "5px", backgroundColor: "#eee" , borderBlockColor: '#000'}}>
-                                <Typography onClick={()=> window.location.href='/Investors/Profile'} gutterBottom variant="h5" component="div">
-                                    Alessio Carachino                                    
-                                </Typography>
-                                <Typography variant="body2" color="text.secondary">
-                                <Box display="flex" m="auto" style={{float:'right', marginBottom: "5px"}}>
-                                    <IconButton aria-label="favorite">
-                                        <FavoriteBorderIcon />
-                                    </IconButton>
-                                    <IconButton aria-label="chart">
-                                        <ShowChartIcon />
-                                    </IconButton>
-                                </Box>
-                                context<br/>
-                                context<br/>
-                                context
-                                </Typography>
-                            </Box>
+                    {newsState.map(i => (
+                        <Grid key={i.id} item xs={6}>
+                            <Card sx style={{ padding: "10px", marginTop: "5px", marginBottom: "5px"}}>
+                                <CardActionArea onClick={()=> window.location.href='/Investors/Profile'}>
+                                    <CardContent>
+                                        <Typography gutterBottom variant="h5" component="div">
+                                            {i.title}                                   
+                                        </Typography>
+                                        <Box display="flex" m="auto" style={{float:'right', marginBottom: "5px"}}>
+                                            <IconButton aria-label="favorite">
+                                                <FavoriteBorderIcon />
+                                            </IconButton>
+                                            <IconButton aria-label="chart">
+                                                <ShowChartIcon />
+                                            </IconButton>
+                                        </Box>
+                                        <Typography variant="body2" color="text.secondary">
+                                            {i.body}
+                                        </Typography>
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
                         </Grid>
-                        
-                        <Grid item xs={6}>
-                            <Box sx={{ border: 1, borderRadius: '16px' }} style={{ padding: "10px", marginTop: "5px", marginBottom: "5px", backgroundColor: "#eee" , borderBlockColor: '#000'}}>
-                                <Typography onClick={()=> window.location.href='/Investors/Profile'} gutterBottom variant="h5" component="div">
-                                    Alessio Carachino                                    
-                                </Typography>
-                                <Typography variant="body2" color="text.secondary">
-                                <Box display="flex" m="auto" style={{float:'right', marginBottom: "5px"}}>
-                                    <IconButton aria-label="favorite">
-                                        <FavoriteBorderIcon />
-                                    </IconButton>
-                                    <IconButton aria-label="chart">
-                                        <ShowChartIcon />
-                                    </IconButton>
-                                </Box>
-                                context<br/>
-                                context<br/>
-                                context
-                                </Typography>
-                            </Box>
-                        </Grid>
+                        ))}
                     </Grid>  
                 </Col>
             </Row>

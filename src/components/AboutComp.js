@@ -1,7 +1,7 @@
 import Row from '@mui/material/Container';
 import Col from '@mui/material/Container';
 
-import {Grid, Box, Button, Typography} from "@mui/material";
+import {Grid, Card, Button, Typography} from "@mui/material";
 
 const styleObj = {
     fontSize: 35,
@@ -32,9 +32,9 @@ export default function AboutComp(props) {
                 <Typography variant="body1" gutterBottom>The complex task can be found in the Stories section, when the user decide to write a story. The user can decide of which investments he wants to talk about in a story, then he will write the story and, eventually, become a storyteller if the staff approves.</Typography>
                 </Col>
 
-                <Box m={1} display="flex" justifyContent="flex-end" alignItems="flex-end">
+                <Card m={1} display="flex" justifyContent="flex-end" alignItems="flex-end">
                     <Button style={{marginTop: "50px"}} variant="contained" color="primary" size='large' onClick={()=> window.location.href='/About/Contact'}>Contact us</Button>
-                </Box>
+                </Card>
             </Row>
         </Grid>
     );
