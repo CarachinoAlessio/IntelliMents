@@ -10,7 +10,7 @@ import {
     CardActionArea,
     CardContent,
     Checkbox,
-    Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
+    Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider,
     FormControl,
     Grid,
     InputAdornment,
@@ -28,13 +28,12 @@ import {
     TextField
 } from "@mui/material";
 import {
-    Add, ArrowDropDown,
-    CheckCircleRounded,
+    Add,
+    CheckCircleRounded, Delete,
     FormatAlignCenter,
-    FormatAlignJustify,
     FormatAlignLeft,
     FormatAlignRight,
-    FormatBold, FormatColorFill,
+    FormatBold,
     FormatItalic, FormatUnderlined,
     Refresh,
     Star,
@@ -59,7 +58,7 @@ function CreateStoryStepper(props) {
     const [openGenerateAgainDialog, setOpenGenerateAgainDialog] = useState(false);
 
     const [notebook, setNotebook] = useState([{type: 'Subtitle', content: 'Lorem Ipsum', show_buttons: false, alignment: 'left', formats: []}, {type: 'Paragraph', content: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.', show_buttons: false, alignment: 'left', formats: []}])
-    const fragmentOptions = ['Title', 'Subtitle', 'Paragraph']
+    const fragmentOptions = ['Subtitle', 'Paragraph']
     const [notebookTitle, setNotebookTitle] = useState('Example of AI-generated Title')
 
     const selectInvestment = (index) => {
@@ -120,10 +119,26 @@ function CreateStoryStepper(props) {
         })
     }
 
-    const addFragment = (index) => {
+    const addFragment = (index, up) => {
         setNotebook((old) => {
             let fragment = {type: 'Paragraph', content: 'A new Fragment has been added', show_buttons: false, alignment: 'left', formats: []}
-            return [...old.slice(0, index), {...fragment}, ...old.slice(index)]
+            if (up){
+                return [...old.slice(0, index), {...fragment}, ...old.slice(index)]
+            }
+            else {
+                return [...old.slice(0, index+1), {...fragment}, ...old.slice(index+1)]
+            }
+
+        })
+    }
+
+    const addMedia = (index, up) => {
+        console.log('todo')
+    }
+
+    const deleteFragment = (index) => {
+        setNotebook((old) => {
+            return [...old.slice(0, index), ...old.slice(index+1)]
         })
     }
 
@@ -335,12 +350,16 @@ function CreateStoryStepper(props) {
                                         return (
                                             <>
                                                 <Box onMouseEnter={() => {showButtonsOfFragment(index, true)}} onMouseLeave={() => showButtonsOfFragment(index, false)}
-                                                     key={'a' + index} sx={{ borderRadius: 1, backgroundColor: '#fcf5f5', border: 2, borderColor: 'primary.main', p: 2}}>
+                                                     key={'a' + index} sx={fragment.show_buttons ? { borderRadius: 1, backgroundColor: '#fdfafa',  border: 3, borderColor: 'primary.main', p: 2} : { borderRadius: 1, backgroundColor: '#fdfafa',  border: 1, borderColor: 'primary.main', p: 2}}>
 
                                                     {fragment.show_buttons ? <><Box display="flex" justifyContent="center"
                                                                                   alignItems="flex-start">
-                                                        <Button startIcon={<Add></Add>} size={"small"} variant="outlined" onClick={() => addFragment(index)}>Add Fragment</Button><br />
-                                                    </Box><div style={{paddingBottom: '15px'}}></div></> : <div style={{paddingBottom: '30px'}}></div>}
+                                                        <Button startIcon={<Add></Add>} size={"small"} variant="outlined" onClick={() => addFragment(index, true)}>Add Fragment</Button>
+                                                        <div>{"\u00A0"}</div>
+                                                        <Button startIcon={<Add></Add>} size={"small"} variant="outlined" onClick={() => addMedia(index, true)}>Add Media</Button>
+                                                        <div>{"\u00A0"}</div>
+                                                        <Button startIcon={<Delete></Delete>} size={"small"} variant="outlined" onClick={() => deleteFragment(index)}>Delete Fragment</Button><br />
+                                                    </Box><div style={{paddingBottom: '15px'}}></div></> : <div style={{paddingBottom: '15px'}}></div>}
 
                                                     <FormControl fullWidth>
                                                         <Grid container direction="row"
@@ -364,51 +383,65 @@ function CreateStoryStepper(props) {
                                                                 </Select>
                                                             </Grid>
                                                             <Grid item xs={4}>
-                                                                <Box justifyContent='center' display='flex'>
-                                                                    <ToggleButtonGroup
-                                                                        value={fragment.alignment}
-                                                                        exclusive
-                                                                        onChange={(e, n) => handleAlignment(e, n, index)}
-                                                                        aria-label="text alignment"
-                                                                    >
-                                                                        <ToggleButton value="left" aria-label="left aligned">
-                                                                            <FormatAlignLeft />
-                                                                        </ToggleButton>
-                                                                        <ToggleButton value="center" aria-label="centered">
-                                                                            <FormatAlignCenter />
-                                                                        </ToggleButton>
-                                                                        <ToggleButton value="right" aria-label="right aligned">
-                                                                            <FormatAlignRight />
-                                                                        </ToggleButton>
-                                                                    </ToggleButtonGroup>
-                                                                </Box>
+                                                                {fragment.type === 'Paragraph' ?
+                                                                    <Box justifyContent='center' display='flex'>
+                                                                        <ToggleButtonGroup
+                                                                            value={fragment.alignment}
+                                                                            exclusive
+                                                                            onChange={(e, n) => handleAlignment(e, n, index)}
+                                                                            aria-label="text alignment"
+                                                                        >
+                                                                            <ToggleButton value="left" aria-label="left aligned">
+                                                                                <FormatAlignLeft />
+                                                                            </ToggleButton>
+                                                                            <ToggleButton value="center" aria-label="centered">
+                                                                                <FormatAlignCenter />
+                                                                            </ToggleButton>
+                                                                            <ToggleButton value="right" aria-label="right aligned">
+                                                                                <FormatAlignRight />
+                                                                            </ToggleButton>
+                                                                        </ToggleButtonGroup>
+                                                                    </Box>
+                                                                    : ''}
                                                             </Grid>
                                                             <Grid item xs={4}>
-                                                                <Box justifyContent='right' display='flex'>
-                                                                    <ToggleButtonGroup
-                                                                        value={fragment.formats}
-                                                                        onChange={(e, n) => handleFormat(e, n, index)}
-                                                                        aria-label="text formatting"
-                                                                    >
-                                                                        <ToggleButton value="bold" aria-label="bold">
-                                                                            <FormatBold />
-                                                                        </ToggleButton>
-                                                                        <ToggleButton value="italic" aria-label="italic">
-                                                                            <FormatItalic />
-                                                                        </ToggleButton>
-                                                                        <ToggleButton value="underlined" aria-label="underlined">
-                                                                            <FormatUnderlined />
-                                                                        </ToggleButton>
-                                                                    </ToggleButtonGroup>
-                                                                </Box>
+                                                                {fragment.type === 'Paragraph' ?
+                                                                    <Box justifyContent='right' display='flex'>
+                                                                        <ToggleButtonGroup
+                                                                            value={fragment.formats}
+                                                                            onChange={(e, n) => handleFormat(e, n, index)}
+                                                                            aria-label="text formatting"
+                                                                        >
+                                                                            <ToggleButton value="bold" aria-label="bold">
+                                                                                <FormatBold />
+                                                                            </ToggleButton>
+                                                                            <ToggleButton value="italic" aria-label="italic">
+                                                                                <FormatItalic />
+                                                                            </ToggleButton>
+                                                                            <ToggleButton value="underlined" aria-label="underlined">
+                                                                                <FormatUnderlined />
+                                                                            </ToggleButton>
+                                                                        </ToggleButtonGroup>
+                                                                    </Box>
+                                                                    : ''}
+
                                                             </Grid>
                                                         </Grid>
-                                                        <div style={{paddingTop: '20px'}}></div>
-
+                                                        <div style={{paddingTop: '10px'}}></div>
+                                                    <Divider ></Divider>
+                                                        <Divider ></Divider>
+                                                        <div style={{paddingTop: '10px'}}></div>
                                                     </FormControl>
-                                                    <TextField multiline rows={3} style={{width: '100%', backgroundColor: 'f0f0f0'}} label={fragment.type} variant="filled" value={fragment.content} onChange={(e) => (updateContent(e.target.value, index))}></TextField>
+                                                    <TextField multiline rows={fragment.type === 'Subtitle' ? 1 : 5} style={{width: '100%', backgroundColor: 'f0f0f0'}} label={fragment.type} variant="filled" value={fragment.content} onChange={(e) => (updateContent(e.target.value, index))}></TextField>
                                                     <div style={{paddingBottom: '15px'}}></div>
-
+                                                    {fragment.show_buttons ? <><Box display="flex" justifyContent="center"
+                                                                                    alignItems="flex-start">
+                                                        <Button startIcon={<Add></Add>} size={"small"} variant="outlined" onClick={() => addFragment(index, false)}>Add Fragment</Button>
+                                                        <div>{"\u00A0"}</div>
+                                                        <Button startIcon={<Add></Add>} size={"small"} variant="outlined" onClick={() => addMedia(index, false)}>Add Media</Button>
+                                                        <div>{"\u00A0"}</div>
+                                                        <Button startIcon={<Delete></Delete>} size={"small"} variant="outlined" onClick={() => deleteFragment(index)}>Delete Fragment</Button><br />
+                                                    </Box></> : ''}
                                                 </Box>
 
                                                 <div style={{paddingTop: '10px'}}></div>
