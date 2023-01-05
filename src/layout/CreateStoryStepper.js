@@ -28,7 +28,7 @@ import {
     TextField
 } from "@mui/material";
 import {
-    Add,
+    Add, ArrowLeft, ArrowRight,
     CheckCircleRounded, Delete,
     FormatAlignCenter,
     FormatAlignLeft,
@@ -36,7 +36,7 @@ import {
     FormatBold,
     FormatItalic, FormatUnderlined,
     Refresh,
-    Star,
+    Star, Upload, UploadFile,
     Verified
 } from "@mui/icons-material";
 import Grid2 from "@mui/material/Unstable_Grid2";
@@ -82,7 +82,10 @@ function CreateStoryStepper(props) {
             newSkipped = new Set(newSkipped.values());
             newSkipped.delete(activeStep);
         }
-
+        if (activeStep===1 && !aiPicked){
+            setNotebookTitle('')
+            setNotebook([{type: 'Subtitle', content: '', show_buttons: false, alignment: 'left', formats: []}])
+        }
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
         setSkipped(newSkipped);
     };
@@ -358,7 +361,7 @@ function CreateStoryStepper(props) {
                                                         <div>{"\u00A0"}</div>
                                                         <Button startIcon={<Add></Add>} size={"small"} variant="outlined" onClick={() => addMedia(index, true)}>Add Media</Button>
                                                         <div>{"\u00A0"}</div>
-                                                        <Button startIcon={<Delete></Delete>} size={"small"} variant="outlined" onClick={() => deleteFragment(index)}>Delete Fragment</Button><br />
+                                                        {notebook.length !== 1 ? <Button startIcon={<Delete></Delete>} size={"small"} variant="outlined" onClick={() => deleteFragment(index)}>Delete Fragment</Button> : ''}<br />
                                                     </Box><div style={{paddingBottom: '15px'}}></div></> : <div style={{paddingBottom: '15px'}}></div>}
 
                                                     <FormControl fullWidth>
@@ -440,7 +443,7 @@ function CreateStoryStepper(props) {
                                                         <div>{"\u00A0"}</div>
                                                         <Button startIcon={<Add></Add>} size={"small"} variant="outlined" onClick={() => addMedia(index, false)}>Add Media</Button>
                                                         <div>{"\u00A0"}</div>
-                                                        <Button startIcon={<Delete></Delete>} size={"small"} variant="outlined" onClick={() => deleteFragment(index)}>Delete Fragment</Button><br />
+                                                        {notebook.length !== 1 ? <Button startIcon={<Delete></Delete>} size={"small"} variant="outlined" onClick={() => deleteFragment(index)}>Delete Fragment</Button> : ''}<br />
                                                     </Box></> : ''}
                                                 </Box>
 
@@ -451,6 +454,18 @@ function CreateStoryStepper(props) {
                                 </>:
                                 activeStep===3?
                                     <>
+                                        <Typography variant={'h5'}>This step is optional</Typography>
+                                        <div style={{paddingTop: '30px', justifyContent: "center", alignContent: "center", alignItems: "center", display: "flex"}}>
+                                            <Stack direction="column"
+                                                   justifyContent="center"
+                                                   alignItems="flex-start"
+                                                   spacing={3}
+                                                   sx={{maxWidth: '400px'}}>
+                                            <Button size={"large"} startIcon={<UploadFile></UploadFile>} variant={"text"}>Upload cover image</Button>
+                                            <Button size={"large"} startIcon={<Upload></Upload>} variant={"text"}>Upload video presentation</Button>
+
+                                        </Stack></div>
+
                                     </>:
                                     activeStep===4?
                                         <>
@@ -468,26 +483,28 @@ function CreateStoryStepper(props) {
                                 </Box>
                             </>
                         ) :
-                        <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                        <Stack spacing={12} direction={"row"} sx={{ display: 'flex', pt: 4, alignItems: "center", justifyContent: "center" }}>
                             <Button
+                                startIcon={<ArrowLeft></ArrowLeft>}
+                                variant={"outlined"}
                                 color="inherit"
                                 disabled={activeStep === 0}
                                 onClick={handleBack}
-                                sx={{ mr: 1 }}
+
                             >
                                 Back
                             </Button>
-                            <Box sx={{ flex: '1 1 auto' }} />
+
                             {isStepOptional(activeStep) && (
-                                <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
+                                <Button variant={"outlined"} color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
                                     Skip
                                 </Button>
                             )}
 
-                            <Button onClick={handleNext}>
+                            <Button endIcon={<ArrowRight></ArrowRight>} variant={"contained"} disabled={activeStep === 0 && !investments.find((i) => i.selected === true)} onClick={handleNext}>
                                 {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
                             </Button>
-                        </Box>}
+                        </Stack>}
                 </CardContent>
             </Card>
         </Box>
