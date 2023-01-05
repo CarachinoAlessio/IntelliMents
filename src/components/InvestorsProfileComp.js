@@ -1,6 +1,5 @@
 import Row from '@mui/material/Container';
 import Col from '@mui/material/Container';
-import TextField from '@mui/material/TextField';
 import { Icon } from '@iconify/react';
 import {useNavigate} from 'react-router-dom';
 
@@ -12,24 +11,18 @@ import {
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
-import {Search} from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import {useState} from "react";
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 
-const posts = [
-    {id: 1, title: 'Hossein Javadi', body:'Lizards are a widespread group of squamate reptiles, with over 6,000\n' +
-    'species, ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents'},
-    {id: 2, title: 'Alessio Carachino', body:'Lizards are a widespread group of squamate reptiles, with over 6,000\n' +
-    'species, ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents'},
-    {id: 3, title: 'Lorenzo Lorenzo', body:'Lizards are a widespread group of squamate reptiles, with over 6,000\n' +
-    'species, ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents'},
-    {id: 4, title: 'Francesco Di Gangi', body:'Lizards are a widespread group of squamate reptiles, with over 6,000\n' +
-    'species, ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents'},
-        ]
-
+const profilesArr = [
+    {id: 1, name: 'Hossein Javadi', description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents'},
+    {id: 2, name: 'Alessio Carachino', description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents'},
+    {id: 3, name: 'Lorenzo Santo', description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents'},
+    {id: 4, name: 'Francesco Di Gangi', description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents'},
+    ]
 
 const theme = createTheme({
   components: {
@@ -48,7 +41,7 @@ const theme = createTheme({
 
 export default function InvestorsProfileComp(props) {
     const navigate = useNavigate();
-    const [newsState] = useState(posts)
+    const [profiles, setProfiles] = useState(profilesArr)
 
     return (
         <><Grid container fluid>
@@ -67,7 +60,7 @@ export default function InvestorsProfileComp(props) {
         <Grid container fluid>
             <Row>
                 <Col>
-                    <Grid sx={{ border: 1, borderRadius: '16px' }} style={{ padding: "10px", marginTop: "5px", marginBottom: "25px", backgroundColor: "#eee"}}>
+                    <Grid sx={{ borderRadius: '16px' }} style={{ padding: "10px", marginTop: "5px", marginBottom: "25px", backgroundColor: "#eee"}}>
                         <Box display="flex" sx={{ flexGrow: 1 }}>
                             <Grid container spacing={3}>
                                 <Grid item xs sm={3}>
@@ -121,13 +114,13 @@ export default function InvestorsProfileComp(props) {
             <Row>
                 <Col>
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                    {newsState.map(i => (
+                    {profiles.map(i => (
                         <Grid key={i.id} item xs={6}>
                             <Card sx style={{ padding: "10px", marginTop: "5px", marginBottom: "5px"}}>
                                 <CardActionArea onClick={()=> window.location.href='/Investors/Profile'}>
                                     <CardContent>
                                         <Typography gutterBottom variant="h5" component="div">
-                                            {i.title}                                   
+                                            {i.name}                                   
                                         </Typography>
                                         <Box display="flex" m="auto" style={{float:'right', marginBottom: "5px"}}>
                                             <IconButton aria-label="favorite">
@@ -138,7 +131,7 @@ export default function InvestorsProfileComp(props) {
                                             </IconButton>
                                         </Box>
                                         <Typography variant="body2" color="text.secondary">
-                                            {i.body}
+                                            {i.description}
                                         </Typography>
                                     </CardContent>
                                 </CardActionArea>

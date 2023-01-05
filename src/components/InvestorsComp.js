@@ -3,7 +3,7 @@ import Col from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 
 import {
-    Grid, Card, Box, CardContent,
+    Grid, Card, CardContent,
     CardActionArea, Typography, CardActions,
 } from "@mui/material";
 
@@ -17,6 +17,7 @@ const profilesArr = [
     {id: 1, name: 'Hossein Javadi', description: 'Since 3 years'},
     {id: 2, name: 'Alessio Carachino', description: 'Since 2 years'},
     {id: 3, name: 'Lorenzo Santo', description: 'Since 3 years'},
+    {id: 4, name: 'Francesco Di Gangi', description: 'Since 3 years'},
     ]
 
 export default function InvestorsComp(props) {
@@ -26,7 +27,7 @@ export default function InvestorsComp(props) {
         <><Grid container fluid>
             <Row>
                 <Col>
-                    <Grid sx={{ border: 1, borderRadius: '16px' }} display="flex" justifyContent="center" alignItems="center" style={{ padding: "7px", marginTop: "15px", marginBottom: "45px" }}>
+                    <Grid sx={{ borderRadius: '16px' }} display="flex" justifyContent="center" alignItems="center" style={{ padding: "7px", marginTop: "15px", marginBottom: "45px", backgroundColor: "#eee"}}>
                         <TextField fullWidth id="input-with-sx" label="Search" variant="standard" />
                         <Search sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
                     </Grid>
