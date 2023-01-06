@@ -1,6 +1,6 @@
 import {
     Button,
-    Card, CardActionArea, CardActions, CardContent, CardMedia,
+    Card, CardActionArea, CardActions, CardContent, CardHeader, CardMedia, Container,
     Dialog, DialogActions,
     DialogContent,
     DialogContentText,
@@ -9,31 +9,34 @@ import {
     Switch,
     Typography
 } from "@mui/material";
-import {Add, Favorite, FilterList, Folder, Info, Search, Share} from "@mui/icons-material";
+import {Add, Bookmark, Favorite, FilterList, Folder, Info, Search, Share} from "@mui/icons-material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 import {StoryContentComp} from "./StoryContentComp";
 import { Link } from 'react-router-dom';
+import * as PropTypes from "prop-types";
+import Row from "@mui/material/Container";
+import Col from "@mui/material/Container";
+import ShowChartIcon from "@mui/icons-material/ShowChart";
 
+function Item(props) {
+    return null;
+}
+
+Item.propTypes = {children: PropTypes.node};
 export default function StoriesComp(props) {
     
     const stories = [
-        {id: 1, title: 'Story1', body:'Lizards are a widespread group of squamate reptiles, with over 6,000\n' +
-                'species, ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents', img:'cover_1', views: 213, likes: 90, liked: true, width: 6},
-        {id: 2, title: 'Story1', body:'Lizards are a widespread group of squamate reptiles, with over 6,000\n' +
-                'species, ranging across all continents except Antarctica with ranging across all continents except Antarctica', img:'cover_2', views: 132, likes: 90, liked: true, width: 3},
-        {id: 3, title: 'Story1', body:'Lizards are a widespread group of squamate reptiles, with over 6,000\n' +
-                'species, ranging across all continents except Antarctica with ranging across all continents except Antarctica', img:'cover_3', views: 687, likes: 90, liked: true, width: 3},
-        {id: 4, title: 'Story1', body:'Lizards are a widespread group of squamate reptiles, with over 6,000\n' +
-                'species, ranging across all continents except Antarctica with ranging across all continents except Antarctica', img:'cover_4', views: 234, likes: 90, liked: true, width: 3},
-        {id: 5, title: 'Story1', body:'Lizards are a widespread group of squamate reptiles, with over 6,000\n' +
-                'species, ranging across all continents except Antarctica with ranging across all continents except Antarctica', img:'cover_5', views: 33, likes: 90, liked: true, width: 3},
-        {id: 6, title: 'Story1', body:'Lizards are a widespread group of squamate reptiles, with over 6,000\n' +
-                'species, ranging across all continents except Antarctica with ranging across all continents except Antarctica', img:'cover_6', views: 443, likes: 90, liked: true, width: 3},
-        {id: 7, title: 'Story1', body:'Lizards are a widespread group of squamate reptiles, with over 6,000\n' +
-                'species, ranging across all continents except Antarctica with ranging across all continents except Antarctica', img:'cover_7', views: 123, likes: 90, liked: true, width: 3}
+        {id: 1, title: 'AI', body:'I lost $2000 in two days.\n' +
+                'Please avoid these mistakes', views: 213, likes: 90, liked: true, width: 6},
+        {id: 2, title: 'HUMAN', body:'After 3 years, I jumped from $-100 to $+800! \n' +
+                'Learn when you should sell', views: 132, likes: 90, liked: true, width: 3},
+        {id: 3, title: 'HUMAN', body:'I lost $2000 in two days.\n' +
+                'Please avoid these mistakes', views: 687, likes: 90, liked: true, width: 3},
+        {id: 4, title: 'AI', body:'I lost $2000 in two days.\n' +
+                'Please avoid these mistakes', views: 234, likes: 90, liked: true, width: 3},
     ]
 
     const [open, setOpen] = useState(false);
@@ -113,10 +116,10 @@ export default function StoriesComp(props) {
                 </Dialog>
             </Grid2>
             <div style={{paddingTop: '30px'}}></div>
-            <Grid container spacing={2} style={{paddingBottom: '50px'}}>
+            <Grid container spacing={4} style={{paddingBottom: '50px'}} columnSpacing={{ xs: 3, sm: 4, md: 5 }}>
                 {storiesState.map(i => (
-                    <Grid  key={i.id} item xs={i.width}>
-                        <Card>
+                    <Grid  key={i.id} item xs={6}>
+                        {/*<Card>
                             <CardActionArea onClick={()=>showStory(i)}>
                                 <CardMedia
                                     component="img"
@@ -142,7 +145,26 @@ export default function StoriesComp(props) {
                                     <Share />
                                 </IconButton>
                             </CardActions>
-                        </Card>
+                        </Card>*/
+                            <Card sx={{ minWidth: 275 }}>
+                                    <CardHeader
+                                        title={<CardActions disableSpacing>
+                                                {i.title}
+                                        </CardActions>}
+
+                                        />
+                                <CardContent>
+                                    <Typography variant="body6" color="text.secondary">
+                                        {i.body}
+                                    </Typography>
+                                </CardContent>
+                                <CardActions style={{ float:'right'}}>
+                                    <IconButton aria-label="chart" >
+                                        <Bookmark />
+                                    </IconButton>
+                                </CardActions>
+                            </Card>
+                        }
                     </Grid>
                 ))}
             </Grid>
