@@ -147,6 +147,7 @@ export default function StoriesComp(props) {
                             </CardActions>
                         </Card>*/
                             <Card sx={{ minWidth: 275 }}>
+                                <CardActionArea onClick={()=>showStory(i)}>
                                     <CardHeader
                                         title={<CardActions disableSpacing>
                                                 {i.title}
@@ -158,6 +159,7 @@ export default function StoriesComp(props) {
                                         {i.body}
                                     </Typography>
                                 </CardContent>
+                                </CardActionArea>
                                 <CardActions style={{ float:'right'}}>
                                     <IconButton aria-label="chart" >
                                         <Bookmark />
