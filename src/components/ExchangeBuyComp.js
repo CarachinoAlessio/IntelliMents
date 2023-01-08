@@ -7,13 +7,11 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Grid2 from '@mui/material/Unstable_Grid2'; // Grid version 2
 import Button from '@mui/material/Button';
 import {useNavigate} from "react-router-dom";
-import {Add, Favorite, FilterList, Folder, Info, Search, Share} from "@mui/icons-material";
 import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
 import ExploreIcon from '@mui/icons-material/Explore';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import TextField from '@mui/material/TextField';
@@ -30,6 +28,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import IconButton from "@mui/material/IconButton";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 export default function ExchangeBuyComp(prop) {
     const [expanded, setExpanded] = React.useState(false);
@@ -73,6 +73,16 @@ export default function ExchangeBuyComp(prop) {
         setOpen(false);
         setOpen2(true);
     };
+
+    const [exitDialog, setExitDialog] = React.useState(false);
+
+    const handleExitOpen = () => {
+        setExitDialog(true);
+    };
+
+    const handleExitClose = () => {
+        setExitDialog(false);
+    };
     
     return (
         <>
@@ -80,6 +90,30 @@ export default function ExchangeBuyComp(prop) {
         */}
         <Grid container rowSpacing={2}>
                 <Grid item xs={3}>
+                <IconButton aria-label="account" onClick={handleExitOpen}>
+                        <ArrowBackIcon sx={{ fontSize: 50 }} />
+                    </IconButton>
+                    <Dialog
+                        open={exitDialog}
+                        onClose={handleExitClose}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                    >
+                        <DialogTitle id="alert-dialog-title">
+                        {"Are you sure you want to cancel your purchase?"}
+                        </DialogTitle>
+                        <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            You are in the purchase page and are about to purchase some currency. 
+                            Are you sure you want to cancel your purchase? If you click "I AM SURE" you will cancel your purchase and you have to begin a new one.
+                            If you are not sure, click "NO, STAY"
+                        </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                        <Button onClick={handleExitClose}>NO, STAY</Button>
+                        <Button onClick={()=>navigate(-1)}>I AM SURE</Button>
+                        </DialogActions>
+                    </Dialog>
                     <Button onClick={() => navigate('/Exchange')} variant={"outlined"} startIcon={<CurrencyBitcoinIcon></CurrencyBitcoinIcon>}>Balance</Button>&nbsp;&nbsp;
                     <Button onClick={()=>navigate('/Exchange/Explore')} variant={"outlined"} startIcon={<ExploreIcon></ExploreIcon>}>Explore</Button>
                 </Grid>
@@ -204,7 +238,7 @@ export default function ExchangeBuyComp(prop) {
                                 <Box sx={{ minWidth: 120 }}>
                                 <FormControl fullWidth>
                                     <Stack direction="row" spacing={2}>
-                                    <Button variant="outlined" startIcon={<DeleteIcon />}>
+                                    <Button variant="outlined" startIcon={<DeleteIcon />} onClick={handleExitOpen}>
                                         Cancel Operation
                                     </Button>
                                     <Button variant="contained" endIcon={<ShoppingCartCheckoutIcon />} onClick={handleClickOpen}>
