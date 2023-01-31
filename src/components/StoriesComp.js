@@ -29,18 +29,19 @@ Item.propTypes = {children: PropTypes.node};
 export default function StoriesComp(props) {
     
     const stories = [
-        {id: 1, title: 'AI', body:'I lost $2000 in two days.\n' +
-                'Please avoid these mistakes', views: 213, likes: 90, liked: true, width: 6},
+        {id: 1, title: 'AI', description:'I lost $2000 in two days.\n' +
+                'Please avoid these mistakes', views: 213, likes: 90, liked: true, width: 6, isAI: true},
         {id: 2, title: 'HUMAN', body:'After 3 years, I jumped from $-100 to $+800! \n' +
-                'Learn when you should sell', views: 132, likes: 90, liked: true, width: 3},
+                'Learn when you should sell', views: 132, likes: 90, liked: true, width: 3, isAI: false},
         {id: 3, title: 'HUMAN', body:'I lost $2000 in two days.\n' +
-                'Please avoid these mistakes', views: 687, likes: 90, liked: true, width: 3},
+                'Please avoid these mistakes', views: 687, likes: 90, liked: true, width: 3, isAI: false},
         {id: 4, title: 'AI', body:'I lost $2000 in two days.\n' +
-                'Please avoid these mistakes', views: 234, likes: 90, liked: true, width: 3},
+                'Please avoid these mistakes', views: 234, likes: 90, liked: true, width: 3, isAI: true},
     ]
 
     const [open, setOpen] = useState(false);
     const [storiesState, setStoriesState] = useState(stories);
+    const [includeAIstories, setIncludeAIstories] = useState(true)
     const navigate=useNavigate();
     const setFavourite = (i) => {
         let newNews = [...storiesState]
@@ -57,14 +58,7 @@ export default function StoriesComp(props) {
     }; 
 
     const showStory = (i) => {
-        navigate('/watchStory',{state:{ titolo:i.title,
-                                        id: i.id,
-                                        body:i.body,
-                                        img:i.img,
-                                        views:i.views,
-                                        likes:i.likes,
-                                        liked: i.liked,
-                                        width: i.width}});
+        navigate('/watchStory',{story: i});
     }
 //onClick={()=>watchStory(this.id,this.title,this.body,this.img,this.views,this.likes,this.liked,this.width)}
     return (
@@ -89,7 +83,7 @@ export default function StoriesComp(props) {
                     <div style={{paddingRight: '15px'}}></div>
                     <Button variant={"outlined"} startIcon={<Search></Search>}>Search</Button>
                     <div style={{paddingRight: '15px'}}></div>
-                    <Button onClick={handleClickOpen} variant={"outlined"} startIcon={<Info></Info>}>Include AI stories<Switch size={"small"} defaultChecked={true}></Switch></Button>
+                    <Button onClick={handleClickOpen} variant={"outlined"} startIcon={<Info></Info>}>Include AI stories<Switch checked={includeAIstories} onChange={()=>setIncludeAIstories(() => !includeAIstories)} size={"small"}></Switch></Button>
                 </Grid2>
                 <Grid2 xs={3}></Grid2>
                 <Dialog
@@ -117,7 +111,9 @@ export default function StoriesComp(props) {
             </Grid2>
             <div style={{paddingTop: '30px'}}></div>
             <Grid container spacing={4} style={{paddingBottom: '50px'}} columnSpacing={{ xs: 3, sm: 4, md: 5 }}>
-                {storiesState.map(i => (
+                {storiesState.filter((story) =>
+                    (includeAIstories) || (!includeAIstories && !story.isAI)
+                ).map(i => (
                     <Grid  key={i.id} item xs={6}>
                         {/*<Card>
                             <CardActionArea onClick={()=>showStory(i)}>

@@ -29,9 +29,10 @@ import {useLocation} from 'react-router-dom';
 export default function StoryContentComp(props) {
     const navigate=useNavigate();
     const location = useLocation();
+    let story = location.story
     return (
         <>
-        <h2>{location.state.titolo}</h2>
+        <h2>{story.title}</h2>
         </>
     );
 }
