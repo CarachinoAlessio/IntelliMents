@@ -50,12 +50,12 @@ function CreateStoryStepper(props) {
     const investmentsArr = [{
         startDate: '10-12-2022',
         endDate: 'In progress',
-        title: 'BTC',
+        asset: ['BTC'],
         revenue: '+$150.00',
         selected: false
     },
-        {startDate: '05-07-2020', endDate: '08-11-2021', title: 'ETH', revenue: '-$1000.00', selected: false},
-        {startDate: '10-01-2021', endDate: '10-10-2022', title: 'APL', revenue: '+$100.00', selected: false},
+        {startDate: '05-07-2020', endDate: '08-11-2021', asset: ['ETH'], revenue: '-$1000.00', selected: false},
+        {startDate: '10-01-2021', endDate: '10-10-2022', asset: ['APL'], revenue: '+$100.00', selected: false},
     ]
     const [investments, setInvestments] = useState(investmentsArr)
     const [activeStep, setActiveStep] = useState(0);
@@ -231,7 +231,7 @@ function CreateStoryStepper(props) {
                                             <TableRow>
                                                 <TableCell align='center'>Start date</TableCell>
                                                 <TableCell align='center'>End date</TableCell>
-                                                <TableCell align='center'>Title</TableCell>
+                                                <TableCell align='center'>Asset</TableCell>
                                                 <TableCell align='center'>Revenue</TableCell>
                                                 <TableCell/>
                                             </TableRow>
@@ -243,7 +243,7 @@ function CreateStoryStepper(props) {
                                                           sx={{backgroundColor: 'white'}}>
                                                     <TableCell align='center'>{row.startDate}</TableCell>
                                                     <TableCell align='center'>{row.endDate}</TableCell>
-                                                    <TableCell align='center'>{row.title}</TableCell>
+                                                    <TableCell align='center'>{row.asset}</TableCell>
                                                     <TableCell align='center'>{row.revenue}</TableCell>
                                                     <TableCell align='center'><Checkbox
                                                         onChange={() => selectInvestment(index)}

@@ -30,13 +30,50 @@ export default function StoriesComp(props) {
     
     const stories = [
         {id: 1, title: 'AI', description:'I lost $2000 in two days.\n' +
-                'Please avoid these mistakes', views: 213, likes: 90, liked: true, width: 6, isAI: true},
+                'Please avoid these mistakes', content: [{
+                type: 'Subtitle',
+                content: 'Lorem Ipsum',
+                show_buttons: false,
+                alignment: 'left',
+                formats: []
+            }, {
+                type: 'Paragraph',
+                content: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
+                show_buttons: false,
+                alignment: 'left',
+                formats: []
+            }], asset: ['JUVE.MI', 'APL'], views: 213, likes: 90, liked: true, width: 6, isAI: true},
         {id: 2, title: 'HUMAN', body:'After 3 years, I jumped from $-100 to $+800! \n' +
-                'Learn when you should sell', views: 132, likes: 90, liked: true, width: 3, isAI: false},
+                'Learn when you should sell', content: [{
+                type: 'Subtitle',
+                content: 'Lorem Ipsum',
+                show_buttons: false,
+                alignment: 'left',
+                formats: []
+            }, {
+                type: 'Paragraph',
+                content: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
+                show_buttons: false,
+                alignment: 'left',
+                formats: []
+            }, {
+                type: 'Subtitle',
+                content: 'Lorem Ipsum',
+                show_buttons: false,
+                alignment: 'left',
+                formats: []
+            }, {
+                type: 'Paragraph',
+                content: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
+                show_buttons: false,
+                alignment: 'left',
+                formats: []
+            }],
+            asset: ['ETH', 'APL'],views: 132, likes: 90, liked: true, width: 3, isAI: false},
         {id: 3, title: 'HUMAN', body:'I lost $2000 in two days.\n' +
-                'Please avoid these mistakes', views: 687, likes: 90, liked: true, width: 3, isAI: false},
+                'Please avoid these mistakes', asset: ['APL'],views: 687, likes: 90, liked: true, width: 3, isAI: false},
         {id: 4, title: 'AI', body:'I lost $2000 in two days.\n' +
-                'Please avoid these mistakes', views: 234, likes: 90, liked: true, width: 3, isAI: true},
+                'Please avoid these mistakes', asset: ['ETH', 'BTC'],views: 234, likes: 90, liked: true, width: 3, isAI: true},
     ]
 
     const [open, setOpen] = useState(false);
@@ -58,7 +95,7 @@ export default function StoriesComp(props) {
     }; 
 
     const showStory = (i) => {
-        navigate('/watchStory',{story: i});
+        navigate('/watchStory',{state: i});
     }
 //onClick={()=>watchStory(this.id,this.title,this.body,this.img,this.views,this.likes,this.liked,this.width)}
     return (
