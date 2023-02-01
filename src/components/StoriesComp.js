@@ -1,6 +1,6 @@
 import {
     Button,
-    Card, CardActionArea, CardActions, CardContent, CardHeader, CardMedia, Container,
+    Card, CardActionArea, CardActions, CardContent, CardHeader, CardMedia, Chip, Container,
     Dialog, DialogActions,
     DialogContent,
     DialogContentText,
@@ -29,7 +29,7 @@ Item.propTypes = {children: PropTypes.node};
 export default function StoriesComp(props) {
     
     const stories = [
-        {id: 1, title: 'AI', description:'I lost $2000 in two days.\n' +
+        {id: 1, title: 'AI', body:'I lost $2000 in two days.\n' +
                 'Please avoid these mistakes', content: [{
                 type: 'Subtitle',
                 content: 'Lorem Ipsum',
@@ -179,7 +179,8 @@ export default function StoriesComp(props) {
                                 </IconButton>
                             </CardActions>
                         </Card>*/
-                            <Card sx={{ minWidth: 275 }}>
+
+                            /*<Card sx={{ minWidth: 275 }}>
                                 <CardActionArea onClick={()=>showStory(i)}>
                                     <CardHeader
                                         title={<CardActions disableSpacing>
@@ -198,8 +199,37 @@ export default function StoriesComp(props) {
                                         <Bookmark />
                                     </IconButton>
                                 </CardActions>
-                            </Card>
+                            </Card>*/
                         }
+                        <Card variant="outlined" sx={{ minWidth: 350 }} >
+                            <CardActionArea onClick={()=>showStory(i)}>
+                            <CardContent>
+                                <Grid container spacing={0}>
+                                    <Grid xs={9}>
+                                        <Typography variant="h5" component="div">
+                                            {i.title}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid xs={3}>
+                                        {i.asset.map((element,index) => (
+                                            <Chip label={element} variant="outlined" />
+                                        ) )}
+                                    </Grid>
+                                </Grid>
+                                <br></br>
+                                <hr className="solid"></hr>
+                                <br></br>
+                                <Typography variant="body1">
+                                    {i.body}
+                                </Typography>
+                            </CardContent>
+                            </CardActionArea>
+                            <CardActions style={{ float:'right'}}>
+                                <IconButton aria-label="chart" >
+                                    <Bookmark />
+                                </IconButton>
+                            </CardActions>
+                        </Card>
                     </Grid>
                 ))}
             </Grid>

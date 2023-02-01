@@ -1,10 +1,10 @@
 import {
     Button,
-    Card, CardActionArea, CardActions, CardContent, CardMedia,
+    Card, CardActionArea, CardActions, CardContent, CardMedia, Chip,
     Divider, Grid,
     Typography
 } from "@mui/material";
-import {Add, Favorite, FilterList, Search, Share} from "@mui/icons-material";
+import {Add, Favorite, FilterList, RemoveRedEyeOutlined, Search, Share} from "@mui/icons-material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
@@ -13,11 +13,11 @@ import InfoIcon from '@mui/icons-material/Info';
 export default function MyStoriesComp(props) {
     const stories = [
         {id: 1, title: 'Story1', body:'Lizards are a widespread group of squamate reptiles, with over 6,000\n' +
-                'species, ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents', img:'cover_1', views: 213, likes: 90, liked: true, width: 6,state:"Pending"},
+                'species, ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents', img:'cover_1', views: 213, likes: 90, liked: true, width: 6,state:"Pending amministrative review"},
         {id: 2, title: 'Story1', body:'Lizards are a widespread group of squamate reptiles, with over 6,000\n' +
-                'species, ranging across all continents except Antarctica with ranging across all continents except Antarctica', img:'cover_2', views: 132, likes: 90, liked: true, width: 3,state:"Published"},
+                'species, ranging across all continents except Antarctica with ranging across all continents except Antarctica', img:'cover_2', views: 132, likes: 90, liked: true, width: 6,state:"Published"},
         {id: 3, title: 'Story1', body:'Lizards are a widespread group of squamate reptiles, with over 6,000\n' +
-                'species, ranging across all continents except Antarctica with ranging across all continents except Antarctica', img:'cover_3', views: 687, likes: 90, liked: true, width: 3,state:"Published"},
+                'species, ranging across all continents except Antarctica with ranging across all continents except Antarctica', img:'cover_3', views: 687, likes: 90, liked: true, width: 6,state:"Published"},
     ]
 
     const [storiesState, setStoriesState] = useState(stories);
@@ -88,28 +88,34 @@ export default function MyStoriesComp(props) {
                                     </IconButton>
                                     <Typography>{i.state}</Typography>
                             </CardActions>
-                        </Card>*/
-                            <Card sx={{ minWidth: 275 }}>
+                        </Card>*/}
+                            <Card variant="outlined"  >
                                 <CardContent>
-                                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                        Word of the Day
-                                    </Typography>
-                                    <Typography variant="h5" component="div">
-                                        beent
-                                    </Typography>
-                                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                        adjective
-                                    </Typography>
-                                    <Typography variant="body2">
-                                        well meaning and kindly.
-                                        <br />
-                                        {'"a benevolent smile"'}
+                                    <Grid container >
+                                        <Grid xs={9}>
+                                            <Typography variant="h5" component="div">
+                                                {i.state}
+                                            </Typography>
+                                        </Grid>
+                                        <Grid item xs>
+                                            <RemoveRedEyeOutlined></RemoveRedEyeOutlined>
+                                            <Typography variant="body1" component="div">
+                                                {i.views}
+                                            </Typography>
+                                        </Grid>
+                                        <Grid item xs>
+                                            <Chip label="APL" variant="outlined" />
+                                        </Grid>
+                                    </Grid>
+                                    <br></br>
+                                    <hr className="solid"></hr>
+                                    <br></br>
+                                    <Typography variant="body1">
+                                        {i.body}
                                     </Typography>
                                 </CardContent>
-                                <CardActions>
-                                    <Button size="small">Learn More</Button>
-                                </CardActions>
-                            </Card>}
+                            </Card>
+
                     </Grid>
                 ))}
             </Grid>
