@@ -44,17 +44,20 @@ export default function StoriesComp(props) {
                 show_buttons: false,
                 alignment: 'left',
                 formats: []
-            }], asset: ['JUVE.MI', 'APL'], views: 213, likes: 90, liked: true, bookMark: false, width: 6, isAI: true},
-        {id: 2, title: 'HUMAN', body:'After 3 years, I jumped from $-100 to $+800! \n' +
-                'Learn when you should sell', content: [{
+            }], asset: ['JUVE.MI', 'APL'], by: '',generateDate: '17 hours ago', generate: 'AI',views: 213, likes: 90, liked: true, bookMark: false, width: 6, isAI: true},
+        {id: 2, title: 'Gain over time', body:'Dollar-cost averaging is a simple technique that entails investing a fixed amount of money in the same fund or stock at regular intervals over a long period of time.', content: [{
                 type: 'Subtitle',
-                content: 'Lorem Ipsum',
+                content: 'Use Dollar-Cost Averaging to Build Wealth Over Time',
                 show_buttons: false,
                 alignment: 'left',
                 formats: []
             }, {
                 type: 'Paragraph',
-                content: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
+                content : 'Dollar-cost averaging is a simple technique that entails investing a fixed amount of money in the same fund or stock at regular intervals over a long period of time.\n' +
+                    '\n' +
+                    'If you have a 401(k) retirement plan, you\'re already using this strategy.\n' +
+                    '\n' +
+                    'Make no mistake, dollar-cost averaging is a strategy, and it\'s one that can get results that are as good or better than aiming to buy low and sell high. As many experts will tell you, nobody can time the market.',
                 show_buttons: false,
                 alignment: 'left',
                 formats: []
@@ -71,11 +74,11 @@ export default function StoriesComp(props) {
                 alignment: 'left',
                 formats: []
             }],
-            asset: ['ETH', 'APL'],views: 132, likes: 90, liked: true, bookMark: true, width: 3, isAI: false},
+            asset: ['ETH', 'APL'], by: 'Mario Rossi',generateDate: '20 minutes ago',generate: 'HUMAN',views: 132, likes: 90, liked: true, bookMark: true, width: 3, isAI: false},
         {id: 3, title: 'HUMAN', body:'I lost $2000 in two days.\n' +
-                'Please avoid these mistakes', asset: ['APL'],views: 687, likes: 90, liked: true, bookMark: false, width: 3, isAI: false},
-        {id: 4, title: 'AI', body:'I lost $2000 in two days.\n' +
-                'Please avoid these mistakes', asset: ['ETH', 'BTC'],views: 234, likes: 90, liked: true, bookMark: true,  width: 3, isAI: true},
+                'Please avoid these mistakes', asset: ['APL'], by: '',generateDate: '2 days ago',generate: 'AI',views: 687, likes: 90, liked: true, bookMark: false, width: 3, isAI: false},
+        {id: 4, title: 'Learn from my mistakes', body:'Nobody\'s perfect. We are all going to have our wins and losses, especially when it comes to investing. But some of the mistakes you might make when trading stocks are actually pretty common and by no means reserved exclusively for you alone. In fact, the majority of investors make many of the following mistakes. '
+                , asset: ['ETH', 'BTC'], by: '', generateDate: '3 hours ago',generate: 'AI',views: 234, likes: 90, liked: true, bookMark: true,  width: 3, isAI: true},
     ]
 
     const [open, setOpen] = useState(false);
@@ -105,7 +108,7 @@ export default function StoriesComp(props) {
 //onClick={()=>watchStory(this.id,this.title,this.body,this.img,this.views,this.likes,this.liked,this.width)}
     return (
         <>
-            <Grid2 container spacing={0}>
+            <Grid2 container spacing={0} style={{paddingTop:10}}>
                 <Grid2 item xs={2}>
                     <Button onClick={() => navigate('/createStory')} variant={"outlined"} startIcon={<Add></Add>}>Create a story</Button>
                 </Grid2>
@@ -160,18 +163,19 @@ export default function StoriesComp(props) {
                         <Card variant="outlined" sx={{ minWidth: 350 }} >
                             <CardActionArea onClick={()=>showStory(i)}>
                                 <CardContent>
-                                    <Grid container spacing={0}>
-                                        <Grid xs={9}>
+                                    <Grid2 container spacing={0}>
+                                        <Grid2 item xs={9}>
                                             <Typography variant="h5" component="div">
                                                 {i.title}
                                             </Typography>
-                                        </Grid>
-                                        <Grid xs={3}>
+                                        </Grid2>
+                                        <Grid2 item xsOffset={1} xs={2} display={"flex"} justifyContent={"end"} alignItems={"end"}>
                                             {i.asset.map((element,index) => (
                                                 <Chip label={element} variant="outlined" />
                                             ) )}
-                                        </Grid>
-                                    </Grid>
+                                        </Grid2>
+                                    </Grid2>
+                                    <Typography variant="subtitle2">Generated by: {i.generate}</Typography>
                                     <br></br>
                                     <hr className="solid"></hr>
                                     <br></br>
@@ -180,11 +184,19 @@ export default function StoriesComp(props) {
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
-                            <CardActions style={{ float:'right'}}>
-                                <IconButton onClick={() => setFavourite(i)} color={i.bookMark ? "primary" : ""} aria-label="like">
-                                    <Bookmark />
-                                </IconButton>
-                            </CardActions>
+                            <Grid2 container spacing={0} style={{paddingLeft:25}}>
+                                <Grid2 item xs={9}>
+                                    <Typography variant="body2">Published: {i.generateDate}</Typography>
+                                </Grid2>
+                                <Grid2 item xsOffset={1} xs={2} display={"flex"} justifyContent={"end"} alignItems={"end"}>
+                                    <CardActions style={{ float:'right'}}>
+                                        <IconButton onClick={() => setFavourite(i)} color={i.bookMark ? "primary" : ""} aria-label="like">
+                                            <Bookmark />
+                                        </IconButton>
+                                    </CardActions>
+                                </Grid2>
+                            </Grid2>
+
                         </Card>
                     </Grid>
                 ))}

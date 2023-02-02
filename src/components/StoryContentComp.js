@@ -64,6 +64,8 @@ export default function StoryContentComp(props) {
                         <ArrowBackIcon sx={{ fontSize: 30 }} />
                     </IconButton>
                     <h2>{story.title}</h2>
+                    <Typography variant={"body2"}>Published: {story.generateDate}</Typography>
+                    {story.by.length === 0 ? <Typography variant={"body2"}>By: AI</Typography> :<Typography variant={"body2"}>By: {story.by}</Typography> }
                     <br></br>
                     <Stack
                         direction="row"
@@ -145,8 +147,8 @@ export default function StoryContentComp(props) {
                         src="./static/images/news/cover_1.jpg"
                     />
                     {content.map((element, index) => (
-                        element.type === "Subtitle" ? <Typography variant={"h4"} key={index}>{element.content}</Typography>
-                        : <Typography key={index} variant={"paragraph"}>{element.content}</Typography>
+                        element.type === "Subtitle" ? <><Typography variant={"h5"} key={index}>{element.content}</Typography><br></br></>
+                        : <Typography key={index} fontFamily={"`\"Roboto\", \"Helvetica\", \"Arial\", sans-serif`,"} variant={"paragraph"}>{element.content}</Typography>
 
                     ))}
 
