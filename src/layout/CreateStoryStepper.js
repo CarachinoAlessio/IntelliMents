@@ -197,7 +197,7 @@ function CreateStoryStepper(props) {
     }
 
     return (
-        <Box sx={{width: '100%'}}>
+        <Box sx={{width: '100%'}} style={{paddingTop:30}}>
             <Stepper activeStep={activeStep} alternativeLabel>
                 {steps.map((label, index) => {
                     const stepProps = {};

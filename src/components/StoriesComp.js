@@ -12,6 +12,7 @@ import {
 import {Add, Bookmark, Favorite, FilterList, Folder, Info, Search, Share} from "@mui/icons-material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {useState} from "react";
+import * as React from 'react';
 import {useNavigate} from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 import {StoryContentComp} from "./StoryContentComp";
@@ -20,6 +21,7 @@ import * as PropTypes from "prop-types";
 import Row from "@mui/material/Container";
 import Col from "@mui/material/Container";
 import ShowChartIcon from "@mui/icons-material/ShowChart";
+import {ToggleButton} from "@mui/lab";
 
 function Item(props) {
     return null;
@@ -42,7 +44,7 @@ export default function StoriesComp(props) {
                 show_buttons: false,
                 alignment: 'left',
                 formats: []
-            }], asset: ['JUVE.MI', 'APL'], views: 213, likes: 90, liked: true, width: 6, isAI: true},
+            }], asset: ['JUVE.MI', 'APL'], views: 213, likes: 90, liked: true, bookMark: false, width: 6, isAI: true},
         {id: 2, title: 'HUMAN', body:'After 3 years, I jumped from $-100 to $+800! \n' +
                 'Learn when you should sell', content: [{
                 type: 'Subtitle',
@@ -69,21 +71,24 @@ export default function StoriesComp(props) {
                 alignment: 'left',
                 formats: []
             }],
-            asset: ['ETH', 'APL'],views: 132, likes: 90, liked: true, width: 3, isAI: false},
+            asset: ['ETH', 'APL'],views: 132, likes: 90, liked: true, bookMark: true, width: 3, isAI: false},
         {id: 3, title: 'HUMAN', body:'I lost $2000 in two days.\n' +
-                'Please avoid these mistakes', asset: ['APL'],views: 687, likes: 90, liked: true, width: 3, isAI: false},
+                'Please avoid these mistakes', asset: ['APL'],views: 687, likes: 90, liked: true, bookMark: false, width: 3, isAI: false},
         {id: 4, title: 'AI', body:'I lost $2000 in two days.\n' +
-                'Please avoid these mistakes', asset: ['ETH', 'BTC'],views: 234, likes: 90, liked: true, width: 3, isAI: true},
+                'Please avoid these mistakes', asset: ['ETH', 'BTC'],views: 234, likes: 90, liked: true, bookMark: true,  width: 3, isAI: true},
     ]
 
     const [open, setOpen] = useState(false);
     const [storiesState, setStoriesState] = useState(stories);
     const [includeAIstories, setIncludeAIstories] = useState(true)
+    const [bookMark, setBookMark] = React.useState(false)
+    const [selected, setSelected] = React.useState(false);
     const navigate=useNavigate();
+
     const setFavourite = (i) => {
-        let newNews = [...storiesState]
-        newNews[i.id-1].liked = !newNews[i.id-1].liked
-        setStoriesState((newNews) => [...newNews])
+        let newStoriesState = [...storiesState]
+        newStoriesState[i.id-1].bookMark = !newStoriesState[i.id-1].bookMark
+        setStoriesState((newStoriesState) => [...newStoriesState])
     }
 
     const handleClickOpen = () => {
@@ -152,80 +157,31 @@ export default function StoriesComp(props) {
                     (includeAIstories) || (!includeAIstories && !story.isAI)
                 ).map(i => (
                     <Grid  key={i.id} item xs={6}>
-                        {/*<Card>
-                            <CardActionArea onClick={()=>showStory(i)}>
-                                <CardMedia
-                                    component="img"
-                                    height="140"
-                                    image={`./static/images/news/${i.img}.jpg`}
-                                    alt="green iguana"
-                                />
-                                <CardContent>
-                                    <Typography gutterBottom variant="h5" component="div">
-                                        {i.title}
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        {i.body}
-                                    </Typography>
-                                </CardContent>
-                            </CardActionArea>
-                            <CardActions disableSpacing>
-                                <Typography>{i.views} views - {i.likes} likes</Typography>
-                                <IconButton onClick={() => setFavourite(i)} color={i.liked ? "primary" : ""} aria-label="like">
-                                    <Favorite />
-                                </IconButton>
-                                <IconButton aria-label="share">
-                                    <Share />
-                                </IconButton>
-                            </CardActions>
-                        </Card>*/
-
-                            /*<Card sx={{ minWidth: 275 }}>
-                                <CardActionArea onClick={()=>showStory(i)}>
-                                    <CardHeader
-                                        title={<CardActions disableSpacing>
-                                                {i.title}
-                                        </CardActions>}
-
-                                        />
-                                <CardContent>
-                                    <Typography variant="body6" color="text.secondary">
-                                        {i.body}
-                                    </Typography>
-                                </CardContent>
-                                </CardActionArea>
-                                <CardActions style={{ float:'right'}}>
-                                    <IconButton aria-label="chart" >
-                                        <Bookmark />
-                                    </IconButton>
-                                </CardActions>
-                            </Card>*/
-                        }
                         <Card variant="outlined" sx={{ minWidth: 350 }} >
                             <CardActionArea onClick={()=>showStory(i)}>
-                            <CardContent>
-                                <Grid container spacing={0}>
-                                    <Grid xs={9}>
-                                        <Typography variant="h5" component="div">
-                                            {i.title}
-                                        </Typography>
+                                <CardContent>
+                                    <Grid container spacing={0}>
+                                        <Grid xs={9}>
+                                            <Typography variant="h5" component="div">
+                                                {i.title}
+                                            </Typography>
+                                        </Grid>
+                                        <Grid xs={3}>
+                                            {i.asset.map((element,index) => (
+                                                <Chip label={element} variant="outlined" />
+                                            ) )}
+                                        </Grid>
                                     </Grid>
-                                    <Grid xs={3}>
-                                        {i.asset.map((element,index) => (
-                                            <Chip label={element} variant="outlined" />
-                                        ) )}
-                                    </Grid>
-                                </Grid>
-                                <br></br>
-                                <hr className="solid"></hr>
-                                <br></br>
-                                <Typography variant="body1">
-                                    {i.body}
-                                </Typography>
-                            </CardContent>
+                                    <br></br>
+                                    <hr className="solid"></hr>
+                                    <br></br>
+                                    <Typography variant="body1">
+                                        {i.body}
+                                    </Typography>
+                                </CardContent>
                             </CardActionArea>
                             <CardActions style={{ float:'right'}}>
-                                <IconButton aria-label="chart" >
+                                <IconButton onClick={() => setFavourite(i)} color={i.bookMark ? "primary" : ""} aria-label="like">
                                     <Bookmark />
                                 </IconButton>
                             </CardActions>
