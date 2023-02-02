@@ -1,21 +1,17 @@
 import Row from '@mui/material/Container';
 import Col from '@mui/material/Container';
-import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import ShowChartIcon from '@mui/icons-material/ShowChart';
+import IconButton from "@mui/material/IconButton";
+import HeartBrokenIcon from '@mui/icons-material/HeartBroken';
+import {useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {FilterList} from "@mui/icons-material";
 
 import {
     Grid, Card, CardContent,
     CardActionArea, Typography, CardActions,
 } from "@mui/material";
-
-import Button from '@mui/material/Button';
-
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import ShowChartIcon from '@mui/icons-material/ShowChart';
-import IconButton from "@mui/material/IconButton";
-import HeartBrokenIcon from '@mui/icons-material/HeartBroken';
-
-import {useState} from "react";
-import {useNavigate} from "react-router-dom";
 
 
 const profilesArr = [
@@ -37,7 +33,8 @@ export default function InvestorsFollowedComp(props) {
                     <Grid>
                         <Button onClick={() => navigate('/Investors')} variant={"outlined"}>Search</Button> &nbsp;&nbsp;
                         <Button onClick={() => navigate('/Investors/Tops')} variant={"outlined"}>Top Investors</Button> &nbsp;&nbsp;
-                        <Button onClick={() => navigate('/Investors/Followed')} variant={"outlined"}>Followed</Button>
+                        <Button onClick={() => navigate('/Investors/Followed')} variant={"outlined"}>Followed</Button> &nbsp;&nbsp;
+                        <Button variant={"outlined"} startIcon={<FilterList></FilterList>}>Sort by</Button>
                     </Grid>
                 </Col>
             </Row>
