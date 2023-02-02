@@ -148,9 +148,24 @@ export default function StoryContentComp(props) {
                     />
                     {content.map((element, index) => (
                         element.type === "Subtitle" ? <><Typography variant={"h5"} key={index}>{element.content}</Typography><br></br></>
-                        : <Typography key={index} fontFamily={"`\"Roboto\", \"Helvetica\", \"Arial\", sans-serif`,"} variant={"paragraph"}>{element.content}</Typography>
+                        :
+                            <>
+                                <Typography key={index} fontFamily={"`\"Roboto\", \"Helvetica\", \"Arial\", sans-serif`,"} variant={"paragraph"}>{element.content}</Typography>
+                                <br></br>
+                                <Box
+                                    component="img"
+                                    sx={{
+                                        height: 450,
+                                        width: "70%" ,
+                                    }}
+                                    alt="The house from the offer."
+                                    src={element.image}
+                                />
+                            </>
+
 
                     ))}
+
 
                 </Grid>
                 <Grid style={{marginLeft:0}} item xs>
