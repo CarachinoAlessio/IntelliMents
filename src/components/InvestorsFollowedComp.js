@@ -11,19 +11,20 @@ import Button from '@mui/material/Button';
 
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
-import {Search} from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
+import HeartBrokenIcon from '@mui/icons-material/HeartBroken';
+
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 
 
 const profilesArr = [
-    {id: 1, name: 'Alessio Carachino', description: 'Since 2 years'},
-    {id: 2, name: 'Lorenzo Carachino', description: 'Since 3 years'},
+    {id: 1, name: 'Hossein Javadi', description: 'Since 3 years'},
+    {id: 2, name: 'Alessio Carachino', description: 'Since 2 years'},
     ]
 
 
-export default function InvestorsComp(props) {
+export default function InvestorsFollowedComp(props) {
     const navigate=useNavigate();
 
     const [profiles, setProfiles] = useState(profilesArr)
@@ -37,11 +38,6 @@ export default function InvestorsComp(props) {
                         <Button onClick={() => navigate('/Investors')} variant={"outlined"}>Search</Button> &nbsp;&nbsp;
                         <Button onClick={() => navigate('/Investors/Tops')} variant={"outlined"}>Top Investors</Button> &nbsp;&nbsp;
                         <Button onClick={() => navigate('/Investors/Followed')} variant={"outlined"}>Followed</Button>
-                    </Grid>
-
-                    <Grid sx={{ borderRadius: '16px' }} display="flex" justifyContent="center" alignItems="center" style={{ padding: "7px", marginTop: "15px", marginBottom: "45px", backgroundColor: "#eee"}}>
-                        <TextField fullWidth id="input-with-sx" label="Search" variant="standard" placeholder="Carachino_"/>
-                        <Search sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
                     </Grid>
                 </Col>
             </Row>
@@ -68,7 +64,7 @@ export default function InvestorsComp(props) {
                                                 <Grid item xs={8}></Grid>
                                                 <Grid item xs={4} display={"flex"} justifyContent={"right"} alignItems={"center"}>
                                                     <IconButton aria-label="favorite">
-                                                        <FavoriteBorderIcon />
+                                                        <HeartBrokenIcon />
                                                     </IconButton>
                                                     <IconButton aria-label="chart">
                                                         <ShowChartIcon />
@@ -87,4 +83,4 @@ export default function InvestorsComp(props) {
         </Grid></>
         );
     }
-export {InvestorsComp}
+export {InvestorsFollowedComp}
