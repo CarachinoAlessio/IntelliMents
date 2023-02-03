@@ -7,7 +7,6 @@ import {
     CardActionArea, Typography, CardActions,
 } from "@mui/material";
 
-import Button from '@mui/material/Button';
 
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
