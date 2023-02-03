@@ -7,6 +7,8 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {FilterList} from "@mui/icons-material";
+import * as PropTypes from "prop-types";
+import * as React from 'react';
 
 import {
     Grid, Card, CardContent,
@@ -14,18 +16,37 @@ import {
 } from "@mui/material";
 
 
-const profilesArr = [
-    {id: 1, name: 'Hossein Javadi', description: 'Since 3 years'},
-    {id: 2, name: 'Alessio Carachino', description: 'Since 2 years'},
-    {id: 3, name: 'Lorenzo Santo', description: 'Since 3 years'},
-    {id: 4, name: 'Francesco Di Gangi', description: 'Since 3 years'},
+function Item(props) {
+    return null;
+}
+
+Item.propTypes = {children: PropTypes.node};
+export default function InvestorsTopComp(props) {
+
+    const profilesArr = [
+        {id: 1, name: 'Hossein Javadi', description: 'Since 3 years', followed: true,
+            content: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents',},
+        {id: 2, name: 'Alessio Carachino', description: 'Since 2 years', followed: true,
+        content: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents',},
+        {id: 3, name: 'Lorenzo Santo', description: 'Since 3 years', followed: false,
+        content: 'Use Dollar-Cost Averaging to Build Wealth Over Time',},
+        {id: 4, name: 'Francesco Di Gangi', description: 'Since 3 years', followed: false,
+        content: 'Use Dollar-Cost Averaging to Build Wealth Over Time',},
     ]
 
-
-export default function InvestorsTopComp(props) {
+    const [profilesState, setProfilesState] = useState(profilesArr)
+    const [followed, setFollowed] = React.useState(false)
     const navigate=useNavigate();
 
-    const [profiles, setProfiles] = useState(profilesArr)
+    const setFollowing = (i) => {
+        let newProfilesState = [...profilesState]
+        newProfilesState[i.id-1].followed = !newProfilesState[i.id-1].followed
+        setProfilesState((newProfilesState) => [...newProfilesState])
+    }
+
+    const showProfile = (i) => {
+        navigate('/Investors/Profile',{state: i});
+    }
 
     return (
         <>
@@ -46,11 +67,11 @@ export default function InvestorsTopComp(props) {
             <Row>
                 <Col>
                     <Grid container rowSpacing={1} columnSpacing={{ xs: 6, sm: 6, md: 6 }}>
-                        {profiles.map(i => (
+                        {profilesState.map(i => (
                         <Grid key={i.id} item xs={6}>
                             <Card raised={true} style={{ padding: "10px", marginTop: "5px", marginBottom: "5px"}}>
-                                <CardActionArea>
-                                    <CardContent onClick={() => navigate('/Investors/Profile')} variant={"outlined"}>
+                                <CardActionArea onClick={()=>showProfile(i)}>
+                                    <CardContent variant={"outlined"}>
                                         <Typography variant="h3" component="div">
                                             {i.name}
                                         </Typography>
@@ -62,7 +83,7 @@ export default function InvestorsTopComp(props) {
                                             <Grid container>
                                                 <Grid item xs={8}></Grid>
                                                 <Grid item xs={4} display={"flex"} justifyContent={"right"} alignItems={"center"}>
-                                                    <IconButton aria-label="favorite">
+                                                    <IconButton onClick={() => setFollowing(i)} color={i.followed ? "primary" : ""} aria-label="favorite">
                                                         <FavoriteBorderIcon />
                                                     </IconButton>
                                                     <IconButton aria-label="chart">

@@ -4,20 +4,30 @@ import { Icon } from '@iconify/react';
 import {useNavigate} from 'react-router-dom';
 import Grid2 from "@mui/material/Unstable_Grid2";
 import * as React from 'react';
-import * as PropTypes from "prop-types";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import ShowChartIcon from '@mui/icons-material/ShowChart';
 import IconButton from "@mui/material/IconButton";
 import {useState} from "react";
+import {useLocation} from 'react-router-dom';
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 
-import { CardActions, Chip, Tooltip,
+import {
+    Button, CardActions, Chip,
+    Dialog, DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Switch, Tooltip,
 } from "@mui/material";
 
 import {
-    Bookmark, ReviewsOutlined, VoiceChatOutlined
+    Bookmark,
+    FilterList,
+    Info, ReviewsOutlined,
+    Search, VoiceChatOutlined
 } from "@mui/icons-material";
 
 import {
@@ -25,29 +35,30 @@ import {
     CardActionArea, Typography,
 } from "@mui/material";
 
-function Item(props) {
-    return null;
-}
-
-Item.propTypes = {children: PropTypes.node};
-
-const theme = createTheme({
-  components: {
-    MuiIcon: {
-      styleOverrides: {
-        root: {
-          // Match 24px = 3 * 2 + 1.125 * 16
-          boxSizing: 'content-box',
-          padding: 3,
-          fontSize: '1.125rem',
-        },
-      },
-    },
-  },
-});
 
 export default function InvestorsProfileComp(props) {
+
     const navigate = useNavigate();
+    const location = useLocation();
+    const story = location.state
+    const name = story.name
+    const content = story.content
+    console.log(content)
+
+    const theme = createTheme({
+    components: {
+        MuiIcon: {
+        styleOverrides: {
+            root: {
+            // Match 24px = 3 * 2 + 1.125 * 16
+            boxSizing: 'content-box',
+            padding: 3,
+            fontSize: '1.125rem',
+            },
+        },
+        },
+    },
+    });
 
     const stories = [
         {id: 1, title: 'AI', body:'I lost $2000 in two days.\n' +
@@ -99,9 +110,6 @@ export default function InvestorsProfileComp(props) {
             asset: ['ETH', 'APL'], by: 'Mario Rossi',generateDate: '20 minutes ago',generate: 'HUMAN',views: 132, likes: 90, liked: true, bookMark: true, width: 3, isAI: false, review: '55%'},
     ]
 
-
-
-    const [open, setOpen] = useState(false);
     const [storiesState, setStoriesState] = useState(stories);
     const [includeAIstories, setIncludeAIstories] = useState(true)
     const [bookMark, setBookMark] = React.useState(false)
@@ -112,14 +120,6 @@ export default function InvestorsProfileComp(props) {
         newStoriesState[i.id-1].bookMark = !newStoriesState[i.id-1].bookMark
         setStoriesState((newStoriesState) => [...newStoriesState])
     }
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    }; 
 
     const showStory = (i) => {
         navigate('/watchStory',{state: i});
