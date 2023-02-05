@@ -451,7 +451,31 @@ function CreateStoryStepper(props) {
                                                     </> : <div style={{paddingBottom: '15px'}}></div>}
 
                                                     {fragment.type === 'Image' ?
-                                                        <img src={fragment.content} alt={""} />
+                                                        <>
+                                                            <Grid justifyContent='right' display='flex' alignItems={"flex-end"} item xs={4}>
+                                                                {fragment.type === 'Image'?
+                                                                    <Box>
+                                                                        {fragment.show_buttons && notebook.length !== 1 ? <>
+                                                                                <Tooltip arrow title={"Delete"}><IconButton
+                                                                                    color={"primary"} size={"large"}
+                                                                                    onClick={() => deleteFragment(index)}><Delete
+                                                                                    fontSize="inherit"></Delete></IconButton></Tooltip>
+                                                                                <Tooltip arrow title={"Move up"}><IconButton
+                                                                                    disabled={index === 0} color={"primary"}
+                                                                                    size={"large"}
+                                                                                    onClick={() => moveIndexUp(index)}><ArrowUpward
+                                                                                    fontSize="inherit"></ArrowUpward></IconButton></Tooltip>
+                                                                                <Tooltip arrow title={"Move down"}><IconButton
+                                                                                    disabled={index === notebook.length - 1}
+                                                                                    color={"primary"} size={"large"}
+                                                                                    onClick={() => moveIndexDown(index)}><ArrowDownward
+                                                                                    fontSize="inherit"></ArrowDownward></IconButton></Tooltip></>
+                                                                            : ''}<br/>
+                                                                    </Box>
+                                                                    : ''}
+
+                                                            </Grid>
+                                                        <img src={fragment.content} alt={""} /></>
                                                         :
                                                         <><FormControl fullWidth>
                                                             <Grid container direction="row"
@@ -528,7 +552,7 @@ function CreateStoryStepper(props) {
                                                                 </Grid>
                                                                 <Grid justifyContent='right' display='flex' alignItems={"flex-end"} item xs={4}>
                                                                     {fragment.type === 'Paragraph' || fragment.type === 'Subtitle' ?
-                                                                        <Box >
+                                                                       < Box>
                                                                             {fragment.show_buttons && notebook.length !== 1 ? <>
                                                                                     <Tooltip arrow title={"Delete"}><IconButton
                                                                                         color={"primary"} size={"large"}
