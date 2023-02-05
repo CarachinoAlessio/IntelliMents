@@ -1,11 +1,12 @@
 import {
+    Box,
     Button,
     Card, CardActionArea, CardActions, CardContent, CardHeader, CardMedia, Chip, Container,
     Dialog, DialogActions,
     DialogContent,
     DialogContentText,
     DialogTitle,
-    Divider, Grid,
+    Divider, Grid, Stack,
     Switch, Tooltip,
     Typography
 } from "@mui/material";
@@ -17,9 +18,9 @@ import {
     Folder,
     Info,
     RateReview,
-    RateReviewOutlined, ReviewsOutlined,
+    RateReviewOutlined, Reviews, ReviewsOutlined,
     Search,
-    Share, VoiceChatOutlined
+    Share, Stars, VoiceChat, VoiceChatOutlined
 } from "@mui/icons-material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {useState} from "react";
@@ -27,7 +28,7 @@ import * as React from 'react';
 import {useNavigate} from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 import {StoryContentComp} from "./StoryContentComp";
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import * as PropTypes from "prop-types";
 import Row from "@mui/material/Container";
 import Col from "@mui/material/Container";
@@ -40,10 +41,14 @@ function Item(props) {
 
 Item.propTypes = {children: PropTypes.node};
 export default function StoriesComp(props) {
-    
+
     const stories = [
-        {id: 1, title: 'AI', body:'I lost $2000 in two days.\n' +
-                'Please avoid these mistakes', content: [{
+        {
+            id: 1,
+            title: 'AI',
+            body: 'I lost $2000 in two days.\n' +
+                'Please avoid these mistakes',
+            content: [{
                 type: 'Subtitle',
                 content: 'The Secret to Financial Freedom Is Investing Over Time\n',
                 show_buttons: false,
@@ -58,8 +63,24 @@ export default function StoriesComp(props) {
                 image: './static/images/story/graph_story.png',
                 alignment: 'left',
                 formats: []
-            }], asset: ['JUVE.MI', 'APL'], by: '',generateDate: '17 hours ago', generate: 'AI',views: 213, likes: 90, liked: true, bookMark: false, width: 6, isAI: true, review: '80%'},
-        {id: 2, title: 'Gain over time', body:'Dollar-cost averaging is a simple technique that entails investing a fixed amount of money in the same fund or stock at regular intervals over a long period of time.', content: [{
+            }],
+            asset: ['JUVE.MI', 'APL'],
+            by: '',
+            generateDate: '17 hours ago',
+            generate: 'AI',
+            views: 213,
+            likes: 90,
+            liked: true,
+            bookMark: false,
+            width: 6,
+            isAI: true,
+            review: '80%'
+        },
+        {
+            id: 2,
+            title: 'Gain over time',
+            body: 'Dollar-cost averaging is a simple technique that entails investing a fixed amount of money in the same fund or stock at regular intervals over a long period of time.',
+            content: [{
                 type: 'Subtitle',
                 content: 'Use Dollar-Cost Averaging to Build Wealth Over Time',
                 show_buttons: false,
@@ -67,7 +88,7 @@ export default function StoriesComp(props) {
                 formats: []
             }, {
                 type: 'Paragraph',
-                content : 'Dollar-cost averaging is a simple technique that entails investing a fixed amount of money in the same fund or stock at regular intervals over a long period of time.\n' +
+                content: 'Dollar-cost averaging is a simple technique that entails investing a fixed amount of money in the same fund or stock at regular intervals over a long period of time.\n' +
                     '\n' +
                     'If you have a 401(k) retirement plan, you\'re already using this strategy.\n' +
                     '\n' +
@@ -88,11 +109,52 @@ export default function StoriesComp(props) {
                 alignment: 'left',
                 formats: []
             }],
-            asset: ['ETH', 'APL'], by: 'Mario Rossi',generateDate: '20 minutes ago',generate: 'HUMAN',views: 132, likes: 90, liked: true, bookMark: true, width: 3, isAI: false, review: '55%'},
-        {id: 3, title: 'HUMAN', body:'I lost $2000 in two days.\n' +
-                'Please avoid these mistakes', asset: ['APL'], by: '',generateDate: '2 days ago',generate: 'AI',views: 687, likes: 90, liked: true, bookMark: false, width: 3, isAI: false, review: '80%'},
-        {id: 4, title: 'Learn from my mistakes', body:'Nobody\'s perfect. We are all going to have our wins and losses, especially when it comes to investing. But some of the mistakes you might make when trading stocks are actually pretty common and by no means reserved exclusively for you alone. In fact, the majority of investors make many of the following mistakes. '
-                , asset: ['ETH', 'BTC'], by: '', generateDate: '3 hours ago',generate: 'AI',views: 234, likes: 90, liked: true, bookMark: true,  width: 3, isAI: true, review: '85%'},
+            asset: ['ETH', 'APL'],
+            by: 'Mario Rossi',
+            generateDate: '20 minutes ago',
+            generate: 'HUMAN',
+            views: 132,
+            likes: 90,
+            liked: true,
+            bookMark: true,
+            width: 3,
+            isAI: false,
+            review: '55%'
+        },
+        {
+            id: 3,
+            title: 'HUMAN',
+            body: 'I lost $2000 in two days.\n' +
+                'Please avoid these mistakes',
+            asset: ['APL'],
+            by: '',
+            generateDate: '2 days ago',
+            generate: 'AI',
+            views: 687,
+            likes: 90,
+            liked: true,
+            bookMark: false,
+            width: 3,
+            isAI: false,
+            review: '80%'
+        },
+        {
+            id: 4,
+            title: 'Learn from my mistakes',
+            body: 'Nobody\'s perfect. We are all going to have our wins and losses, especially when it comes to investing. But some of the mistakes you might make when trading stocks are actually pretty common and by no means reserved exclusively for you alone. In fact, the majority of investors make many of the following mistakes. '
+            ,
+            asset: ['ETH', 'BTC'],
+            by: '',
+            generateDate: '3 hours ago',
+            generate: 'AI',
+            views: 234,
+            likes: 90,
+            liked: true,
+            bookMark: true,
+            width: 3,
+            isAI: true,
+            review: '85%'
+        },
     ]
 
     const [open, setOpen] = useState(false);
@@ -100,11 +162,11 @@ export default function StoriesComp(props) {
     const [includeAIstories, setIncludeAIstories] = useState(true)
     const [bookMark, setBookMark] = React.useState(false)
     const [selected, setSelected] = React.useState(false);
-    const navigate=useNavigate();
+    const navigate = useNavigate();
 
     const setFavourite = (i) => {
         let newStoriesState = [...storiesState]
-        newStoriesState[i.id-1].bookMark = !newStoriesState[i.id-1].bookMark
+        newStoriesState[i.id - 1].bookMark = !newStoriesState[i.id - 1].bookMark
         setStoriesState((newStoriesState) => [...newStoriesState])
     }
 
@@ -114,20 +176,22 @@ export default function StoriesComp(props) {
 
     const handleClose = () => {
         setOpen(false);
-    }; 
+    };
 
     const showStory = (i) => {
-        navigate('/watchStory',{state: i});
+        navigate('/watchStory', {state: i});
     }
 //onClick={()=>watchStory(this.id,this.title,this.body,this.img,this.views,this.likes,this.liked,this.width)}
     return (
         <>
-            <Grid2 container spacing={0} style={{paddingTop:10}}>
+            <Grid2 container spacing={0} style={{paddingTop: 10}}>
                 <Grid2 item xs={2}>
-                    <Button onClick={() => navigate('/createStory')} variant={"outlined"} startIcon={<Add></Add>}>Create a story</Button>
+                    <Button onClick={() => navigate('/createStory')} variant={"outlined"} startIcon={<Add></Add>}>Create
+                        a story</Button>
                 </Grid2>
                 <Grid2 item xsOffset={8} xs={2} display={"flex"} justifyContent={"end"} alignItems={"end"}>
-                    <Button onClick={()=>navigate('/myStories')} variant={"outlined"} startIcon={<Folder></Folder>}>My stories</Button>
+                    <Button onClick={() => navigate('/myStories')} variant={"outlined"} startIcon={<Folder></Folder>}>My
+                        stories</Button>
                 </Grid2>
             </Grid2>
             <div style={{paddingTop: '30px'}}></div>
@@ -142,7 +206,10 @@ export default function StoriesComp(props) {
                     <div style={{paddingRight: '15px'}}></div>
                     <Button variant={"outlined"} startIcon={<Search></Search>}>Search</Button>
                     <div style={{paddingRight: '15px'}}></div>
-                    <Button onClick={handleClickOpen} variant={"outlined"} startIcon={<Info></Info>}>Include AI stories<Switch checked={includeAIstories} onChange={()=>setIncludeAIstories(() => !includeAIstories)} size={"small"}></Switch></Button>
+                    <Button onClick={handleClickOpen} variant={"outlined"} startIcon={<Info></Info>}>Include AI
+                        stories<Switch checked={includeAIstories}
+                                       onChange={() => setIncludeAIstories(() => !includeAIstories)}
+                                       size={"small"}></Switch></Button>
                 </Grid2>
                 <Grid2 xs={3}></Grid2>
                 <Dialog
@@ -157,9 +224,9 @@ export default function StoriesComp(props) {
                     <DialogContent>
                         <DialogContentText id="alert-dialog-description">
                             Choose whether to include AI-generated stories.
-                            <br /><br />
+                            <br/><br/>
                             Those stories are generated by analyzing plenty of investments made by people like you.
-                            <br /><br />
+                            <br/><br/>
                             The more you invest, the more you can learn.
                         </DialogContentText>
                     </DialogContent>
@@ -169,46 +236,36 @@ export default function StoriesComp(props) {
                 </Dialog>
             </Grid2>
             <div style={{paddingTop: '30px'}}></div>
-            <Grid container spacing={4} style={{paddingBottom: '50px'}} columnSpacing={{ xs: 3, sm: 4, md: 5 }}>
+            <Grid container spacing={4} style={{paddingBottom: '50px'}} columnSpacing={{xs: 3, sm: 4, md: 5}}>
                 {storiesState.filter((story) =>
                     (includeAIstories) || (!includeAIstories && !story.isAI)
                 ).map(i => (
-                    <Grid  key={i.id} item xs={6}>
-                        <Card variant="outlined" sx={{ minWidth: 350 }} >
-                            <CardActionArea onClick={()=>showStory(i)}>
+                    <Grid key={i.id} item xs={6}>
+                        <Card variant="outlined" sx={{minWidth: 350}}>
+                            <CardActionArea onClick={() => showStory(i)}>
                                 <CardContent>
                                     <Grid2 container spacing={0}>
-                                        <Grid2 item xs={5}>
-                                            <Typography variant="h5" component="div">
+                                        <Grid2 item xs={9}>
+                                            <Typography variant="h4" component="div">
                                                 {i.title}
                                             </Typography>
                                         </Grid2>
-                                        <Grid2 item xs={2} display={"flex"} justifyContent={"center"} alignItems={"center"}>
-                                            <Tooltip title="Approval Rating">
-                                                <ReviewsOutlined>
-                                                </ReviewsOutlined>
-                                            </Tooltip>
-                                            <div>&nbsp;</div>
-                                            <Typography variant="subtitle1">{i.review}</Typography>
-                                        </Grid2>
-                                        <Grid2 item xs={2} display={"flex"} justifyContent={"center"} alignItems={"center"}>
-                                            <Tooltip title="Video available">
-                                                <VoiceChatOutlined>
-                                                </VoiceChatOutlined>
-                                            </Tooltip>
-                                        </Grid2>
-                                        <Grid2 item xsOffset={1} xs={2} display={"flex"} justifyContent={"end"} alignItems={"end"}>
-                                            {i.asset.map((element,index) => (
-                                                <><Chip label={element} variant="outlined" /><div>&nbsp;</div></>
-                                            ) )}
+
+                                        <Grid2 item xsOffset={1} xs={2} display={"flex"} justifyContent={"end"}
+                                               alignItems={"end"}>
+                                            {i.asset.map((element, index) => (
+                                                <><Chip label={element} variant="outlined"/>
+                                                    <div>&nbsp;</div>
+                                                </>
+                                            ))}
                                         </Grid2>
                                     </Grid2>
                                     <Typography variant="subtitle2">Generated by: {i.generate}</Typography>
                                     <br></br>
-                                    <hr className="solid"></hr>
+                                    <Divider/>
                                     <br></br>
-                                    <Typography variant="body1">
-                                        {i.body}
+                                    <Typography variant="h6">
+                                        "{i.body}"
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
@@ -218,9 +275,11 @@ export default function StoriesComp(props) {
                                 </Grid2>
                                 <Grid2 item xsOffset={1} xs={2} display={"flex"} justifyContent={"end"} alignItems={"end"}>
                                     <CardActions style={{ float:'right'}}>
-                                        <IconButton onClick={() => setFavourite(i)} color={i.bookMark ? "primary" : ""} aria-label="like">
-                                            <Bookmark />
-                                        </IconButton>
+                                        <Tooltip title={'Add to favourites'}>
+                                            <IconButton onClick={() => setFavourite(i)} color={i.bookMark ? "primary" : ""} aria-label="like">
+                                                <Bookmark sx={{fontSize: 30}} />
+                                            </IconButton>
+                                        </Tooltip>
                                     </CardActions>
                                 </Grid2>
                             </Grid2>
@@ -236,3 +295,18 @@ export default function StoriesComp(props) {
 
 
 export {StoriesComp}
+
+// <Grid2 item xs={2} display={"flex"} justifyContent={"center"} alignItems={"center"}>
+//     <Tooltip title="Approval Rating">
+//         <ReviewsOutlined>
+//         </ReviewsOutlined>
+//     </Tooltip>
+//     <div>&nbsp;</div>
+//     <Typography variant="subtitle1">{i.review}</Typography>
+// </Grid2>
+// <Grid2 item xs={2} display={"flex"} justifyContent={"center"} alignItems={"center"}>
+//     <Tooltip title="Video available">
+//         <VoiceChatOutlined>
+//         </VoiceChatOutlined>
+//     </Tooltip>
+// </Grid2>
