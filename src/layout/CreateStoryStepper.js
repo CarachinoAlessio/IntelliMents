@@ -43,6 +43,7 @@ import Grid2 from "@mui/material/Unstable_Grid2";
 import {ToggleButtonGroup, ToggleButton} from '@mui/material'
 import IconButton from "@mui/material/IconButton";
 import {useNavigate} from "react-router-dom";
+import FileUploader from "./FileUploader";
 
 const steps = ['Select Investments', 'Choose Modality', 'Write the story', 'Upload Material', 'Overview'];
 
@@ -162,8 +163,22 @@ function CreateStoryStepper(props) {
         })
     }
 
-    const addMedia = (index, up) => {
-        console.log('todo')
+    const addMedia = (index, up, fileUploaded) => {
+        setNotebook((old) => {
+            let fragment = {
+                type: 'Image',
+                show_buttons: false,
+                alignment: 'left',
+                formats: []
+            }
+            fragment.content = URL.createObjectURL(fileUploaded)
+            if (up) {
+                return [...old.slice(0, index), {...fragment}, ...old.slice(index)]
+            } else {
+                return [...old.slice(0, index + 1), {...fragment}, ...old.slice(index + 1)]
+            }
+        })
+        console.log(fileUploaded)
     }
 
     const deleteFragment = (index) => {
@@ -430,119 +445,122 @@ function CreateStoryStepper(props) {
                                                                 onClick={() => addFragment(index, true)}>Add
                                                             Fragment</Button>
                                                         <div>{"\u00A0"}</div>
-                                                        <Button startIcon={<Add></Add>} size={"small"} variant="outlined"
-                                                                onClick={() => addMedia(index, true)}>Add Media</Button>
+                                                        <FileUploader addMedia={addMedia} up={true} index={index}></FileUploader>
                                                     </Box>
                                                         <div style={{paddingBottom: '15px'}}></div>
                                                     </> : <div style={{paddingBottom: '15px'}}></div>}
 
-                                                    <FormControl fullWidth>
-                                                        <Grid container direction="row"
-                                                              justifyContent="center"
-                                                              alignItems="stretch">
-                                                            <Grid item xs={4}>
-                                                                <InputLabel id="demo-simple-select-label">Fragment
-                                                                    type</InputLabel>
-                                                                <Select
-                                                                    style={{
-                                                                        height: '60px',
-                                                                        width: '200px',
-                                                                        backgroundColor: 'f0f0f0'
-                                                                    }}
-                                                                    labelId="demo-simple-select-label"
-                                                                    id="demo-simple-select"
-                                                                    label="Fragment type"
-                                                                    variant="filled"
-                                                                    value={fragment.type}
-                                                                    onChange={(e) => updateTypeOfFragment(e.target.value, index)}
-                                                                >
-                                                                    {fragmentOptions.map((option, i) => {
-                                                                        return (
-                                                                            <MenuItem key={'b' + index + i}
-                                                                                      value={option}>{option}</MenuItem>
-                                                                        )
-                                                                    })}
-                                                                </Select>
-                                                            </Grid>
-                                                            <Grid item xs={4}>
-                                                                {fragment.type === 'Paragraph' ?
-                                                                    <Box justifyContent='center' display='flex'>
-                                                                        <ToggleButtonGroup
-                                                                            value={fragment.alignment}
-                                                                            exclusive
-                                                                            onChange={(e, n) => handleAlignment(e, n, index)}
-                                                                            aria-label="text alignment"
-                                                                        >
-                                                                            <ToggleButton value="left"
-                                                                                          aria-label="left aligned">
-                                                                                <FormatAlignLeft/>
-                                                                            </ToggleButton>
-                                                                            <ToggleButton value="center"
-                                                                                          aria-label="centered">
-                                                                                <FormatAlignCenter/>
-                                                                            </ToggleButton>
-                                                                            <ToggleButton value="right"
-                                                                                          aria-label="right aligned">
-                                                                                <FormatAlignRight/>
-                                                                            </ToggleButton>
-                                                                        </ToggleButtonGroup>
-                                                                        <Divider flexItem orientation="vertical"
-                                                                                 sx={{mx: 1, my: 1}}/>
+                                                    {fragment.type === 'Image' ?
+                                                        <img src={fragment.content} alt={""} />
+                                                        :
+                                                        <><FormControl fullWidth>
+                                                            <Grid container direction="row"
+                                                                  justifyContent="center"
+                                                                  alignItems="stretch">
+                                                                <Grid item xs={4}>
+                                                                    <InputLabel id="demo-simple-select-label">Fragment
+                                                                        type</InputLabel>
+                                                                    <Select
+                                                                        style={{
+                                                                            height: '60px',
+                                                                            width: '200px',
+                                                                            backgroundColor: 'f0f0f0'
+                                                                        }}
+                                                                        labelId="demo-simple-select-label"
+                                                                        id="demo-simple-select"
+                                                                        label="Fragment type"
+                                                                        variant="filled"
+                                                                        value={fragment.type}
+                                                                        onChange={(e) => updateTypeOfFragment(e.target.value, index)}
+                                                                    >
+                                                                        {fragmentOptions.map((option, i) => {
+                                                                            return (
+                                                                                <MenuItem key={'b' + index + i}
+                                                                                          value={option}>{option}</MenuItem>
+                                                                            )
+                                                                        })}
+                                                                    </Select>
+                                                                </Grid>
+                                                                <Grid item xs={4}>
+                                                                    {fragment.type === 'Paragraph' ?
+                                                                        <Box justifyContent='center' display='flex'>
+                                                                            <ToggleButtonGroup
+                                                                                value={fragment.alignment}
+                                                                                exclusive
+                                                                                onChange={(e, n) => handleAlignment(e, n, index)}
+                                                                                aria-label="text alignment"
+                                                                            >
+                                                                                <ToggleButton value="left"
+                                                                                              aria-label="left aligned">
+                                                                                    <FormatAlignLeft/>
+                                                                                </ToggleButton>
+                                                                                <ToggleButton value="center"
+                                                                                              aria-label="centered">
+                                                                                    <FormatAlignCenter/>
+                                                                                </ToggleButton>
+                                                                                <ToggleButton value="right"
+                                                                                              aria-label="right aligned">
+                                                                                    <FormatAlignRight/>
+                                                                                </ToggleButton>
+                                                                            </ToggleButtonGroup>
+                                                                            <Divider flexItem orientation="vertical"
+                                                                                     sx={{mx: 1, my: 1}}/>
 
-                                                                        <ToggleButtonGroup
-                                                                            value={fragment.formats}
-                                                                            onChange={(e, n) => handleFormat(e, n, index)}
-                                                                            aria-label="text formatting"
-                                                                        >
-                                                                            <ToggleButton value="bold" aria-label="bold">
-                                                                                <FormatBold/>
-                                                                            </ToggleButton>
-                                                                            <ToggleButton value="italic"
-                                                                                          aria-label="italic">
-                                                                                <FormatItalic/>
-                                                                            </ToggleButton>
-                                                                            <ToggleButton value="underlined"
-                                                                                          aria-label="underlined">
-                                                                                <FormatUnderlined/>
-                                                                            </ToggleButton>
-                                                                        </ToggleButtonGroup>
-                                                                    </Box>
-                                                                    : ''}
-                                                            </Grid>
-                                                            <Grid justifyContent='right' display='flex' alignItems={"flex-end"} item xs={4}>
-                                                                {fragment.type === 'Paragraph' || fragment.type === 'Subtitle' ?
-                                                                    <Box >
-                                                                        {fragment.show_buttons && notebook.length !== 1 ? <>
-                                                                                <Tooltip arrow title={"Delete"}><IconButton
-                                                                                    color={"primary"} size={"large"}
-                                                                                    onClick={() => deleteFragment(index)}><Delete
-                                                                                    fontSize="inherit"></Delete></IconButton></Tooltip>
-                                                                                <Tooltip arrow title={"Move up"}><IconButton
-                                                                                    disabled={index === 0} color={"primary"}
-                                                                                    size={"large"}
-                                                                                    onClick={() => moveIndexUp(index)}><ArrowUpward
-                                                                                    fontSize="inherit"></ArrowUpward></IconButton></Tooltip>
-                                                                                <Tooltip arrow title={"Move down"}><IconButton
-                                                                                    disabled={index === notebook.length - 1}
-                                                                                    color={"primary"} size={"large"}
-                                                                                    onClick={() => moveIndexDown(index)}><ArrowDownward
-                                                                                    fontSize="inherit"></ArrowDownward></IconButton></Tooltip></>
-                                                                            : ''}<br/>
-                                                                    </Box>
-                                                                    : ''}
+                                                                            <ToggleButtonGroup
+                                                                                value={fragment.formats}
+                                                                                onChange={(e, n) => handleFormat(e, n, index)}
+                                                                                aria-label="text formatting"
+                                                                            >
+                                                                                <ToggleButton value="bold" aria-label="bold">
+                                                                                    <FormatBold/>
+                                                                                </ToggleButton>
+                                                                                <ToggleButton value="italic"
+                                                                                              aria-label="italic">
+                                                                                    <FormatItalic/>
+                                                                                </ToggleButton>
+                                                                                <ToggleButton value="underlined"
+                                                                                              aria-label="underlined">
+                                                                                    <FormatUnderlined/>
+                                                                                </ToggleButton>
+                                                                            </ToggleButtonGroup>
+                                                                        </Box>
+                                                                        : ''}
+                                                                </Grid>
+                                                                <Grid justifyContent='right' display='flex' alignItems={"flex-end"} item xs={4}>
+                                                                    {fragment.type === 'Paragraph' || fragment.type === 'Subtitle' ?
+                                                                        <Box >
+                                                                            {fragment.show_buttons && notebook.length !== 1 ? <>
+                                                                                    <Tooltip arrow title={"Delete"}><IconButton
+                                                                                        color={"primary"} size={"large"}
+                                                                                        onClick={() => deleteFragment(index)}><Delete
+                                                                                        fontSize="inherit"></Delete></IconButton></Tooltip>
+                                                                                    <Tooltip arrow title={"Move up"}><IconButton
+                                                                                        disabled={index === 0} color={"primary"}
+                                                                                        size={"large"}
+                                                                                        onClick={() => moveIndexUp(index)}><ArrowUpward
+                                                                                        fontSize="inherit"></ArrowUpward></IconButton></Tooltip>
+                                                                                    <Tooltip arrow title={"Move down"}><IconButton
+                                                                                        disabled={index === notebook.length - 1}
+                                                                                        color={"primary"} size={"large"}
+                                                                                        onClick={() => moveIndexDown(index)}><ArrowDownward
+                                                                                        fontSize="inherit"></ArrowDownward></IconButton></Tooltip></>
+                                                                                : ''}<br/>
+                                                                        </Box>
+                                                                        : ''}
 
+                                                                </Grid>
                                                             </Grid>
-                                                        </Grid>
-                                                        <div style={{paddingTop: '10px'}}></div>
-                                                        <Divider></Divider>
-                                                        <Divider></Divider>
-                                                        <div style={{paddingTop: '10px'}}></div>
-                                                    </FormControl>
-                                                    <TextField multiline rows={fragment.type === 'Subtitle' ? 1 : 5}
-                                                               style={{width: '100%', backgroundColor: 'f0f0f0'}}
-                                                               label={fragment.type} variant="filled"
-                                                               value={fragment.content}
-                                                               onChange={(e) => (updateContent(e.target.value, index))}></TextField>
+                                                            <div style={{paddingTop: '10px'}}></div>
+                                                            <Divider></Divider>
+                                                            <Divider></Divider>
+                                                            <div style={{paddingTop: '10px'}}></div>
+                                                        </FormControl><TextField multiline rows={fragment.type === 'Subtitle' ? 1 : 5}
+                                                        style={{width: '100%', backgroundColor: 'f0f0f0'}}
+                                                        label={fragment.type} variant="filled"
+                                                        value={fragment.content}
+                                                        onChange={(e) => (updateContent(e.target.value, index))}></TextField></>}
+
+
                                                     <div style={{paddingBottom: '15px'}}></div>
                                                     {fragment.show_buttons ? <><Box display="flex" justifyContent="center"
                                                                                     alignItems="flex-start">
@@ -550,8 +568,7 @@ function CreateStoryStepper(props) {
                                                                 onClick={() => addFragment(index, false)}>Add
                                                             Fragment</Button>
                                                         <div>{"\u00A0"}</div>
-                                                        <Button startIcon={<Add></Add>} size={"small"} variant="outlined"
-                                                                onClick={() => addMedia(index, false)}>Add Media</Button>
+                                                        <FileUploader addMedia={addMedia} up={false} index={index}></FileUploader>
                                                     </Box></> : ''}
                                                 </Box>
 
