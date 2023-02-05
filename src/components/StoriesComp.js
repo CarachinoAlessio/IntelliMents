@@ -161,7 +161,8 @@ export default function StoriesComp(props) {
     const [storiesState, setStoriesState] = useState(stories);
     const [includeAIstories, setIncludeAIstories] = useState(true)
     const [bookMark, setBookMark] = React.useState(false)
-    const [selected, setSelected] = React.useState(false);
+    const [selected, setSelected] = React.useState(false)
+    //const [loggedIn,setLoggedIn] = React.useState(false)
     const navigate = useNavigate();
 
     const setFavourite = (i) => {

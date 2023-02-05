@@ -125,6 +125,9 @@ export default function MiniDrawer() {
         setOpen(false);
     };
 
+    //Login
+    const [loggedIn,setLoggedIn]=useState(false)
+
 
     return (
         <Box sx={{ display: 'flex' }}>

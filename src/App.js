@@ -37,10 +37,16 @@ function App() {
 
 function App2() {
 
-    const [loggedIn, setLoggedIn] = useState(false);
+    //login
+    const [loggedIn, setLoggedIn] = useState();
+
+    
 
     const navigate = useNavigate();
 
+    // if(!loggedIn) {
+    //     return <LoginComp setToken={setLoggedIn} />
+    //   }
 
     const doLogout = async () => {
         //await API.logOut();
