@@ -42,11 +42,12 @@ import {
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {ToggleButtonGroup, ToggleButton} from '@mui/material'
 import IconButton from "@mui/material/IconButton";
-
+import {useNavigate} from "react-router-dom";
 
 const steps = ['Select Investments', 'Choose Modality', 'Write the story', 'Upload Material', 'Overview'];
 
 function CreateStoryStepper(props) {
+    const navigate=useNavigate();
     const investmentsArr = [{
         startDate: '10-12-2022',
         endDate: 'In progress',
@@ -110,6 +111,8 @@ function CreateStoryStepper(props) {
     };
 
     const handleBack = () => {
+        if (activeStep === 0)
+            navigate(-1)
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
@@ -240,7 +243,7 @@ function CreateStoryStepper(props) {
 
                                             {investments.map((row, index) => (
                                                 <TableRow key={index} hover selected={row.selected}
-                                                          sx={{backgroundColor: 'white'}}>
+                                                          sx={{backgroundColor: 'white'}} onClick={() => selectInvestment(index)}>
                                                     <TableCell align='center'>{row.startDate}</TableCell>
                                                     <TableCell align='center'>{row.endDate}</TableCell>
                                                     <TableCell align='center'>{row.asset}</TableCell>
@@ -259,6 +262,7 @@ function CreateStoryStepper(props) {
                         ) :
                         activeStep === 1 ?
                             <>
+                                <Typography variant='h4' align='center'>If you want, our AI can make sure you save time</Typography>
                                 <Grid container spacing={2}
                                       direction="row"
                                       justifyContent="center"
@@ -602,7 +606,6 @@ function CreateStoryStepper(props) {
                                 startIcon={<ArrowLeft></ArrowLeft>}
                                 variant={"outlined"}
                                 color="inherit"
-                                disabled={activeStep === 0}
                                 onClick={handleBack}
 
                             >
