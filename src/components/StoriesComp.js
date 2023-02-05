@@ -206,9 +206,9 @@ export default function StoriesComp(props) {
                     <div style={{paddingRight: '15px'}}></div>
                     <Button variant={"outlined"} startIcon={<Search></Search>}>Search</Button>
                     <div style={{paddingRight: '15px'}}></div>
-                    <Button onClick={handleClickOpen} variant={"outlined"} startIcon={<Info></Info>}>Include AI
+                    <Button onClick={(e) => {e.preventDefault()}} variant={"outlined"} startIcon={<Info onClick={handleClickOpen}></Info>}>Include AI
                         stories<Switch checked={includeAIstories}
-                                       onChange={() => setIncludeAIstories(() => !includeAIstories)}
+                                       onClick={() => setIncludeAIstories(() => !includeAIstories)}
                                        size={"small"}></Switch></Button>
                 </Grid2>
                 <Grid2 xs={3}></Grid2>
