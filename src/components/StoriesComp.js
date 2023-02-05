@@ -141,7 +141,7 @@ export default function StoriesComp(props) {
         {
             id: 4,
             title: 'Learn from my mistakes',
-            body: 'Nobody\'s perfect. We are all going to have our wins and losses, especially when it comes to investing. But some of the mistakes you might make when trading stocks are actually pretty common and by no means reserved exclusively for you alone. In fact, the majority of investors make many of the following mistakes. '
+            body: 'Nobody\'s perfect. We are all going to have our wins and losses, especially when it comes to investing. But some of the mistakes you might make when trading stocks are actually pretty common and by no means reserved exclusively for [...]'
             ,
             asset: ['ETH', 'BTC'],
             by: '',
@@ -264,7 +264,7 @@ export default function StoriesComp(props) {
                                     <br></br>
                                     <Divider/>
                                     <br></br>
-                                    <Typography variant="h6">
+                                    <Typography variant="h6" sx={{minHeight: '100px', maxHeight: '100px'}}>
                                         "{i.body}"
                                     </Typography>
                                 </CardContent>
