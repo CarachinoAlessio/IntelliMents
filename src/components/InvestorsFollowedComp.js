@@ -30,7 +30,10 @@ export default function InvestorsFollowedComp(props) {
         <Grid container fluid>
             <Row>
                 <Col>
-                    <Grid>
+                    <Grid style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'}}>
                         <Button onClick={() => navigate('/Investors')} variant={"outlined"}>Search</Button> &nbsp;&nbsp;
                         <Button onClick={() => navigate('/Investors/Tops')} variant={"outlined"}>Top Investors</Button> &nbsp;&nbsp;
                         <Button onClick={() => navigate('/Investors/Followed')} variant={"outlined"}>Followed</Button> &nbsp;&nbsp;

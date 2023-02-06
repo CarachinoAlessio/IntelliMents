@@ -10,6 +10,8 @@ import TextField from '@mui/material/TextField';
 import {Search} from "@mui/icons-material";
 import * as PropTypes from "prop-types";
 import * as React from 'react';
+import {FilterList} from "@mui/icons-material";
+
 
 import {
     Grid, Card, CardContent,
@@ -50,10 +52,14 @@ export default function InvestorsComp(props) {
         <Grid container fluid>
             <Row>
                 <Col>
-                    <Grid>
+                    <Grid style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'}}>
                         <Button onClick={() => navigate('/Investors')} variant={"outlined"}>Search</Button> &nbsp;&nbsp;
                         <Button onClick={() => navigate('/Investors/Tops')} variant={"outlined"}>Top Investors</Button> &nbsp;&nbsp;
-                        <Button onClick={() => navigate('/Investors/Followed')} variant={"outlined"}>Followed</Button>
+                        <Button onClick={() => navigate('/Investors/Followed')} variant={"outlined"}>Followed</Button> &nbsp;&nbsp;
+                        <Button variant={"outlined"} startIcon={<FilterList></FilterList>}>Sort by</Button>
                     </Grid>
 
                     <Grid sx={{ borderRadius: '16px' }} display="flex" justifyContent="center" alignItems="center" style={{ padding: "7px", marginTop: "15px", marginBottom: "45px", backgroundColor: "#eee"}}>
