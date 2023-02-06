@@ -36,11 +36,9 @@ function App() {
 }
 
 function App2() {
-
     //login
     const [loggedIn, setLoggedIn] = useState();
 
-    
 
     const navigate = useNavigate();
 
@@ -65,7 +63,7 @@ function App2() {
 
                     <Route path='/' element={<><Layout loggedIn={loggedIn} //student={student} setStudent={setStudent}
                                                        doLogout={doLogout}></Layout></>}>
-                        <Route path='/' element={<Navigate to='/Stories'/>}></Route>
+                        <Route path='/' element={!loggedIn ? <Navigate to='/about'/> : <Navigate to='Stories' />}></Route>
                         <Route path='/login' element={<LoginComp loggedIn={loggedIn} setLoggedIn={setLoggedIn}></LoginComp>}></Route>
                         <Route path='/stories' element={<StoriesComp></StoriesComp>}></Route>
                         <Route path='/news' element={<NewsComp></NewsComp>}></Route>

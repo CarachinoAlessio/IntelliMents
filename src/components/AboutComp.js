@@ -2,7 +2,7 @@ import Row from '@mui/material/Container';
 import Col from '@mui/material/Container';
 
 import {
-    Grid, Card, Box, Button, Typography,
+    Grid, Card, Box, Button, Typography, Divider,
 } from "@mui/material";
 
 const styleObj = {
@@ -27,7 +27,7 @@ export default function AboutComp(props) {
                 <Col>
                     <Card style={{ padding: "15px", marginTop: "25px", marginBottom: "5px"}}>
                         <Typography variant="h3" gutterBottom style={styleObj}>Learn from stories of successful and bad investments with detailed reasoning</Typography>
-                        <hr/>
+                        <Divider></Divider>
 
                         <Typography variant="h5" gutterBottom style={styleObjBold}>Our story</Typography>
                         <Typography variant="body1" gutterBottom>The moderate task is covered in the Investor section. The user here can search the top investors in the platform and follow them, to understand their investments and how they did act in those. The user can also search for a particular investor if he wants. The user can also visualize the followed investors. The user can also read stories in the Stories section. Here the user will see some stories that an algorithm think could be useful for him. Stories are wrote from humans or from an Artificial Intelligence.</Typography>

@@ -1,11 +1,12 @@
 import {
+    Box,
     Button,
     Card, CardActionArea, CardActions, CardContent, Chip,
     Dialog, DialogActions,
     DialogContent,
     DialogContentText,
     DialogTitle,
-    Divider, Grid,
+    Divider, FormControl, FormControlLabel, FormLabel, Grid, ListItem, ListSubheader, Popper, Radio, RadioGroup,
     Switch, Tooltip,
     Typography
 } from "@mui/material";
@@ -24,6 +25,9 @@ import {useNavigate} from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 import {StoryContentComp} from "./StoryContentComp";
 import * as PropTypes from "prop-types";
+import List from "@mui/material/List";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
 
 
 function Item(props) {
@@ -103,7 +107,7 @@ export default function StoriesComp(props) {
             asset: ['ETH', 'APL'],
             by: 'Mario Rossi',
             generateDate: '20 minutes ago',
-            generate: 'HUMAN',
+            generate: 'Mario Rossi',
             views: 132,
             likes: 90,
             liked: true,
@@ -118,9 +122,9 @@ export default function StoriesComp(props) {
             body: 'I lost $2000 in two days.\n' +
                 'Please avoid these mistakes',
             asset: ['APL'],
-            by: '',
+            by: 'Lorenzo Santo',
             generateDate: '2 days ago',
-            generate: 'AI',
+            generate: 'Lorenzo Santo',
             views: 687,
             likes: 90,
             liked: true,
@@ -149,11 +153,71 @@ export default function StoriesComp(props) {
     ]
 
     const [open, setOpen] = useState(false);
-    const [storiesState, setStoriesState] = useState(stories);
-    const [includeAIstories, setIncludeAIstories] = useState(true)
+
+    //const [includeAIstories, setIncludeAIstories] = useState(true)
     const [bookMark, setBookMark] = React.useState(false)
     const [selected, setSelected] = React.useState(false);
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const openFilter = Boolean(anchorEl)
+    const [filters, setFilters] = useState({AIstories: true, authors: [], assets: []})
+    const [sortBy, setSortBy] = useState('Release date')
+    const [orderType, setOrderType] = useState('Descending')
+
+    const id = openFilter ? 'simple-popper' : undefined;
     const navigate = useNavigate();
+
+    const filterAndSortStories = (stories) => {
+        const assetIsCompatible = (verifyThisAssets) => {
+            for (let i in verifyThisAssets){
+                if (verifyThisAssets[i] in filters.assets)
+                    return true
+            }
+            return false
+        }
+        const authorIsCompatible = (verifyThisAuthor) => {
+            if (verifyThisAuthor in filters.authors)
+                return true
+            else return false
+        }
+        let result = []
+        for (let i in stories){
+            let story = stories[i]
+            if (
+                (filters.AIstories || (!story.isAI && !filters.AIstories))
+                &&
+                (filters.assets.length === 0 || assetIsCompatible(story.asset))
+                &&
+                (filters.authors.length === 0 || authorIsCompatible(story.by))
+            ){
+                result.push(story)
+            }
+        }
+        if (sortBy === 'Title'){
+            result.sort((a,b) => {
+                if (a.title < b.title)
+                    return -1
+                else
+                    return 1
+            })
+        }
+        else {
+            result.sort((a,b) => {
+                if (a.title < b.title)
+                    return -1
+                else
+                    return 1
+            })
+        }
+        if (orderType === 'Descending'){
+            result = result.reverse()
+        }
+
+        return result
+    };
+    const [storiesState, setStoriesState] = useState(filterAndSortStories(stories));
+    const handleOpenFilter = (event) => {
+        setAnchorEl(anchorEl ? null : event.currentTarget);
+    };
 
     const setFavourite = (i) => {
         let newStoriesState = [...storiesState]
@@ -194,14 +258,130 @@ export default function StoriesComp(props) {
             <Grid2 container spacing={0}>
                 <Grid2 xs={3}></Grid2>
                 <Grid2 display={"flex"} justifyContent={"center"} alignItems={"center"} xs={6}>
-                    <Button variant={"outlined"} startIcon={<FilterList></FilterList>}>Filter by</Button>
+                    <div>
+                        <Button aria-describedby={id} onClick={handleOpenFilter} variant={"outlined"} startIcon={<FilterList></FilterList>}>Filter & Sort</Button>
+                        <Popper id={id} open={openFilter} anchorEl={anchorEl}>
+                            <Card raised={true} sx={{ minWidth: 350 }}>
+                                <CardContent>
+                                    <List
+                                        sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+                                        subheader={<ListSubheader>Filter by</ListSubheader>}
+                                    >
+                                        <ListItem>
+                                            <ListItemText id="switch-list-label-wifi" primary="Include AI Stories" />
+                                            <Switch
+                                                edge="end"
+                                                checked={filters.AIstories}
+                                                onClick={() => setFilters((old) => {return {...old, AIstories: !old.AIstories}})}
+                                                inputProps={{
+                                                    'aria-labelledby': 'switch-list-label-wifi',
+                                                }}
+                                            />
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemText id="switch-list-label-wifi" primary="Author" />
+                                            <Switch
+                                                edge="end"
+                                                //onChange={handleToggle('wifi')}
+                                                //checked={checked.indexOf('wifi') !== -1}
+                                                inputProps={{
+                                                    'aria-labelledby': 'switch-list-label-wifi',
+                                                }}
+                                            />
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemText id="switch-list-label-bluetooth" primary="Asset" />
+                                            <Switch
+                                                edge="end"
+                                                //onChange={handleToggle('bluetooth')}
+                                                //checked={checked.indexOf('bluetooth') !== -1}
+                                                inputProps={{
+                                                    'aria-labelledby': 'switch-list-label-bluetooth',
+                                                }}
+                                            />
+                                        </ListItem>
+                                    </List>
+                                    <Divider></Divider>
+                                    <List
+                                        sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+                                        subheader={<ListSubheader>Sort by</ListSubheader>}
+                                    >
+                                        <ListItem>
+
+
+                                            <ListItemText id="switch-list-label-wifi" primary="Release date" />
+                                            <Radio
+                                                edge="end"
+                                                onClick={() => setSortBy("Release date")}
+                                                checked={sortBy === "Release date"}
+                                                inputProps={{
+                                                    'aria-labelledby': 'switch-list-label-wifi',
+                                                }}
+                                            />
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemText id="switch-list-label-bluetooth" primary="Title" />
+                                            <Radio
+                                                edge="end"
+                                                onClick={() => setSortBy("Title")}
+                                                checked={sortBy === "Title"}
+                                                inputProps={{
+                                                    'aria-labelledby': 'switch-list-label-bluetooth',
+                                                }}
+                                            />
+                                        </ListItem>
+                                    </List>
+
+
+
+                                    <Divider></Divider>
+                                    <List
+                                        sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+                                        subheader={<ListSubheader>Order type</ListSubheader>}
+                                    >
+                                        <ListItem>
+
+
+                                            <ListItemText id="switch-list-label-wifi" primary="Ascending" />
+                                            <Radio
+                                                edge="end"
+                                                onClick={() => setOrderType("Ascending")}
+                                                checked={orderType === "Ascending"}
+                                                inputProps={{
+                                                    'aria-labelledby': 'switch-list-label-wifi',
+                                                }}
+                                            />
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemText id="switch-list-label-bluetooth" primary="Descending" />
+                                            <Radio
+                                                edge="end"
+                                                onClick={() => setOrderType("Descending")}
+                                                checked={orderType === "Descending"}
+                                                inputProps={{
+                                                    'aria-labelledby': 'switch-list-label-bluetooth',
+                                                }}
+                                            />
+                                        </ListItem>
+                                    </List>
+                                    <Divider></Divider>
+                                    <div style={{paddingTop:'32px'}}></div>
+                                    <Box style={{display: 'flex', justifyContent:'center', alignItems: 'center'}}><Button size="medium" variant={'contained'} onClick={() => {setAnchorEl(null); setStoriesState(filterAndSortStories(stories))}}>Apply changes</Button></Box>
+
+                                </CardContent>
+
+                            </Card>
+                        </Popper>
+                    </div>
+
                     <div style={{paddingRight: '15px'}}></div>
                     <Button variant={"outlined"} startIcon={<Search></Search>}>Search</Button>
                     <div style={{paddingRight: '15px'}}></div>
-                    <Button onClick={(e) => {e.preventDefault()}} variant={"outlined"} startIcon={<Info onClick={handleClickOpen}></Info>}>Include AI
+                    {/*<Button onClick={(e) => {e.preventDefault()}} variant={"outlined"} startIcon={<Info onClick={handleClickOpen}></Info>}>Include AI
                         stories<Switch checked={includeAIstories}
                                        onClick={() => setIncludeAIstories(() => !includeAIstories)}
-                                       size={"small"}></Switch></Button>
+                                       size={"small"}></Switch></Button>*/}
+                    <Button onClick={handleClickOpen} variant={"outlined"} startIcon={<Info></Info>}>About AI Stories</Button>
                 </Grid2>
                 <Grid2 xs={3}></Grid2>
                 <Dialog
@@ -229,9 +409,7 @@ export default function StoriesComp(props) {
             </Grid2>
             <div style={{paddingTop: '30px'}}></div>
             <Grid container spacing={4} style={{paddingBottom: '50px'}} columnSpacing={{xs: 3, sm: 4, md: 5}}>
-                {storiesState.filter((story) =>
-                    (includeAIstories) || (!includeAIstories && !story.isAI)
-                ).map(i => (
+                {storiesState.map(i => (
                     <Grid key={i.id} item xs={6}>
                         <Card variant="outlined" sx={{minWidth: 350}}>
                             <CardActionArea onClick={() => showStory(i)}>
@@ -252,7 +430,7 @@ export default function StoriesComp(props) {
                                             ))}
                                         </Grid2>
                                     </Grid2>
-                                    <Typography variant="subtitle2">Generated by: {i.generate}</Typography>
+                                    <Typography variant="subtitle2">Written by: {i.generate}</Typography>
                                     <br></br>
                                     <Divider/>
                                     <br></br>

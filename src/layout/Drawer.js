@@ -154,7 +154,7 @@ export default function MiniDrawer() {
 
         const handleLogout = () => {
             sessionStorage.clear()
-            navigate("/login");
+            navigate("/");
         }
 
     return (
@@ -178,10 +178,10 @@ export default function MiniDrawer() {
                         {menuOptions[activeIndex].text}
                     </Typography>
                     {/**Logged in or not */}
-                    {sessionStorage.getItem('auth-token')!=null ? <Typography>Welcome, {JSON.parse(sessionStorage.getItem('userData'))}</Typography> : 
+                    {sessionStorage.getItem('auth-token')!=null ? <div style={{fontSize: '18px', paddingRight:'15px'}}>Welcome, Mario Rossi</div> :
                                                                     <Typography></Typography>}
-                    {sessionStorage.getItem('auth-token')!=null ? <Button color="inherit" onClick={handleLogout}>Log-out</Button> : 
-                                                                    <Button color="inherit" onClick={handleLoginPage}>Log-in</Button>}
+                    {sessionStorage.getItem('auth-token')!=null ? <Button variant={'outlined'} size='large' sx={{fontSize: '16px'}} color="inherit" onClick={handleLogout}>Log-out</Button> :
+                                                                    <Button variant={'outlined'} size='large' sx={{fontSize: '16'}} color="inherit" onClick={handleLoginPage}>Log-in</Button>}
                 </Toolbar>
             </AppBar>
             <Drawer variant="permanent" open={open}>

@@ -2,7 +2,7 @@ import Row from '@mui/material/Container';
 import Col from '@mui/material/Container';
 
 import {
-    Grid, Card, Box, Button, Typography,
+    Grid, Card, Box, Button, Typography, Divider,
 } from "@mui/material";
 
 const styleObj = {
@@ -27,7 +27,7 @@ export default function HelpComp(props) {
                 <Col>
                     <Card style={{ padding: "15px", marginTop: "25px", marginBottom: "5px"}}>
                         <Typography variant="h3" gutterBottom style={styleObj}>FAQ</Typography>
-                        <hr/>
+                        <Divider></Divider>
 
                         <Typography variant="h5" gutterBottom style={styleObjBold}>Question 1</Typography>
                         <Typography variant="body1" gutterBottom><b>Answers:</b> Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica with ranging across all continents except Antarctica</Typography>

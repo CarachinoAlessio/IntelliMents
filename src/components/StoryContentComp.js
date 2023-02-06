@@ -135,7 +135,7 @@ export default function StoryContentComp(props) {
                             <Button  onClick={handleClose}>SEND</Button>
                         </DialogActions>
                     </Dialog>
-                    <hr className="solid"></hr>
+                    <Divider></Divider>
                     <br></br>
                     <Box
                         component="img"
@@ -231,7 +231,7 @@ Test                                </Typography>
                                     </Grid>
                                 </Grid>
                                 <br></br>
-                                <hr className="solid"></hr>
+                                <Divider></Divider>
                                 <br></br>
                                 <Typography variant="body1">
                                     Lorem Ipsum is simply dummy text of the printing and typesetting industry
@@ -251,7 +251,7 @@ Test                                </Typography>
                                     </Grid>
                                 </Grid>
                                 <br></br>
-                                <hr className="solid"></hr>
+                                <Divider></Divider>
                                 <br></br>
                                 <Typography variant="body1">
                                     Lorem Ipsum is simply dummy text of the printing and typesetting industry
