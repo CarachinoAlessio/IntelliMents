@@ -164,6 +164,7 @@ export default function StoriesComp(props) {
     const [selected, setSelected] = React.useState(false)
     //const [loggedIn,setLoggedIn] = React.useState(false)
     const navigate = useNavigate();
+    //const [emailUser,setEmailUser]=useState("");
 
     const setFavourite = (i) => {
         let newStoriesState = [...storiesState]
@@ -181,6 +182,21 @@ export default function StoriesComp(props) {
 
     const showStory = (i) => {
         navigate('/watchStory', {state: i});
+    }
+
+    //check authentification of user
+    if (!sessionStorage.getItem('auth-token')) {
+        console.log('No auth token set');
+        //do something like redirect to login page
+    } else {
+        const authToken = '123456abcdef';
+        if (sessionStorage.getItem('auth-token') === authToken) {
+            console.log('Good token. Log in.')
+            //do something like redirect to todo page
+        } else {
+            console.log('Bad token.')
+            //do something like redirect to login page
+        }
     }
 //onClick={()=>watchStory(this.id,this.title,this.body,this.img,this.views,this.likes,this.liked,this.width)}
     return (

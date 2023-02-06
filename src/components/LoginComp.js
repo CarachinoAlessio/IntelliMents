@@ -7,7 +7,7 @@ import {Alert, AlertTitle} from "@mui/material";
 import {DataContext} from "../DataContext";
 import LoginIcon from '@mui/icons-material/Login';
 import isEmail from 'validator/lib/isEmail';
-
+//import { useHistory } from 'react-router-dom'; //login
 
 
 function ValidateEmail(mail) {
@@ -17,33 +17,67 @@ function ValidateEmail(mail) {
 
 function LoginComp(props) {
 
-    const [email, setEmail] = useState('testuser@polito.it');
-    const [password, setPassword] = useState('password');
+    //login data
+    const [emailInput, setEmailInput] = useState('testuser@polito.it');
+    const [passwordInput, setPasswordInput] = useState('password');
+    //const history = useHistory(); is now navigate
+    const navigate = useNavigate();
     const [loginFailed, setLoginFailed] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
-    const navigate = useNavigate();
     //let {setLoggedIn, setStudent, setSearchingPlan} = props
-    let emailIsValid = ValidateEmail(email) && email !== ''
-    let passwordIsValid = password !== ''
+    let emailIsValid = ValidateEmail(emailInput) && emailInput !== ''
+    let passwordIsValid = passwordInput !== ''
     //const {setCoursesInContext, setPlanItemsInContext} = useContext(DataContext)
+    /**
+     * 
+     * since there is no backend i need to hardcode it
+     */
+    const handleEmailChange = (e) => {
+        setEmailInput(e.target.value);
+    }
 
-    const handleSubmit = (event) => {
-        event.preventDefault()
-        const credentials = {email, password};
-        /*
-        if (emailIsValid && passwordIsValid)
+    const handlePasswordChange = (e) => {
+        setPasswordInput(e.target.value);
+    }
 
-            API.logIn(credentials)
-                .then((student) => {
-                    setPlanItemsInContext([])
-                    setCoursesInContext([])
-                    setSearchingPlan(true)
-                    setLoggedIn(true)
-                    setStudent(student)
-                    navigate('/home')
-                }).catch((err) => {
-                setLoginFailed(true)
-            })*/}
+    const handleLoginSubmit = (e) => {
+        e.preventDefault();
+        //since it is an example, only one user
+        let hardcodedCred = {
+            email: 'testuser@polito.it',
+            password: 'password'
+        }
+    
+        if ((emailInput === hardcodedCred.email) && (passwordInput === hardcodedCred.password)) {
+            //combination is good. Log them in.
+            //this token can be anything. You can use random.org to generate a random string;
+            const token = '123456abcdef';
+            sessionStorage.setItem('auth-token', token);
+            sessionStorage.setItem('userData',JSON.stringify(emailInput))
+            //go to www.website.com/todo
+            navigate('/Stories');
+        } else {
+            //bad combination
+            alert('Wrong email or password combination');
+        }
+    }
+    // const handleSubmit = (event) => {
+    //     event.preventDefault()
+    //     const credentials = {emailInput, passwordInput};
+    //     /*
+    //     if (emailIsValid && passwordIsValid)
+
+    //         API.logIn(credentials)
+    //             .then((student) => {
+    //                 setPlanItemsInContext([])
+    //                 setCoursesInContext([])
+    //                 setSearchingPlan(true)
+    //                 setLoggedIn(true)
+    //                 setStudent(student)
+    //                 navigate('/home')
+    //             }).catch((err) => {
+    //             setLoginFailed(true)
+    //         })*/}
 
 
 
@@ -55,7 +89,7 @@ function LoginComp(props) {
             alignItems="center"
             justifyContent="center">
             <Grid item xs={5}>
-                <Box component='form' onSubmit={handleSubmit}>
+                <Box component='form' onSubmit={handleLoginSubmit}>
                     <Paper elevation={24}>
                         <Stack spacing={4} sx={{padding: '25px'}}>
                             <Typography variant='h4'>Login</Typography>
@@ -67,21 +101,21 @@ function LoginComp(props) {
                                 ''}
                             <TextField
                                 error={!emailIsValid}
-                                helperText={email === '' ? 'Il campo email non può essere vuoto' : !emailIsValid ? 'L\'email non è nel formato corretto' : ''}
+                                helperText={emailInput === '' ? 'Il campo email non può essere vuoto' : !emailIsValid ? 'L\'email non è nel formato corretto' : ''}
                                 id="email"
                                 label="Email"
-                                value={email}
+                                value={emailInput}
                                 variant="outlined"
-                                onChange={(ev) => setEmail(ev.target.value)}/>
+                                onChange={handleEmailChange}/>
                             <TextField
                                 error={!passwordIsValid}
-                                helperText={password === '' ? 'Il campo password non può essere vuoto' : ''}
+                                helperText={passwordInput === '' ? 'Il campo password non può essere vuoto' : ''}
                                 id="password"
                                 label="Password"
                                 type={!showPassword ? 'password' : 'text'}
-                                value={password}
+                                value={passwordInput}
                                 variant="outlined"
-                                onChange={(ev) => setPassword(ev.target.value)}
+                                onChange={setPasswordInput}
                                 InputProps={{
                                     endAdornment: (
                                         <InputAdornment position="end">
@@ -96,7 +130,7 @@ function LoginComp(props) {
                                     )
                                 }}
                             />
-                            <Button startIcon={<LoginIcon></LoginIcon>} type="submit" color={"primary"} size='large' variant="contained">Entra</Button>
+                            <Button startIcon={<LoginIcon></LoginIcon>} type="submit" color={"primary"} size='large' variant="contained">Sign in</Button>
                         </Stack>
                     </Paper>
                 </Box>

@@ -125,8 +125,20 @@ export default function MiniDrawer() {
         setOpen(false);
     };
 
-    //Login
-    const [loggedIn,setLoggedIn]=useState(false)
+        //check authentification of user
+        if (!sessionStorage.getItem('auth-token')) {
+            console.log('No auth token set');
+            //do something like redirect to login page
+        } else {
+            const authToken = '123456abcdef';
+            if (sessionStorage.getItem('auth-token') === authToken) {
+                console.log('Good token. Log in.')
+                //do something like redirect to todo page
+            } else {
+                console.log('Bad token.')
+                //do something like redirect to login page
+            }
+        }
 
 
     return (
@@ -148,6 +160,9 @@ export default function MiniDrawer() {
                     </IconButton>
                     <Typography variant="h6" noWrap component="div">
                         {menuOptions[activeIndex].text}
+                    </Typography>
+                    <Typography>
+                        AAAAAAAAAAAAAAAAAA
                     </Typography>
                 </Toolbar>
             </AppBar>
