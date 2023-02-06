@@ -20,6 +20,8 @@ import {CurrencyExchange, Help, Info, Movie, Newspaper, Work} from "@mui/icons-m
 import {useNavigate} from "react-router-dom";
 import {useLocation} from "react-router";
 import {cloneElement, useEffect, useState} from "react";
+import Button from '@mui/material/Button';
+
 
 const drawerWidth = 240;
 
@@ -127,7 +129,7 @@ export default function MiniDrawer() {
 
         //check authentification of user
         if (!sessionStorage.getItem('auth-token')) {
-            console.log('No auth token set');
+            console.log('No auth token set.');
             //do something like redirect to login page
         } else {
             const authToken = '123456abcdef';
@@ -139,7 +141,21 @@ export default function MiniDrawer() {
                 //do something like redirect to login page
             }
         }
+        // let loggedOrNot
+        // if (!sessionStorage.getItem('auth-token')) {
+        //     loggedOrNot = <Button>Log-in</Button>
+        //   } else {
+        //     //loggedOrNot = "Welcome, " + sessionStorage.getItem('userData')
+        //     loggedOrNot = "AAAAAAAAAAAAAa"
+        //   }
+        const handleLoginPage = () => {
+            navigate("/login");
+        }
 
+        const handleLogout = () => {
+            sessionStorage.clear()
+            navigate("/login");
+        }
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -158,12 +174,14 @@ export default function MiniDrawer() {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" noWrap component="div">
+                    <Typography variant="h6" noWrap component="div" sx={{flexGrow:1}}>
                         {menuOptions[activeIndex].text}
                     </Typography>
-                    <Typography>
-                        AAAAAAAAAAAAAAAAAA
-                    </Typography>
+                    {/**Logged in or not */}
+                    {sessionStorage.getItem('auth-token')!=null ? <Typography>Welcome, {JSON.parse(sessionStorage.getItem('userData'))}</Typography> : 
+                                                                    <Typography></Typography>}
+                    {sessionStorage.getItem('auth-token')!=null ? <Button color="inherit" onClick={handleLogout}>Log-out</Button> : 
+                                                                    <Button color="inherit" onClick={handleLoginPage}>Log-in</Button>}
                 </Toolbar>
             </AppBar>
             <Drawer variant="permanent" open={open}>
