@@ -1,26 +1,21 @@
 import {
-    Box,
     Button,
-    Card, CardActionArea, CardActions, CardContent, CardHeader, CardMedia, Chip, Container,
+    Card, CardActionArea, CardActions, CardContent, Chip,
     Dialog, DialogActions,
     DialogContent,
     DialogContentText,
     DialogTitle,
-    Divider, Grid, Stack,
+    Divider, Grid,
     Switch, Tooltip,
     Typography
 } from "@mui/material";
 import {
     Add,
     Bookmark,
-    Favorite,
     FilterList,
     Folder,
     Info,
-    RateReview,
-    RateReviewOutlined, Reviews, ReviewsOutlined,
     Search,
-    Share, Stars, VoiceChat, VoiceChatOutlined
 } from "@mui/icons-material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {useState} from "react";
@@ -28,12 +23,8 @@ import * as React from 'react';
 import {useNavigate} from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 import {StoryContentComp} from "./StoryContentComp";
-import {Link} from 'react-router-dom';
 import * as PropTypes from "prop-types";
-import Row from "@mui/material/Container";
-import Col from "@mui/material/Container";
-import ShowChartIcon from "@mui/icons-material/ShowChart";
-import {ToggleButton} from "@mui/lab";
+
 
 function Item(props) {
     return null;
@@ -45,7 +36,7 @@ export default function StoriesComp(props) {
     const stories = [
         {
             id: 1,
-            title: 'AI',
+            title: 'You have to be better than me',
             body: 'I lost $2000 in two days.\n' +
                 'Please avoid these mistakes',
             content: [{
@@ -123,7 +114,7 @@ export default function StoriesComp(props) {
         },
         {
             id: 3,
-            title: 'HUMAN',
+            title: "This is the right pattern to start",
             body: 'I lost $2000 in two days.\n' +
                 'Please avoid these mistakes',
             asset: ['APL'],
@@ -161,10 +152,8 @@ export default function StoriesComp(props) {
     const [storiesState, setStoriesState] = useState(stories);
     const [includeAIstories, setIncludeAIstories] = useState(true)
     const [bookMark, setBookMark] = React.useState(false)
-    const [selected, setSelected] = React.useState(false)
-    //const [loggedIn,setLoggedIn] = React.useState(false)
+    const [selected, setSelected] = React.useState(false);
     const navigate = useNavigate();
-    //const [emailUser,setEmailUser]=useState("");
 
     const setFavourite = (i) => {
         let newStoriesState = [...storiesState]
@@ -183,21 +172,6 @@ export default function StoriesComp(props) {
     const showStory = (i) => {
         navigate('/watchStory', {state: i});
     }
-
-    //check authentification of user
-    if (!sessionStorage.getItem('auth-token')) {
-        console.log('No auth token set');
-        //do something like redirect to login page
-    } else {
-        const authToken = '123456abcdef';
-        if (sessionStorage.getItem('auth-token') === authToken) {
-            console.log('Good token. Log in.')
-            //do something like redirect to todo page
-        } else {
-            console.log('Bad token.')
-            //do something like redirect to login page
-        }
-    }
 //onClick={()=>watchStory(this.id,this.title,this.body,this.img,this.views,this.likes,this.liked,this.width)}
     return (
         <>
@@ -214,6 +188,7 @@ export default function StoriesComp(props) {
             <div style={{paddingTop: '30px'}}></div>
             <Divider></Divider>
             <Typography align="center" variant="h2">Discover Stories we think you would like</Typography>
+            <Typography align="center" fontSize={28} variant="body1">Learn something new from other people</Typography>
             <div style={{paddingTop: '30px'}}></div>
 
             <Grid2 container spacing={0}>

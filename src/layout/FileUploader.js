@@ -22,6 +22,7 @@ const FileUploader = props => {
             </Button>
             <input type="file"
                    ref={hiddenFileInput}
+                   accept={"image/png, image/gif, image/jpeg"}
                    onChange={handleChange}
                    style={{display:'none'}}
             />

@@ -4,7 +4,7 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import {useState} from "react";
+import {useState, Fragment} from "react";
 import {
     Card,
     CardActionArea,
@@ -17,7 +17,7 @@ import {
     InputLabel,
     MenuItem,
     Paper, Rating,
-    Select,
+    Select, Snackbar,
     Stack,
     Table,
     TableBody,
@@ -29,7 +29,7 @@ import {
 } from "@mui/material";
 import {
     Add, ArrowDownward, ArrowLeft, ArrowRight, ArrowUpward,
-    CheckCircleRounded, Delete,
+    CheckCircleRounded, Close, Delete,
     FormatAlignCenter,
     FormatAlignLeft,
     FormatAlignRight,
@@ -65,6 +65,7 @@ function CreateStoryStepper(props) {
     const [aiPicked, setAiPicked] = useState(true)
     const [openRateDialog, setOpenRateDialog] = useState(false);
     const [openGenerateAgainDialog, setOpenGenerateAgainDialog] = useState(false);
+    const [ratingSent, setRatingSent] = useState(false)
 
     const [notebook, setNotebook] = useState([{
         type: 'Subtitle',
@@ -136,6 +137,26 @@ function CreateStoryStepper(props) {
         setActiveStep(0);
     };
 
+
+    const handleRatingSentClose = (event, reason) => {
+        setRatingSent(false);
+    };
+
+    const sendRating = (
+        <Fragment>
+            <Button variant="contained" color="primary" size="small" onClick={() => {handleRatingSentClose(); setOpenRateDialog(true)}}>
+                UNDO
+            </Button>
+            <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={handleRatingSentClose}
+            >
+                <Close fontSize="small" />
+            </IconButton>
+        </Fragment>
+    );
 
     const showButtonsOfFragment = (index, b) => {
         setNotebook((old) => {
@@ -346,7 +367,13 @@ function CreateStoryStepper(props) {
                                 </Grid>
                             </>
                             : activeStep === 2 ?
-                                <>
+                                <>  <Snackbar
+                                    open={ratingSent}
+                                    autoHideDuration={6000}
+                                    onClose={handleRatingSentClose}
+                                    message="Rating sent! Thank you for your contribution"
+                                    action={sendRating}
+                                />
                                     <Grid2 container spacing={0}>
                                         <Grid2 xs={3}></Grid2>
                                         <Grid2 display={"flex"} justifyContent={"center"} alignItems={"center"} xs={6}>
@@ -395,7 +422,7 @@ function CreateStoryStepper(props) {
                                                 </DialogContent>
                                                 <DialogActions>
                                                     <Button onClick={() => setOpenRateDialog(false)}>Cancel</Button>
-                                                    <Button onClick={() => setOpenRateDialog(false)}>Send</Button>
+                                                    <Button onClick={() => {setOpenRateDialog(() => false); setRatingSent(true)}}>Send</Button>
                                                 </DialogActions>
                                             </Dialog>
                                         </Grid2>
@@ -452,8 +479,8 @@ function CreateStoryStepper(props) {
 
                                                     {fragment.type === 'Image' ?
                                                         <>
-                                                            <Grid justifyContent='right' display='flex' alignItems={"flex-end"} item xs={4}>
                                                                 {fragment.type === 'Image'?
+                                                                    <Grid justifyContent='right' display='flex' alignItems={"flex-end"} item xs={4}>
                                                                     <Box>
                                                                         {fragment.show_buttons && notebook.length !== 1 ? <>
                                                                                 <Tooltip arrow title={"Delete"}><IconButton
@@ -471,11 +498,14 @@ function CreateStoryStepper(props) {
                                                                                     onClick={() => moveIndexDown(index)}><ArrowDownward
                                                                                     fontSize="inherit"></ArrowDownward></IconButton></Tooltip></>
                                                                             : ''}<br/>
-                                                                    </Box>
+                                                                    </Box></Grid>
                                                                     : ''}
 
-                                                            </Grid>
-                                                        <img src={fragment.content} alt={""} /></>
+                                                            {fragment.show_buttons ? <><Divider></Divider><Divider></Divider></> : ''}
+                                                            <div style={{paddingTop: '10px', display: 'flex', justifyContent: 'center', alignItems: 'flex-start'}}>
+                                                                <img src={fragment.content} alt={""} />
+                                                            </div>
+                                                        </>
                                                         :
                                                         <><FormControl fullWidth>
                                                             <Grid container direction="row"
@@ -552,7 +582,7 @@ function CreateStoryStepper(props) {
                                                                 </Grid>
                                                                 <Grid justifyContent='right' display='flex' alignItems={"flex-end"} item xs={4}>
                                                                     {fragment.type === 'Paragraph' || fragment.type === 'Subtitle' ?
-                                                                       < Box>
+                                                                       <Box>
                                                                             {fragment.show_buttons && notebook.length !== 1 ? <>
                                                                                     <Tooltip arrow title={"Delete"}><IconButton
                                                                                         color={"primary"} size={"large"}
