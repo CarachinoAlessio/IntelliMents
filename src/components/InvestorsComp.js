@@ -24,7 +24,9 @@ import {
 } from "@mui/material";
 import ListItemText from "@mui/material/ListItemText";
 import List from "@mui/material/List";
-
+import LeaderboardIcon from '@mui/icons-material/Leaderboard';
+import Filter1Icon from '@mui/icons-material/Filter1';
+import Filter2Icon from '@mui/icons-material/Filter2';
 // import {
 //     Grid, Card, CardContent,
 //     CardActionArea, Typography, CardActions,
@@ -43,13 +45,17 @@ export default function InvestorsComp(props) {
         name: 'Alessio Carachino', 
         description: 'Since 2 years he has been able to gain a huge amount of experience', 
         followed: true,
-        content: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents',},
+        content: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents',
+        position: "1"
+        },
         
         {id: 2, 
         name: 'Lorenzo Santo', 
         description: 'Since 3 years he has been trying harder to became one of the best', 
         followed: false,
-        content: 'Use Dollar-Cost Averaging to Build Wealth Over Time',},
+        content: 'Use Dollar-Cost Averaging to Build Wealth Over Time',
+        position: "2"
+        },
     ]
 
     const [profilesState, setProfilesState] = useState(profilesArr)
@@ -193,9 +199,11 @@ export default function InvestorsComp(props) {
                                                     <IconButton onClick={() => setFollowing(i)} color={i.followed ? "primary" : ""} aria-label="favorite">
                                                         <FavoriteBorderIcon />
                                                     </IconButton>
-                                                    <IconButton aria-label="chart">
-                                                        <ShowChartIcon />
-                                                    </IconButton>
+                                                    <Grid aria-label="chart">
+                                                            {i.position==="1"? <Filter1Icon></Filter1Icon> : <Filter2Icon></Filter2Icon>}
+                                                            <LeaderboardIcon>
+                                                            </LeaderboardIcon>
+                                                    </Grid>
                                                 </Grid>
                                             </Grid>
                             </Card>
