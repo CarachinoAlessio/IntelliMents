@@ -63,8 +63,8 @@ function App2() {
 
                     <Route path='/' element={<><Layout loggedIn={loggedIn} //student={student} setStudent={setStudent}
                                                        doLogout={doLogout}></Layout></>}>
-                        <Route path='/' element={!loggedIn ? <Navigate to='/about'/> : <Navigate to='Stories' />}></Route>
-                        <Route path='/login' element={<LoginComp loggedIn={loggedIn} setLoggedIn={setLoggedIn}></LoginComp>}></Route>
+                        <Route path='/' element={!loggedIn ? <Navigate to='/About'/> : <Navigate to='/Stories' />}></Route>
+                        <Route path='/Login' element={<LoginComp loggedIn={loggedIn} setLoggedIn={setLoggedIn}></LoginComp>}></Route>
                         <Route path='/stories' element={<StoriesComp></StoriesComp>}></Route>
                         <Route path='/news' element={<NewsComp></NewsComp>}></Route>
                         <Route path='/investors' element={<InvestorsComp></InvestorsComp>}></Route>
@@ -72,9 +72,9 @@ function App2() {
                         <Route path='/investors/followed' element={<InvestorsFollowedComp></InvestorsFollowedComp>}></Route>
                         <Route path='/investors/profile' element={<InvestorsProfileComp></InvestorsProfileComp>}></Route>
                         <Route path='/exchange' element={<ExchangeComp></ExchangeComp>}></Route>
-                        <Route path='/about' element={<AboutComp></AboutComp>}></Route>
-                        <Route path='/about/contact' element={<ContactComp></ContactComp>}></Route>
-                        <Route path='/help' element={<HelpComp></HelpComp>}></Route>
+                        <Route path='/About' element={<AboutComp></AboutComp>}></Route>
+                        <Route path='/About/contact' element={<ContactComp></ContactComp>}></Route>
+                        <Route path='/Help' element={<HelpComp></HelpComp>}></Route>
                         <Route path='/myStories' element={<MyStoriesComp></MyStoriesComp>}></Route>
                         <Route path='/watchStory' element={<StoryContentComp/>}></Route>
                         <Route path='/createStory' element={<CreateStoryComp></CreateStoryComp>}></Route>

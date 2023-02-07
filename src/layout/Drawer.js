@@ -94,9 +94,12 @@ export default function MiniDrawer() {
     const theme = useTheme()
     const navigate = useNavigate()
     const [open, setOpen] = React.useState(false)
-    const menuOptionsArr = [{text: 'Stories', icon: <Movie></Movie>}, {text: 'News', icon: <Newspaper></Newspaper>},
-        {text: 'Investors', icon: <Work></Work>}, {text: 'Exchange', icon: <CurrencyExchange></CurrencyExchange>},
-        {text: 'About', icon: <Info></Info>}, {text:'Help', icon:<Help></Help>}]
+    const menuOptionsArr = [{text: 'Stories', icon: <Movie></Movie>}, 
+                            {text: 'News', icon: <Newspaper></Newspaper>},
+                            {text: 'Investors', icon: <Work></Work>}, 
+                            {text: 'Exchange', icon: <CurrencyExchange></CurrencyExchange>},
+                            {text: 'About', icon: <Info></Info>}, 
+                            {text:'Help', icon:<Help></Help>}]
     const [menuOptions, setMenuOptions] = useState(menuOptionsArr)
     const location = useLocation();
     let pathname = location.pathname
@@ -106,7 +109,9 @@ export default function MiniDrawer() {
         index = menuOptions.indexOf(currentOption)
     }
     const [activeIndex, setActiveIndex] = React.useState(index)
-
+    useEffect(()=>{
+        setActiveIndex(index)
+    },[index])
     useEffect(()=>{
         setMenuOptions(menuOptions.map((o, index) => {
             let newI
@@ -130,24 +135,14 @@ export default function MiniDrawer() {
         //check authentification of user
         if (!sessionStorage.getItem('auth-token')) {
             console.log('No auth token set.');
-            //do something like redirect to login page
         } else {
             const authToken = '123456abcdef';
             if (sessionStorage.getItem('auth-token') === authToken) {
                 console.log('Good token. Log in.')
-                //do something like redirect to todo page
             } else {
                 console.log('Bad token.')
-                //do something like redirect to login page
             }
         }
-        // let loggedOrNot
-        // if (!sessionStorage.getItem('auth-token')) {
-        //     loggedOrNot = <Button>Log-in</Button>
-        //   } else {
-        //     //loggedOrNot = "Welcome, " + sessionStorage.getItem('userData')
-        //     loggedOrNot = "AAAAAAAAAAAAAa"
-        //   }
         const handleLoginPage = () => {
             navigate("/login");
         }

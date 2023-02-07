@@ -43,7 +43,7 @@ export default function InvestorsProfileComp(props) {
     const story = location.state
     const name = story.name
     const content = story.content
-    console.log(content)
+    console.log(content,name)
 
     const theme = createTheme({
     components: {
@@ -153,7 +153,7 @@ export default function InvestorsProfileComp(props) {
                                 </Grid>
                                 <Grid item xs={3} sm={8}>
                                     <Typography gutterBottom variant="h3" component="div">
-                                        Alessio Carachino                                    
+                                        {name}                                    
                                     </Typography>
                                     <Typography gutterBottom variant="h6" component="div">
                                         Story teller
@@ -179,7 +179,7 @@ export default function InvestorsProfileComp(props) {
                         </Box>
                         
                         <Typography component="div">
-                            Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents'
+                            {content}                        
                         </Typography>
                     </Grid>
                 </Col>
@@ -188,7 +188,7 @@ export default function InvestorsProfileComp(props) {
             <Row>
                 <Col>
                     <Typography gutterBottom variant="h2" component="div">
-                            <center>User's Stories</center>
+                            <center>{name}'s Stories</center>
                         <hr/>
                    </Typography>
                 </Col>
@@ -254,7 +254,6 @@ export default function InvestorsProfileComp(props) {
                         ))}
                     </Grid>
                 </Col>
-
             </Row>
         </Grid></>
         );
