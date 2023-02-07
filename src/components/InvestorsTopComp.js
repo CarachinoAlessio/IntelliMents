@@ -47,12 +47,6 @@ export default function InvestorsTopComp(props) {
     const [followed, setFollowed] = React.useState(false)
     const navigate=useNavigate();
 
-    const setFollowing = (i) => {
-        let newProfilesState = [...profilesState]
-        newProfilesState[i.id-1].followed = !newProfilesState[i.id-1].followed
-        setProfilesState((newProfilesState) => [...newProfilesState])
-    }
-
     const showProfile = (i) => {
         navigate('/Investors/Profile',{state: i});
     }
@@ -84,13 +78,18 @@ export default function InvestorsTopComp(props) {
             console.log(result)
             return result
         }
-        const [investorsState, setInvestorsState] = useState(filterAndSortAuthors(profilesArr));
+        const [investorsState, setInvestorsState] = useState((profilesArr));
     
             const handleOpenFilter = (event) => {
                 setAnchorEl(anchorEl ? null : event.currentTarget);
             };
         //end of sort by function
 
+        const setFollowing = (i) => {
+            let newProfilesState = [...investorsState]
+            newProfilesState[i.id-1].followed = !newProfilesState[i.id-1].followed
+            setInvestorsState((newProfilesState) => [...newProfilesState])
+        }
     return (
         <>
         <Grid container fluid>
@@ -166,7 +165,11 @@ export default function InvestorsTopComp(props) {
                                         </Typography>
                                     </CardContent>
                                         <CardActions>
-                                            <Grid container>
+                                        
+                                        </CardActions>
+                                </CardActionArea>
+                                <Divider></Divider>
+                                <Grid container>
                                                 <Grid item xs={8}></Grid>
                                                 <Grid item xs={4} display={"flex"} justifyContent={"right"} alignItems={"center"}>
                                                     <IconButton onClick={() => setFollowing(i)} color={i.followed ? "primary" : ""} aria-label="favorite">
@@ -177,9 +180,6 @@ export default function InvestorsTopComp(props) {
                                                     </IconButton>
                                                 </Grid>
                                             </Grid>
-
-                                        </CardActions>
-                                </CardActionArea>
                             </Card>
                         </Grid>
                         ))}

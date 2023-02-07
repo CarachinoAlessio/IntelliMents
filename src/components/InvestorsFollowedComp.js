@@ -25,9 +25,17 @@ import * as React from 'react';
 
 
 const profilesArr = [
-    {id: 1, name: 'Hossein Javadi', description: 'Since 3 years'},
-    {id: 2, name: 'Alessio Carachino', description: 'Since 2 years'},
-    ]
+    {id: 1, 
+    name: 'Alessio Carachino', 
+    description: 'Since 2 years', 
+    followed: true,
+    content: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents',},
+    {id: 2, 
+    name: 'Lorenzo Carachino', 
+    description: 'Since 3 years', 
+    followed: false,
+    content: 'Use Dollar-Cost Averaging to Build Wealth Over Time',},
+]
 
 
 export default function InvestorsFollowedComp(props) {
@@ -68,6 +76,12 @@ export default function InvestorsFollowedComp(props) {
                     setAnchorEl(anchorEl ? null : event.currentTarget);
                 };
             //end of sort by function
+
+            const showProfile = (i) => {
+                navigate('/Investors/Profile',{state: i});
+            }
+
+            
     
 
     return (
@@ -135,7 +149,7 @@ export default function InvestorsFollowedComp(props) {
                         <Grid key={i.id} item xs={6}>
                             <Card raised={true} style={{ padding: "10px", marginTop: "5px", marginBottom: "5px"}}>
                                 <CardActionArea>
-                                    <CardContent onClick={() => navigate('/Investors/Profile')} variant={"outlined"}>
+                                    <CardContent onClick={()=>showProfile(i)} variant={"outlined"}>
                                         <Typography variant="h3" component="div">
                                             {i.name}
                                         </Typography>
@@ -144,6 +158,11 @@ export default function InvestorsFollowedComp(props) {
                                         </Typography>
                                     </CardContent>
                                         <CardActions>
+                                            
+
+                                        </CardActions>
+                                        <Divider></Divider>
+                                </CardActionArea>
                                             <Grid container>
                                                 <Grid item xs={8}></Grid>
                                                 <Grid item xs={4} display={"flex"} justifyContent={"right"} alignItems={"center"}>
@@ -155,9 +174,6 @@ export default function InvestorsFollowedComp(props) {
                                                     </IconButton>
                                                 </Grid>
                                             </Grid>
-
-                                        </CardActions>
-                                </CardActionArea>
                             </Card>
                         </Grid>
                         ))}

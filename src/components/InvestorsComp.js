@@ -90,9 +90,7 @@ export default function InvestorsComp(props) {
     //end of sort by function
 
     const setFollowing = (i) => {
-        console.log("entra")
         let newProfilesState = [...investorsState]
-        console.log(newProfilesState,". newProfilesState")
         newProfilesState[i.id-1].followed = !newProfilesState[i.id-1].followed
         setInvestorsState((newProfilesState) => [...newProfilesState])
     }
