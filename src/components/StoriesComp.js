@@ -1,13 +1,13 @@
 import {
     Box,
     Button,
-    Card, CardActionArea, CardActions, CardContent, Chip,
+    Card, CardActionArea, CardActions, CardContent, CardMedia, Chip,
     Dialog, DialogActions,
     DialogContent,
     DialogContentText,
     DialogTitle,
-    Divider, FormControl, FormControlLabel, FormLabel, Grid, ListItem, ListSubheader, Popper, Radio, RadioGroup,
-    Switch, Tooltip,
+    Divider, FormControl, FormControlLabel, FormLabel, Grid, ListItem, ListSubheader, Popper, Radio, RadioGroup, Stack,
+    Switch, TextField, Tooltip,
     Typography
 } from "@mui/material";
 import {
@@ -24,19 +24,18 @@ import * as React from 'react';
 import {useNavigate} from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 import {StoryContentComp} from "./StoryContentComp";
-import * as PropTypes from "prop-types";
 import List from "@mui/material/List";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import {Autocomplete} from "@mui/lab";
 
 
-function Item(props) {
-    return null;
-}
-
-Item.propTypes = {children: PropTypes.node};
 export default function StoriesComp(props) {
-
+    const stocks_list = [
+        {title: 'Apollo', AKA: 'APL'},
+        {title: 'Bitcoin', AKA: 'BTC'},
+        {title: 'Ethereum', AKA: 'ETH'},
+        {title: 'Juventus', AKA: 'JUVE.MI'}
+    ]
     const stories = [
         {
             id: 1,
@@ -60,6 +59,7 @@ export default function StoriesComp(props) {
                 formats: []
             }],
             asset: ['JUVE.MI', 'APL'],
+            date_idx: 2,
             by: '',
             generateDate: '17 hours ago',
             generate: 'AI',
@@ -69,11 +69,13 @@ export default function StoriesComp(props) {
             bookMark: false,
             width: 6,
             isAI: true,
-            review: '80%'
+            review: '80%',
+            cover_img: 'cover_4',
+            video_available: false
         },
         {
             id: 2,
-            title: 'Gain over time',
+            title: 'Earn over time',
             body: 'Dollar-cost averaging is a simple technique that entails investing a fixed amount of money in the same fund or stock at regular intervals over a long period of time.',
             content: [{
                 type: 'Subtitle',
@@ -105,6 +107,7 @@ export default function StoriesComp(props) {
                 formats: []
             }],
             asset: ['ETH', 'APL'],
+            date_idx: 4,
             by: 'Mario Rossi',
             generateDate: '20 minutes ago',
             generate: 'Mario Rossi',
@@ -114,7 +117,9 @@ export default function StoriesComp(props) {
             bookMark: true,
             width: 3,
             isAI: false,
-            review: '55%'
+            review: '55%',
+            cover_img: 'cover_2',
+            video_available: true
         },
         {
             id: 3,
@@ -122,6 +127,7 @@ export default function StoriesComp(props) {
             body: 'I lost $2000 in two days.\n' +
                 'Please avoid these mistakes',
             asset: ['APL'],
+            date_idx: 1,
             by: 'Lorenzo Santo',
             generateDate: '2 days ago',
             generate: 'Lorenzo Santo',
@@ -131,7 +137,9 @@ export default function StoriesComp(props) {
             bookMark: false,
             width: 3,
             isAI: false,
-            review: '80%'
+            review: '80%',
+            cover_img: 'cover_1',
+            video_available: true
         },
         {
             id: 4,
@@ -139,6 +147,7 @@ export default function StoriesComp(props) {
             body: 'Nobody\'s perfect. We are all going to have our wins and losses, especially when it comes to investing. But some of the mistakes you might make when trading stocks are actually pretty common and by no means reserved exclusively for [...]'
             ,
             asset: ['ETH', 'BTC'],
+            date_idx: 3,
             by: '',
             generateDate: '3 hours ago',
             generate: 'AI',
@@ -148,7 +157,9 @@ export default function StoriesComp(props) {
             bookMark: true,
             width: 3,
             isAI: true,
-            review: '85%'
+            review: '85%',
+            cover_img: 'cover_3',
+            video_available: true
         },
     ]
 
@@ -159,7 +170,7 @@ export default function StoriesComp(props) {
     const [selected, setSelected] = React.useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const openFilter = Boolean(anchorEl)
-    const [filters, setFilters] = useState({AIstories: true, authors: [], assets: []})
+    const [filters, setFilters] = useState({AIstories: true, authors: [], assets: [], videoAvailable: false})
     const [sortBy, setSortBy] = useState('Release date')
     const [orderType, setOrderType] = useState('Descending')
 
@@ -167,9 +178,9 @@ export default function StoriesComp(props) {
     const navigate = useNavigate();
 
     const filterAndSortStories = (stories) => {
-        const assetIsCompatible = (verifyThisAssets) => {
-            for (let i in verifyThisAssets){
-                if (verifyThisAssets[i] in filters.assets)
+        const assetIsCompatible = (verifyTheseAssets) => {
+            for (let i in verifyTheseAssets) {
+                if (filters.assets.find((el) => el === verifyTheseAssets[i]))
                     return true
             }
             return false
@@ -180,7 +191,7 @@ export default function StoriesComp(props) {
             else return false
         }
         let result = []
-        for (let i in stories){
+        for (let i in stories) {
             let story = stories[i]
             if (
                 (filters.AIstories || (!story.isAI && !filters.AIstories))
@@ -188,27 +199,28 @@ export default function StoriesComp(props) {
                 (filters.assets.length === 0 || assetIsCompatible(story.asset))
                 &&
                 (filters.authors.length === 0 || authorIsCompatible(story.by))
-            ){
+                &&
+                (!filters.videoAvailable || (filters.videoAvailable && story.video_available))
+            ) {
                 result.push(story)
             }
         }
-        if (sortBy === 'Title'){
-            result.sort((a,b) => {
+        if (sortBy === 'Title') {
+            result.sort((a, b) => {
                 if (a.title < b.title)
                     return -1
                 else
                     return 1
             })
-        }
-        else {
-            result.sort((a,b) => {
-                if (a.title < b.title)
+        } else {
+            result.sort((a, b) => {
+                if (a.date_idx < b.date_idx)
                     return -1
                 else
                     return 1
             })
         }
-        if (orderType === 'Descending'){
+        if (orderType === 'Descending') {
             result = result.reverse()
         }
 
@@ -259,114 +271,163 @@ export default function StoriesComp(props) {
                 <Grid2 xs={3}></Grid2>
                 <Grid2 display={"flex"} justifyContent={"center"} alignItems={"center"} xs={6}>
                     <div>
-                        <Button aria-describedby={id} onClick={handleOpenFilter} variant={"outlined"} startIcon={<FilterList></FilterList>}>Filter & Sort</Button>
+                        <Button aria-describedby={id} onClick={handleOpenFilter} variant={"outlined"}
+                                startIcon={<FilterList></FilterList>}>Filter & Sort</Button>
                         <Popper id={id} open={openFilter} anchorEl={anchorEl}>
-                            <Card raised={true} sx={{ minWidth: 350 }}>
+                            <Card raised={true} sx={{minWidth: 600}}>
                                 <CardContent>
-                                    <List
-                                        sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
-                                        subheader={<ListSubheader>Filter by</ListSubheader>}
-                                    >
-                                        <ListItem>
-                                            <ListItemText id="switch-list-label-wifi" primary="Include AI Stories" />
-                                            <Switch
-                                                edge="end"
-                                                checked={filters.AIstories}
-                                                onClick={() => setFilters((old) => {return {...old, AIstories: !old.AIstories}})}
-                                                inputProps={{
-                                                    'aria-labelledby': 'switch-list-label-wifi',
-                                                }}
-                                            />
-                                        </ListItem>
-                                        <ListItem>
-                                            <ListItemText id="switch-list-label-wifi" primary="Author" />
-                                            <Switch
-                                                edge="end"
-                                                //onChange={handleToggle('wifi')}
-                                                //checked={checked.indexOf('wifi') !== -1}
-                                                inputProps={{
-                                                    'aria-labelledby': 'switch-list-label-wifi',
-                                                }}
-                                            />
-                                        </ListItem>
-                                        <ListItem>
-                                            <ListItemText id="switch-list-label-bluetooth" primary="Asset" />
-                                            <Switch
-                                                edge="end"
-                                                //onChange={handleToggle('bluetooth')}
-                                                //checked={checked.indexOf('bluetooth') !== -1}
-                                                inputProps={{
-                                                    'aria-labelledby': 'switch-list-label-bluetooth',
-                                                }}
-                                            />
-                                        </ListItem>
-                                    </List>
-                                    <Divider></Divider>
-                                    <List
-                                        sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
-                                        subheader={<ListSubheader>Sort by</ListSubheader>}
-                                    >
-                                        <ListItem>
+                                    <Stack direction={{xs: 'column', sm: 'row'}}
+                                           spacing={{xs: 1, sm: 2, md: 4}}
+                                           divider={<Divider orientation="vertical" flexItem/>}>
+
+                                        <List
+                                            sx={{width: '100%', maxWidth: 360, bgcolor: 'background.paper'}}
+                                            subheader={<ListSubheader>Filter by</ListSubheader>}
+                                        >
+                                            <ListItem>
+                                                <ListItemText id="switch-list-label-wifi" primary="Include AI Stories"/>
+                                                <Switch
+                                                    edge="end"
+                                                    checked={filters.AIstories}
+                                                    onClick={() => setFilters((old) => {
+                                                        return {...old, AIstories: !old.AIstories}
+                                                    })}
+                                                    inputProps={{
+                                                        'aria-labelledby': 'switch-list-label-wifi',
+                                                    }}
+                                                />
+                                            </ListItem>
+                                            <ListItem>
+                                                <ListItemText id="switch-list-label-wifi" primary="Video available"/>
+                                                <Switch
+                                                    edge="end"
+                                                    checked={filters.videoAvailable}
+                                                    onClick={() => setFilters((old) => {
+                                                        return {...old, videoAvailable: !old.videoAvailable}
+                                                    })}
+                                                    inputProps={{
+                                                        'aria-labelledby': 'switch-list-label-wifi',
+                                                    }}
+                                                />
+                                            </ListItem>
+                                            {/*<ListItem>
+                                                <ListItemText id="switch-list-label-wifi" primary="Author"/>
+                                                <Switch
+                                                    edge="end"
+                                                    //onChange={handleToggle('wifi')}
+                                                    //checked={checked.indexOf('wifi') !== -1}
+                                                    inputProps={{
+                                                        'aria-labelledby': 'switch-list-label-wifi',
+                                                    }}
+                                                />
+                                            </ListItem>*/}
+                                            <ListItem>
+
+                                                <Autocomplete
+                                                    style={{width: '100%'}}
+                                                    multiple
+                                                    id="tags-standard"
+                                                    options={stocks_list}
+                                                    getOptionLabel={(option) => option.AKA}
+                                                    renderOption={(props, option) =>
+                                                        (<Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
+                                                        {option.title}
+                                                    </Box>) }
+                                                    defaultValue={filters.assets.map((el) => stocks_list.find((s) => s.AKA === el))}
+                                                    onChange={(e,v) =>
+                                                        setFilters((old) => {
+                                                            let newFilters = {...old}
+                                                            newFilters.assets = v.map((entry) => entry.AKA)
+                                                            return newFilters
+                                                        })}
+                                                    renderInput={(params) => (
+                                                        <TextField
+                                                            {...params}
+                                                            variant="standard"
+                                                            label="Enter assets"
+                                                        />
+                                                    )}
+                                                />
+                                            </ListItem>
+                                            </List>
 
 
-                                            <ListItemText id="switch-list-label-wifi" primary="Release date" />
-                                            <Radio
-                                                edge="end"
-                                                onClick={() => setSortBy("Release date")}
-                                                checked={sortBy === "Release date"}
-                                                inputProps={{
-                                                    'aria-labelledby': 'switch-list-label-wifi',
-                                                }}
-                                            />
-                                        </ListItem>
-                                        <ListItem>
-                                            <ListItemText id="switch-list-label-bluetooth" primary="Title" />
-                                            <Radio
-                                                edge="end"
-                                                onClick={() => setSortBy("Title")}
-                                                checked={sortBy === "Title"}
-                                                inputProps={{
-                                                    'aria-labelledby': 'switch-list-label-bluetooth',
-                                                }}
-                                            />
-                                        </ListItem>
-                                    </List>
+                                        <Box>
+                                            <List
+                                                sx={{width: '100%', maxWidth: 360, bgcolor: 'background.paper'}}
+                                                subheader={<ListSubheader>Sort by</ListSubheader>}
+                                            >
+                                                <ListItem>
 
 
+                                                    <ListItemText id="switch-list-label-wifi" primary="Date"/>
+                                                    <Radio
+                                                        edge="end"
+                                                        onClick={() => setSortBy("Release date")}
+                                                        checked={sortBy === "Release date"}
+                                                        inputProps={{
+                                                            'aria-labelledby': 'switch-list-label-wifi',
+                                                        }}
+                                                    />
+                                                </ListItem>
+                                                <ListItem>
+                                                    <ListItemText id="switch-list-label-bluetooth" primary="Title"/>
+                                                    <Radio
+                                                        edge="end"
+                                                        onClick={() => setSortBy("Title")}
+                                                        checked={sortBy === "Title"}
+                                                        inputProps={{
+                                                            'aria-labelledby': 'switch-list-label-bluetooth',
+                                                        }}
+                                                    />
+                                                </ListItem>
+                                            </List>
 
-                                    <Divider></Divider>
-                                    <List
-                                        sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
-                                        subheader={<ListSubheader>Order type</ListSubheader>}
-                                    >
-                                        <ListItem>
+
+                                            <Divider></Divider>
+
+                                            <List
+                                                sx={{width: '100%', maxWidth: 360, bgcolor: 'background.paper'}}
+                                                subheader={<ListSubheader>Order type</ListSubheader>}
+                                            >
+                                                <ListItem>
 
 
-                                            <ListItemText id="switch-list-label-wifi" primary="Ascending" />
-                                            <Radio
-                                                edge="end"
-                                                onClick={() => setOrderType("Ascending")}
-                                                checked={orderType === "Ascending"}
-                                                inputProps={{
-                                                    'aria-labelledby': 'switch-list-label-wifi',
-                                                }}
-                                            />
-                                        </ListItem>
-                                        <ListItem>
-                                            <ListItemText id="switch-list-label-bluetooth" primary="Descending" />
-                                            <Radio
-                                                edge="end"
-                                                onClick={() => setOrderType("Descending")}
-                                                checked={orderType === "Descending"}
-                                                inputProps={{
-                                                    'aria-labelledby': 'switch-list-label-bluetooth',
-                                                }}
-                                            />
-                                        </ListItem>
-                                    </List>
-                                    <Divider></Divider>
-                                    <div style={{paddingTop:'32px'}}></div>
-                                    <Box style={{display: 'flex', justifyContent:'center', alignItems: 'center'}}><Button size="medium" variant={'contained'} onClick={() => {setAnchorEl(null); setStoriesState(filterAndSortStories(stories))}}>Apply changes</Button></Box>
+                                                    <ListItemText id="switch-list-label-wifi" primary="Ascending"/>
+                                                    <Radio
+                                                        edge="end"
+                                                        onClick={() => setOrderType("Ascending")}
+                                                        checked={orderType === "Ascending"}
+                                                        inputProps={{
+                                                            'aria-labelledby': 'switch-list-label-wifi',
+                                                        }}
+                                                    />
+                                                </ListItem>
+                                                <ListItem>
+                                                    <ListItemText id="switch-list-label-bluetooth"
+                                                                  primary="Descending"/>
+                                                    <Radio
+                                                        edge="end"
+                                                        onClick={() => setOrderType("Descending")}
+                                                        checked={orderType === "Descending"}
+                                                        inputProps={{
+                                                            'aria-labelledby': 'switch-list-label-bluetooth',
+                                                        }}
+                                                    />
+                                                </ListItem>
+                                            </List>
+                                        </Box>
+                                    </Stack>
+
+                                    <div style={{paddingTop: '32px'}}></div>
+                                    <Box style={{
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        alignItems: 'center'
+                                    }}><Button size="medium" variant={'contained'} onClick={() => {
+                                        setAnchorEl(null);
+                                        setStoriesState(filterAndSortStories(stories))
+                                    }}>Apply changes</Button></Box>
 
                                 </CardContent>
 
@@ -381,7 +442,8 @@ export default function StoriesComp(props) {
                         stories<Switch checked={includeAIstories}
                                        onClick={() => setIncludeAIstories(() => !includeAIstories)}
                                        size={"small"}></Switch></Button>*/}
-                    <Button onClick={handleClickOpen} variant={"outlined"} startIcon={<Info></Info>}>About AI Stories</Button>
+                    <Button onClick={handleClickOpen} variant={"outlined"} startIcon={<Info></Info>}>About AI
+                        Stories</Button>
                 </Grid2>
                 <Grid2 xs={3}></Grid2>
                 <Dialog
@@ -395,9 +457,9 @@ export default function StoriesComp(props) {
                     </DialogTitle>
                     <DialogContent>
                         <DialogContentText id="alert-dialog-description">
-                            Choose whether to include AI-generated stories.
-                            <br/><br/>
-                            Those stories are generated by analyzing plenty of investments made by people like you.
+                            {/*Choose whether to include AI-generated stories.*/}
+                            {/*<br/><br/>*/}
+                            Our AI Stories are generated by analyzing plenty of investments made by people like you.
                             <br/><br/>
                             The more you invest, the more you can learn.
                         </DialogContentText>
@@ -413,6 +475,12 @@ export default function StoriesComp(props) {
                     <Grid key={i.id} item xs={6}>
                         <Card variant="outlined" sx={{minWidth: 350}}>
                             <CardActionArea onClick={() => showStory(i)}>
+                                <CardMedia
+                                    component="img"
+                                    height="194"
+                                    image={`./static/images/stories/${i.cover_img}.jpg`}
+                                    alt="Paella dish"
+                                />
                                 <CardContent>
                                     <Grid2 container spacing={0}>
                                         <Grid2 item xs={9}>
@@ -439,15 +507,17 @@ export default function StoriesComp(props) {
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
-                            <Grid2 container spacing={0} style={{paddingLeft:25}}>
+                            <Grid2 container spacing={0} style={{paddingLeft: 25}}>
                                 <Grid2 item xs={9}>
                                     <Typography variant="body2">Published: {i.generateDate}</Typography>
                                 </Grid2>
-                                <Grid2 item xsOffset={1} xs={2} display={"flex"} justifyContent={"end"} alignItems={"end"}>
-                                    <CardActions style={{ float:'right'}}>
+                                <Grid2 item xsOffset={1} xs={2} display={"flex"} justifyContent={"end"}
+                                       alignItems={"end"}>
+                                    <CardActions style={{float: 'right'}}>
                                         <Tooltip title={'Add to favourites'}>
-                                            <IconButton onClick={() => setFavourite(i)} color={i.bookMark ? "primary" : ""} aria-label="like">
-                                                <Bookmark sx={{fontSize: 30}} />
+                                            <IconButton onClick={() => setFavourite(i)}
+                                                        color={i.bookMark ? "primary" : ""} aria-label="like">
+                                                <Bookmark sx={{fontSize: 30}}/>
                                             </IconButton>
                                         </Tooltip>
                                     </CardActions>
