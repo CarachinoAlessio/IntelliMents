@@ -99,11 +99,16 @@ export default function MiniDrawer() {
                             {text: 'Investors', icon: <Work></Work>}, 
                             {text: 'Exchange', icon: <CurrencyExchange></CurrencyExchange>},
                             {text: 'About', icon: <Info></Info>}, 
-                            {text:'Help', icon:<Help></Help>}]
+                            {text:'Help', icon:<Help></Help>},
+                            {text:'Login', icon:<Help></Help>}]
     const [menuOptions, setMenuOptions] = useState(menuOptionsArr)
     const location = useLocation();
     let pathname = location.pathname
     let currentOption = menuOptions.find((i) => pathname.includes(i.text))
+    let login=false
+    if (pathname.includes("login")){
+        login=true
+    }
     let index = 0
     if (currentOption !== undefined){
         index = menuOptions.indexOf(currentOption)
@@ -124,6 +129,7 @@ export default function MiniDrawer() {
             return {...o, icon: newI}
         }))
     }, [activeIndex])
+
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -170,7 +176,7 @@ export default function MiniDrawer() {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" noWrap component="div" sx={{flexGrow:1}}>
-                        {menuOptions[activeIndex].text}
+                        {login ? "Login":menuOptions[activeIndex].text}
                     </Typography>
                     {/**Logged in or not */}
                     {sessionStorage.getItem('auth-token')!=null ? <div style={{fontSize: '18px', paddingRight:'15px'}}>Welcome, Mario Rossi</div> :
