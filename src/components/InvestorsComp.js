@@ -41,12 +41,13 @@ export default function InvestorsComp(props) {
     const profilesArr = [
         {id: 1, 
         name: 'Alessio Carachino', 
-        description: 'Since 2 years', 
+        description: 'Since 2 years he has been able to gain a huge amount of experience', 
         followed: true,
         content: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents',},
+        
         {id: 2, 
-        name: 'Lorenzo Carachino', 
-        description: 'Since 3 years', 
+        name: 'Lorenzo Santo', 
+        description: 'Since 3 years he has been trying harder to became one of the best', 
         followed: false,
         content: 'Use Dollar-Cost Averaging to Build Wealth Over Time',},
     ]

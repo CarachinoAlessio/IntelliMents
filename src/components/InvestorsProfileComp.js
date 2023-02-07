@@ -156,17 +156,17 @@ export default function InvestorsProfileComp(props) {
                                         {name}                                    
                                     </Typography>
                                     <Typography gutterBottom variant="h6" component="div">
-                                        Story teller
+                                        Story teller<br></br>
                                     </Typography>
-                                    <Typography gutterBottom variant="h5" component="div">
+                                    {story.description}<br></br>
+                                    {/* <Typography gutterBottom variant="h6" component="div">
                                        <ThemeProvider theme={theme}>
                                            <Icon icon="mdi:bitcoin" />
                                        </ThemeProvider>
-                                       
                                        <ThemeProvider theme={theme}>
                                            <Icon icon="mdi:bitcoin" />
                                        </ThemeProvider>             
-                                    </Typography>
+                                    </Typography> */}
                                 </Grid>
                                 <Grid item xs={1} sm={1}>
                                     <Card display="flex" m="auto" style={{float:'right', marginBottom: "5px"}}>
