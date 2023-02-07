@@ -25,6 +25,8 @@ import {
 
 import {
     Bookmark,
+    FavoriteBorder,
+    Favorite,
     FilterList,
     Info, ReviewsOutlined,
     Search, VoiceChatOutlined
@@ -124,6 +126,8 @@ export default function InvestorsProfileComp(props) {
     const showStory = (i) => {
         navigate('/watchStory',{state: i});
     }
+
+    const [changeState,setChangeState] =useState(story.followed)
     
     return (
         <>
@@ -147,9 +151,9 @@ export default function InvestorsProfileComp(props) {
                         <Box display="flex" sx={{ flexGrow: 1 }}>
                             <Grid container spacing={3}>
                                 <Grid item xs sm={3}>
-                                    <IconButton aria-label="account">
+                                    <Icon aria-label="account">
                                         <AccountCircleOutlinedIcon sx={{ fontSize: 180 }}/>
-                                    </IconButton>
+                                    </Icon>
                                 </Grid>
                                 <Grid item xs={3} sm={8}>
                                     <Typography gutterBottom variant="h3" component="div">
@@ -170,8 +174,9 @@ export default function InvestorsProfileComp(props) {
                                 </Grid>
                                 <Grid item xs={1} sm={1}>
                                     <Card display="flex" m="auto" style={{float:'right', marginBottom: "5px"}}>
-                                        <IconButton aria-label="favorite">
-                                            <FavoriteBorderIcon />
+                                        <IconButton aria-label="favorite" onClick={()=>setChangeState(!changeState)}>
+                                            {changeState===true ? <Favorite></Favorite> : <FavoriteBorder></FavoriteBorder>}
+                                            {console.log(changeState)}
                                         </IconButton>
                                     </Card>
                                 </Grid>
