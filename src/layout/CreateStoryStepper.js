@@ -14,7 +14,7 @@ import {
     FormControl,
     Grid,
     InputAdornment,
-    InputLabel,
+    InputLabel, ListItem,
     MenuItem,
     Paper, Rating,
     Select, Snackbar,
@@ -44,6 +44,11 @@ import {ToggleButtonGroup, ToggleButton} from '@mui/material'
 import IconButton from "@mui/material/IconButton";
 import {useNavigate} from "react-router-dom";
 import FileUploader from "./FileUploader";
+import AddCoverImage from "./AddCoverImage";
+import List from "@mui/material/List";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import AddVideoPresentation from "./AddVideoPresentation";
 
 const steps = ['Select Investments', 'Choose Modality', 'Write the story', 'Upload Material', 'Overview'];
 
@@ -199,6 +204,13 @@ function CreateStoryStepper(props) {
                 return [...old.slice(0, index + 1), {...fragment}, ...old.slice(index + 1)]
             }
         })
+    }
+
+    const uploadCoverImage = (fileUploaded) => {
+        console.log(fileUploaded)
+    }
+
+    const uploadVideo = (fileUploaded) => {
         console.log(fileUploaded)
     }
 
@@ -285,7 +297,6 @@ function CreateStoryStepper(props) {
                                                     <TableCell align='center'>{row.asset}</TableCell>
                                                     <TableCell align='center'>{row.revenue}</TableCell>
                                                     <TableCell align='center'><Checkbox
-                                                        onChange={() => selectInvestment(index)}
                                                         checked={row.selected}></Checkbox></TableCell>
                                                 </TableRow>
                                             ))}
@@ -634,7 +645,7 @@ function CreateStoryStepper(props) {
                                 </> :
                                 activeStep === 3 ?
                                     <>
-                                        <Typography variant={'h5'}>This step is optional</Typography>
+                                        <Typography align={'center'} variant={'h5'}>Upload optional material</Typography>
                                         <div style={{
                                             paddingTop: '30px',
                                             justifyContent: "center",
@@ -642,17 +653,34 @@ function CreateStoryStepper(props) {
                                             alignItems: "center",
                                             display: "flex"
                                         }}>
-                                            <Stack direction="column"
+                                            <List
+
+
+                                            >
+                                                <ListItem>
+
+
+                                                    <AddCoverImage uploadCoverImage={uploadCoverImage}></AddCoverImage>
+                                                </ListItem>
+                                                <Divider></Divider>
+                                                <ListItem>
+
+                                                    <AddVideoPresentation uploadVideo={uploadVideo}></AddVideoPresentation>
+                                                </ListItem>
+                                            </List>
+                                            {/*<Stack direction="column"
+                                                   divider={<Divider flexItem></Divider>}
                                                    justifyContent="center"
                                                    alignItems="flex-start"
                                                    spacing={3}
                                                    sx={{maxWidth: '400px'}}>
-                                                <Button size={"large"} startIcon={<UploadFile></UploadFile>}
-                                                        variant={"text"}>Upload cover image</Button>
+
+                                                <AddCoverImage uploadCoverImage={uploadCoverImage}></AddCoverImage>
                                                 <Button size={"large"} startIcon={<Upload></Upload>} variant={"text"}>Upload
                                                     video presentation</Button>
 
-                                            </Stack></div>
+                                            </Stack>*/}
+                                        </div>
 
                                     </> :
                                     activeStep === 4 ?

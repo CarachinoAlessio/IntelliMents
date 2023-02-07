@@ -6,7 +6,7 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle,
-    Divider, FormControl, FormControlLabel, FormLabel, Grid, ListItem, ListSubheader, Popper, Radio, RadioGroup, Stack,
+    Divider, Grid, ListItem, ListSubheader, Popper, Radio, Stack,
     Switch, TextField, Tooltip,
     Typography
 } from "@mui/material";
@@ -28,7 +28,6 @@ import List from "@mui/material/List";
 import ListItemText from "@mui/material/ListItemText";
 import {Autocomplete} from "@mui/lab";
 
-
 export default function StoriesComp(props) {
     const stocks_list = [
         {title: 'Apollo', AKA: 'APL'},
@@ -36,7 +35,7 @@ export default function StoriesComp(props) {
         {title: 'Ethereum', AKA: 'ETH'},
         {title: 'Juventus', AKA: 'JUVE.MI'}
     ]
-    const stories = [
+    let stories = [
         {
             id: 1,
             title: 'You have to be better than me',
@@ -124,8 +123,23 @@ export default function StoriesComp(props) {
         {
             id: 3,
             title: "This is the right pattern to start",
-            body: 'I lost $2000 in two days.\n' +
-                'Please avoid these mistakes',
+            body: 'I lost $2000 in two days. <br> Please avoid these mistakes</br>',
+            content: [{
+                type: 'Subtitle',
+                content: 'The Secret to Financial Freedom Is Investing Over Time\n',
+                show_buttons: false,
+                alignment: 'left',
+                formats: []
+            }, {
+                type: 'Paragraph',
+                content: 'Jack\'s earnings will grow so large, they\'ll exceed all of his contributions combined. After 20 years of investing, Jack contributed $48,000 total. That same year, his $48,000 earned over $56,000. By year 25, his earnings ($103,000) are over 70 percent larger than his total contributions ($60,000).\n' +
+                    '\n' +
+                    'This is why time is so important in investing: Given enough time, your earnings can compound to take on a life of their own. Even better is they can become self-sustainable. When your money is earning enough money that you no longer need to work, you\'ve achieved financial independence.',
+                show_buttons: false,
+                image: './static/images/story/graph_story.png',
+                alignment: 'left',
+                formats: []
+            }],
             asset: ['APL'],
             date_idx: 1,
             by: 'Lorenzo Santo',
@@ -144,8 +158,23 @@ export default function StoriesComp(props) {
         {
             id: 4,
             title: 'Learn from my mistakes',
-            body: 'Nobody\'s perfect. We are all going to have our wins and losses, especially when it comes to investing. But some of the mistakes you might make when trading stocks are actually pretty common and by no means reserved exclusively for [...]'
-            ,
+            body: 'Nobody\'s perfect. We are all going to have our wins and losses, especially when it comes to investing. But some of the mistakes you might make when trading stocks are actually pretty common and by no means reserved exclusively for [...]',
+            content: [{
+                type: 'Subtitle',
+                content: 'The Secret to Financial Freedom Is Investing Over Time\n',
+                show_buttons: false,
+                alignment: 'left',
+                formats: []
+            }, {
+                type: 'Paragraph',
+                content: 'Jack\'s earnings will grow so large, they\'ll exceed all of his contributions combined. After 20 years of investing, Jack contributed $48,000 total. That same year, his $48,000 earned over $56,000. By year 25, his earnings ($103,000) are over 70 percent larger than his total contributions ($60,000).\n' +
+                    '\n' +
+                    'This is why time is so important in investing: Given enough time, your earnings can compound to take on a life of their own. Even better is they can become self-sustainable. When your money is earning enough money that you no longer need to work, you\'ve achieved financial independence.',
+                show_buttons: false,
+                image: './static/images/story/graph_story.png',
+                alignment: 'left',
+                formats: []
+            }],
             asset: ['ETH', 'BTC'],
             date_idx: 3,
             by: '',
@@ -165,12 +194,9 @@ export default function StoriesComp(props) {
 
     const [open, setOpen] = useState(false);
 
-    //const [includeAIstories, setIncludeAIstories] = useState(true)
-    const [bookMark, setBookMark] = React.useState(false)
-    const [selected, setSelected] = React.useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const openFilter = Boolean(anchorEl)
-    const [filters, setFilters] = useState({AIstories: true, authors: [], assets: [], videoAvailable: false})
+    const [filters, setFilters] = useState({AIstories: true, authors: [], assets: [], videoAvailable: false, favourites: false})
     const [sortBy, setSortBy] = useState('Release date')
     const [orderType, setOrderType] = useState('Descending')
 
@@ -201,6 +227,8 @@ export default function StoriesComp(props) {
                 (filters.authors.length === 0 || authorIsCompatible(story.by))
                 &&
                 (!filters.videoAvailable || (filters.videoAvailable && story.video_available))
+                &&
+                (!filters.favourites || (filters.favourites && story.bookMark))
             ) {
                 result.push(story)
             }
@@ -233,7 +261,14 @@ export default function StoriesComp(props) {
 
     const setFavourite = (i) => {
         let newStoriesState = [...storiesState]
-        newStoriesState[i.id - 1].bookMark = !newStoriesState[i.id - 1].bookMark
+        for (let index in stories){
+            if (stories[index].id === i.id)
+                stories[index].bookMark = !stories[index].bookMark
+        }
+        for (let index in newStoriesState){
+            if (newStoriesState[index].id === i.id)
+                newStoriesState[index].bookMark = !newStoriesState[index].bookMark
+        }
         setStoriesState((newStoriesState) => [...newStoriesState])
     }
 
@@ -304,6 +339,19 @@ export default function StoriesComp(props) {
                                                     checked={filters.videoAvailable}
                                                     onClick={() => setFilters((old) => {
                                                         return {...old, videoAvailable: !old.videoAvailable}
+                                                    })}
+                                                    inputProps={{
+                                                        'aria-labelledby': 'switch-list-label-wifi',
+                                                    }}
+                                                />
+                                            </ListItem>
+                                            <ListItem>
+                                                <ListItemText id="switch-list-label-wifi" primary="Favourites"/>
+                                                <Switch
+                                                    edge="end"
+                                                    checked={filters.favourites}
+                                                    onClick={() => setFilters((old) => {
+                                                        return {...old, favourites: !old.favourites}
                                                     })}
                                                     inputProps={{
                                                         'aria-labelledby': 'switch-list-label-wifi',
@@ -502,7 +550,8 @@ export default function StoriesComp(props) {
                                     <br></br>
                                     <Divider/>
                                     <br></br>
-                                    <Typography variant="h6" sx={{minHeight: '100px', maxHeight: '100px'}}>
+
+                                    <Typography  variant="h6" >
                                         "{i.body}"
                                     </Typography>
                                 </CardContent>

@@ -1,25 +1,17 @@
 import {
     Box,
     Button,
-    Card, CardActionArea, CardActions, CardContent, CardHeader, CardMedia, Chip,
+    Card, CardActionArea, CardActions, CardContent, CardMedia, Chip,
     Dialog, DialogActions,
     DialogContent,
     DialogContentText,
     DialogTitle,
     Divider, Grid, Stack,
-    Switch,
+    Tooltip,
     Typography
 } from "@mui/material";
 import {
-    Add,
     Bookmark,
-    Favorite,
-    FilterList,
-    Folder,
-    Info,
-    RateReview,
-    Search,
-    Share,
     StarRate
 } from "@mui/icons-material";
 import Grid2 from "@mui/material/Unstable_Grid2";
@@ -56,6 +48,7 @@ export default function StoryContentComp(props) {
     const story = location.state
     const asset = story.asset
     const content = story.content
+    const cover_img = `./static/images/stories/${story.cover_img}.jpg`
     console.log(content)
     return (
             <Grid container spacing={0.5} style={{paddingTop:30}}>
@@ -63,107 +56,97 @@ export default function StoryContentComp(props) {
                     <IconButton aria-label="account" onClick={() => navigate(-1)}>
                         <ArrowBackIcon sx={{ fontSize: 30 }} />
                     </IconButton>
-                    <h2>{story.title}</h2>
-                    <Typography variant={"body2"}>Published: {story.generateDate}</Typography>
-                    {story.by.length === 0 ? <Typography variant={"body2"}>By: AI</Typography> :<Typography variant={"body2"}>By: {story.by}</Typography> }
+                    <Typography variant={"h2"}>{story.title}</Typography>
+                    <Typography variant={"body1"}>Published: {story.generateDate}</Typography>
+                    {story.by.length === 0 ? <Typography variant={"body1"}>Written by: AI</Typography> :<Typography variant={"body1"}>Written by: {story.by}</Typography> }
                     <br></br>
-                    <Stack
-                        direction="row"
-                        divider={<Divider orientation="vertical" flexItem />}
-                        spacing={3}
-                    >
-                        {asset.map((element,index) => (
-                            <Chip label={element} variant="outlined" />
-                        ) )}
-                        <Grid2
-                            xs={12}
-                            container
-                            justifyContent="space-between"
-                            alignItems="center"
-                            flexDirection={{ xs: 'column', sm: 'row' }}
-                            sx={{ fontSize: '12px' }}
+                    <Box sx={{justifyContent: 'space-between', alignItems: 'flex-end'}}>
+                        <Stack
+                            direction="row"
+                            spacing={1}
                         >
-                            <Grid2 sx={{ order: { xs: 2, sm: 1 } }}>
+                            {asset.map((element,index) => (
+                                <Chip label={element} variant="outlined" />
+                            ) )}
+                            <Grid2
+                                xs={12}
+                                container
+                                justifyContent="space-between"
+                                alignItems="center"
+                                flexDirection={{ xs: 'column', sm: 'row' }}
+                                sx={{ fontSize: '12px' }}
+                            >
+                                <Grid2 sx={{ order: { xs: 2, sm: 1 } }}>
+                                </Grid2>
+                                <Grid2 container columnSpacing={1} sx={{ order: { xs: 1, sm: 2 } }}>
+                                    <Grid2>
+                                        <Button  onClick={handleClickOpen} variant={"outlined"} startIcon={<StarRate></StarRate>}>Rate</Button>                                </Grid2>
+                                </Grid2>
                             </Grid2>
-                            <Grid2 container columnSpacing={1} sx={{ order: { xs: 1, sm: 2 } }}>
-                                <Grid2>
-                                    <Button  onClick={handleClickOpen} variant={"outlined"} startIcon={<StarRate></StarRate>}>Rate</Button>                                </Grid2>
-                            </Grid2>
-                        </Grid2>
-                    </Stack>
-                    <br></br>
-                    <Dialog
-                        open={open}
-                        onClose={handleClose}
-                        aria-labelledby="alert-dialog-title"
-                        aria-describedby="alert-dialog-description"
-                    >
-                        <DialogTitle id="alert-dialog-title">
-                            {"Make you count!"}
-                        </DialogTitle>
-                        <DialogContent style={{maxWidth:1000}}>
-                            <DialogContentText id="alert-dialog-description">
-                                <Grid container>
-                                    <Grid xs={9}>
-                                        <Typography variant={"body2"}>Do you like this story?</Typography>
+                        </Stack>
+                        <br></br>
+                        <Dialog
+                            open={open}
+                            onClose={handleClose}
+                            aria-labelledby="alert-dialog-title"
+                            aria-describedby="alert-dialog-description"
+                        >
+                            <DialogTitle id="alert-dialog-title">
+                                {"Make you count!"}
+                            </DialogTitle>
+                            <DialogContent style={{maxWidth:1000}}>
+                                <DialogContentText id="alert-dialog-description">
+                                    <Grid container>
+                                        <Grid xs={9}>
+                                            <Typography variant={"body2"}>Do you like this story?</Typography>
+                                        </Grid>
+                                        <Grid xs={3}>
+                                            <Rating name="half-rating" defaultValue={0} />
+                                        </Grid>
                                     </Grid>
-                                    <Grid xs={3}>
-                                        <Rating name="half-rating" defaultValue={0} />
+                                    <br /><br />
+                                    <Grid container>
+                                        <Grid xs={9}>
+                                            <Typography variant={"body2"}>How likely are you to recommend this story to your friends?</Typography>
+                                        </Grid>
+                                        <Grid xs={3}>
+                                            <Rating name="half-rating" defaultValue={0} />
+                                        </Grid>
                                     </Grid>
-                                </Grid>
-                                <br /><br />
-                                <Grid container>
-                                    <Grid xs={9}>
-                                        <Typography variant={"body2"}>How likely are you to recommend this story to your friends?</Typography>
+                                    <br /><br />
+                                    <Grid container>
+                                        <Grid xs={9}>
+                                            <Typography variant={"body2"}>How likely are you ++ +++++++++?</Typography>
+                                        </Grid>
+                                        <Grid xs={3}>
+                                            <Rating name="half-rating" defaultValue={0} />
+                                        </Grid>
                                     </Grid>
-                                    <Grid xs={3}>
-                                        <Rating name="half-rating" defaultValue={0} />
-                                    </Grid>
-                                </Grid>
-                                <br /><br />
-                                <Grid container>
-                                    <Grid xs={9}>
-                                        <Typography variant={"body2"}>How likely are you ++ +++++++++?</Typography>
-                                    </Grid>
-                                    <Grid xs={3}>
-                                        <Rating name="half-rating" defaultValue={0} />
-                                    </Grid>
-                                </Grid>
-                            </DialogContentText>
-                        </DialogContent>
-                        <DialogActions>
-                            <Button  onClick={handleClose}>SEND</Button>
-                        </DialogActions>
-                    </Dialog>
+                                </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button  onClick={handleClose}>SEND</Button>
+                            </DialogActions>
+                        </Dialog>
+                    </Box>
+
                     <Divider></Divider>
                     <br></br>
                     <Box
                         component="img"
                         sx={{
-                            height: 450,
                             width: "100%" ,
                         }}
                         alt="The house from the offer."
-                        src="./static/images/news/cover_1.jpg"
-                    />
+                        src={cover_img}
+                    /><br></br><br></br>
                     {content.map((element, index) => (
-                        element.type === "Subtitle" ? <><Typography variant={"h5"} key={index}>{element.content}</Typography><br></br></>
+                        element.type === "Subtitle" ? <><Typography variant={"h4"} key={index}>{element.content}</Typography></>
                         :
                             <>
-                                <Typography key={index} fontFamily={"`\"Roboto\", \"Helvetica\", \"Arial\", sans-serif`,"} variant={"paragraph"}>{element.content}</Typography>
+                                <Typography align={element.alignment} key={index} fontSize={18} fontFamily={"`\"Roboto\", \"Helvetica\", \"Arial\", sans-serif`,"} variant={"body1"}>{element.content}</Typography>
                                 <br></br>
-                                <Box
-                                    component="img"
-                                    sx={{
-                                        height: 450,
-                                        width: "70%" ,
-                                    }}
-                                    alt="The house from the offer."
-                                    src={element.image}
-                                />
                             </>
-
-
                     ))}
 
 
@@ -172,7 +155,7 @@ export default function StoryContentComp(props) {
                     <Divider orientation="vertical"></Divider>
                 </Grid>
                 <Grid xs={3}  style={{paddingLeft:100}} justifyContent="center" alignItems="center">
-                    <Typography variant={"h5"}>Last Stories & News</Typography>
+                    <Typography variant={"h5"}>Recent Stories & News</Typography>
                     <br></br>
                     <Stack
                         direction="column"
@@ -180,83 +163,63 @@ export default function StoryContentComp(props) {
                         alignItems="center"
                         spacing={4}
                     >
-                    {/*<Card sx={{ minWidth: 275 }}>
-                        <CardActionArea >
-                            <CardHeader
-                                title={<CardActions disableSpacing>
-                                    Test
-                                </CardActions>}
 
-                            />
-                            <CardContent>
-                                <Typography variant="body6" color="text.secondary">
-Test                                </Typography>
-                            </CardContent>
-                        </CardActionArea>
-                        <CardActions style={{ float:'right'}}>
-                            <IconButton aria-label="chart" >
-                                <Bookmark />
-                            </IconButton>
-                        </CardActions>
-                    </Card>*/}
-                    {/*<Card sx={{ minWidth: 275 }}>
-                        <CardActionArea >
-                            <CardHeader
-                                title={<CardActions disableSpacing>
-                                    Test
-                                </CardActions>}
 
-                            />
-                            <CardContent>
-                                <Typography variant="body6" color="text.secondary">
-                                    Test                                </Typography>
-                            </CardContent>
-                        </CardActionArea>
-                        <CardActions style={{ float:'right'}}>
-                            <IconButton aria-label="chart" >
-                                <Bookmark />
-                            </IconButton>
-                        </CardActions>
-                    </Card>*/}
-                        <Card variant="outlined" sx={{ minWidth: 350 }} >
-                            <CardContent>
-                                <Grid container spacing={0}>
-                                    <Grid xs={10}>
-                                        <Typography variant="h5" component="div">
-                                            Story
-                                        </Typography>
-                                    </Grid>
-                                    <Grid item xs>
-                                        <Chip label="APL" variant="outlined" />
-                                    </Grid>
-                                </Grid>
-                                <br></br>
-                                <Divider></Divider>
-                                <br></br>
-                                <Typography variant="body1">
-                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry
-                                </Typography>
-                            </CardContent>
-                        </Card>
-                        <Card variant="outlined" sx={{ minWidth: 350 }} >
-                            <CardContent>
-                                <Grid container spacing={0}>
-                                    <Grid xs={10}>
-                                        <Typography variant="h5" component="div">
-                                            News
-                                        </Typography>
-                                    </Grid>
-                                    <Grid item xs>
-                                        <Chip label="APL" variant="outlined" />
-                                    </Grid>
-                                </Grid>
-                                <br></br>
-                                <Divider></Divider>
-                                <br></br>
-                                <Typography variant="body1">
-                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry
-                                </Typography>
-                            </CardContent>
+                        <Card variant="outlined" sx={{minWidth: 350}}>
+                            {/*<CardActionArea onClick={() => showStory(i)}>*/}
+                                <CardActionArea>
+                                <CardMedia
+                                    component="img"
+                                    height="194"
+                                    image={`./static/images/stories/cover_2.jpg`}
+                                    alt="Paella dish"
+                                />
+                                <CardContent>
+                                    <Grid2 container spacing={0}>
+                                        <Grid2 item xs={9}>
+                                            <Typography variant="h4" component="div">
+                                                Dummy title
+                                            </Typography>
+                                        </Grid2>
+
+                                        <Grid2 item xsOffset={1} xs={2} display={"flex"} justifyContent={"end"}
+                                               alignItems={"end"}>
+                                            {['APL', 'BTC'].map((element, index) => (
+                                                <><Chip label={element} variant="outlined"/>
+                                                    <div>&nbsp;</div>
+                                                </>
+                                            ))}
+                                        </Grid2>
+                                    </Grid2>
+                                    <Typography variant="subtitle2">Written by: Dummy author</Typography>
+                                    <br></br>
+                                    <Divider/>
+                                    <br></br>
+
+                                    <Typography  variant="h6" >
+                                        "This is just a dummy quote"
+                                    </Typography>
+                                </CardContent>
+                            </CardActionArea>
+                            <Grid2 container spacing={0} style={{paddingLeft: 25}}>
+                                <Grid2 item xs={9}>
+                                    <Typography variant="body2">Published: 50 seconds ago</Typography>
+                                </Grid2>
+                                <Grid2 item xsOffset={1} xs={2} display={"flex"} justifyContent={"end"}
+                                       alignItems={"end"}>
+                                    <CardActions style={{float: 'right'}}>
+                                        <Tooltip title={'Add to favourites'}>
+                                            {/*<IconButton onClick={() => setFavourite(i)}*/}
+                                            {/*            color={i.bookMark ? "primary" : ""} aria-label="like">*/}
+                                            <IconButton
+                                                         aria-label="like">
+                                                <Bookmark sx={{fontSize: 30}}/>
+                                            </IconButton>
+                                        </Tooltip>
+                                    </CardActions>
+                                </Grid2>
+                            </Grid2>
+
                         </Card>
                     </Stack>
                 </Grid>
