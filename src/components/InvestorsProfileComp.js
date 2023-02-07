@@ -188,7 +188,7 @@ export default function InvestorsProfileComp(props) {
             <Row>
                 <Col>
                     <Typography gutterBottom variant="h2" component="div">
-                            <center>{name}'s Stories</center>
+                            <center>{name.split(" ")[0]}'s Stories</center>
                         <hr/>
                    </Typography>
                 </Col>
