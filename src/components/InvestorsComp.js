@@ -82,7 +82,7 @@ export default function InvestorsComp(props) {
         //console.log(result)
         return result
     }
-    const [investorsState, setInvestorsState] = useState(filterAndSortAuthors(profilesArr));
+    const [investorsState, setInvestorsState] = useState(profilesArr);
 
         const handleOpenFilter = (event) => {
             setAnchorEl(anchorEl ? null : event.currentTarget);
@@ -90,9 +90,11 @@ export default function InvestorsComp(props) {
     //end of sort by function
 
     const setFollowing = (i) => {
-        let newProfilesState = [...profilesState]
+        console.log("entra")
+        let newProfilesState = [...investorsState]
+        console.log(newProfilesState,". newProfilesState")
         newProfilesState[i.id-1].followed = !newProfilesState[i.id-1].followed
-        setProfilesState((newProfilesState) => [...newProfilesState])
+        setInvestorsState((newProfilesState) => [...newProfilesState])
     }
 
     const showProfile = (i) => {
@@ -180,7 +182,13 @@ export default function InvestorsComp(props) {
                                         </Typography>
                                     </CardContent>
                                         <CardActions>
-                                            <Grid container>
+                                            
+
+                                        </CardActions>
+                                        <Divider></Divider>
+                                        
+                                </CardActionArea>
+                                <Grid container>
                                                 <Grid item xs={8}></Grid>
                                                 <Grid item xs={4} display={"flex"} justifyContent={"right"} alignItems={"center"}>
                                                     <IconButton onClick={() => setFollowing(i)} color={i.followed ? "primary" : ""} aria-label="favorite">
@@ -191,9 +199,6 @@ export default function InvestorsComp(props) {
                                                     </IconButton>
                                                 </Grid>
                                             </Grid>
-
-                                        </CardActions>
-                                </CardActionArea>
                             </Card>
                         </Grid>
                         ))}
