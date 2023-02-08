@@ -6,16 +6,16 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle,
-    Divider, Grid, Stack,
+    Divider, Grid, Snackbar, Stack,
     Tooltip,
     Typography
 } from "@mui/material";
 import {
-    Bookmark,
+    Bookmark, Close,
     StarRate
 } from "@mui/icons-material";
 import Grid2 from "@mui/material/Unstable_Grid2";
-import {useState} from "react";
+import {useState, Fragment} from "react";
 import {useNavigate} from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 import {useLocation} from 'react-router-dom';
@@ -36,9 +36,31 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 export default function StoryContentComp(props) {
     const navigate=useNavigate();
     const [open, setOpen] = useState(false);
+    const [ratingSent, setRatingSent] = useState(false)
+
+    const handleRatingSentClose = () => {
+        setRatingSent(false)
+    }
+
+    const sendRating = (
+        <Fragment>
+            <Button variant="contained" color="primary" size="small" onClick={() => {handleRatingSentClose(); setOpen(true)}}>
+                UNDO
+            </Button>
+            <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={handleRatingSentClose}
+            >
+                <Close fontSize="small" />
+            </IconButton>
+        </Fragment>
+    );
 
     const handleClose = () => {
         setOpen(false);
+        setRatingSent(true)
     };
     const handleClickOpen = () => {
         setOpen(true);
@@ -49,6 +71,7 @@ export default function StoryContentComp(props) {
     const asset = story.asset
     const content = story.content
     const cover_img = `./static/images/stories/${story.cover_img}.jpg`
+    const videoPresentation = `./static/videos/stories/${story.video}.mp4`
     return (
             <Grid container spacing={0.5} style={{paddingTop:30}}>
                 <Grid xs={8}>
@@ -79,7 +102,15 @@ export default function StoryContentComp(props) {
                                 </Grid2>
                                 <Grid2 container columnSpacing={1} sx={{ order: { xs: 1, sm: 2 } }}>
                                     <Grid2>
-                                        <Button  onClick={handleClickOpen} variant={"outlined"} startIcon={<StarRate></StarRate>}>Rate</Button>                                </Grid2>
+                                        <Button  onClick={handleClickOpen} variant={"outlined"} startIcon={<StarRate></StarRate>}>Rate</Button>
+                                        <Snackbar
+                                            open={ratingSent}
+                                            autoHideDuration={6000}
+                                            onClose={handleRatingSentClose}
+                                            message="Rating sent! Thank you for your contribution"
+                                            action={sendRating}
+                                        />
+                                    </Grid2>
                                 </Grid2>
                             </Grid2>
                         </Stack>
@@ -113,32 +144,34 @@ export default function StoryContentComp(props) {
                                         </Grid>
                                     </Grid>
                                     <br /><br />
-                                    <Grid container>
-                                        <Grid xs={9}>
-                                            <Typography variant={"body2"}>How likely are you ++ +++++++++?</Typography>
-                                        </Grid>
-                                        <Grid xs={3}>
-                                            <Rating name="half-rating" defaultValue={0} />
-                                        </Grid>
-                                    </Grid>
                                 </DialogContentText>
                             </DialogContent>
                             <DialogActions>
-                                <Button  onClick={handleClose}>SEND</Button>
+                                <Button onClick={handleClose}>SEND</Button>
                             </DialogActions>
                         </Dialog>
                     </Box>
-
-                    <Divider></Divider>
-                    <br></br>
-                    <Box
+                    {story.cover_img ? <><Box
                         component="img"
                         sx={{
                             width: "100%" ,
                         }}
                         alt="The house from the offer."
                         src={cover_img}
-                    /><br></br><br></br>
+                    /><br></br><br></br></> : ''}
+                    {story.video_available ? <><Box
+                        component="video"
+                        controls
+                        sx={{
+                            width: "100%" ,
+                        }}
+                        alt="The house from the offer."
+                        src={videoPresentation}
+                    /><br></br></> : ''}
+                    <br></br>
+                    <Divider></Divider>
+
+                    <br></br>
                     {content.map((element, index) => (
                         element.type === "Subtitle" ? <><Typography variant={"h4"} key={index}>{element.content}</Typography></>
                         :
@@ -170,7 +203,7 @@ export default function StoryContentComp(props) {
                                 <CardMedia
                                     component="img"
                                     height="194"
-                                    image={`./static/images/stories/cover_2.jpg`}
+                                    image={`./static/images/stories/cover_4.jpg`}
                                     alt="Paella dish"
                                 />
                                 <CardContent>

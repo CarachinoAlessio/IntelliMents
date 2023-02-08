@@ -143,7 +143,8 @@ export default function StoriesComp(props) {
             isAI: false,
             review: '55%',
             cover_img: 'cover_2',
-            video_available: true
+            video_available: true,
+            video: 'video_1'
         },
         {
             id: 3,
@@ -179,7 +180,8 @@ export default function StoriesComp(props) {
             isAI: false,
             review: '80%',
             cover_img: 'cover_1',
-            video_available: true
+            video_available: true,
+            video: 'video_2'
         },
         {
             id: 4,
@@ -214,19 +216,23 @@ export default function StoriesComp(props) {
             isAI: true,
             review: '85%',
             cover_img: 'cover_3',
-            video_available: true
+            video_available: true,
+            video: 'video_3'
         },
     ]
 
     const [open, setOpen] = useState(false);
 
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorSearch, setAnchorSearch] = useState(null)
     const openFilter = Boolean(anchorEl)
+    const openSearch = Boolean(anchorSearch)
     const [filters, setFilters] = useState({AIstories: true, authors: [], assets: [], videoAvailable: false, favourites: false})
     const [sortBy, setSortBy] = useState('Release date')
     const [orderType, setOrderType] = useState('Descending')
 
     const id = openFilter ? 'simple-popper' : undefined;
+    const idSearch = openSearch ? 'simple-popper' : undefined;
     const navigate = useNavigate();
 
     const filterAndSortStories = (stories) => {
@@ -282,8 +288,14 @@ export default function StoriesComp(props) {
     };
     const [storiesState, setStoriesState] = useState(filterAndSortStories(stories));
     const handleOpenFilter = (event) => {
+        setAnchorSearch(null)
         setAnchorEl(anchorEl ? null : event.currentTarget);
     };
+
+    const handleOpenSearch = (event) => {
+        setAnchorEl(null);
+        setAnchorSearch(anchorSearch ? null : event.currentTarget)
+    }
 
     const setFavourite = (i) => {
         let newStoriesState = [...storiesState]
@@ -510,7 +522,30 @@ export default function StoriesComp(props) {
                     </div>
 
                     <div style={{paddingRight: '15px'}}></div>
-                    <Button variant={"outlined"} startIcon={<Search></Search>}>Search</Button>
+                    <Button aria-describedby={idSearch} onClick={handleOpenSearch} variant={"outlined"} startIcon={<Search></Search>}>Search</Button>
+                    <Popper id={idSearch} open={openSearch} anchorEl={anchorSearch}>
+                        <Card raised={true} sx={{minWidth: 450}}>
+                            <CardContent>
+                                <Box style={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center'
+                                }}>
+                                <TextField style={{width: '80%'}} id="outlined-basic" placeholder='Enter key words' variant="outlined" />
+                                </Box>
+                                <div style={{paddingTop: '32px'}}></div>
+                                <Box style={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center'
+                                }}>
+                                    <Button size="medium" variant={'contained'} onClick={() => {
+                                    setAnchorSearch(null);
+                                    //setStoriesState(searchStoriesByKeywords(stories))
+                                }}>Apply changes</Button></Box>
+                            </CardContent>
+                        </Card>
+                    </Popper>
                     <div style={{paddingRight: '15px'}}></div>
                     {/*<Button onClick={(e) => {e.preventDefault()}} variant={"outlined"} startIcon={<Info onClick={handleClickOpen}></Info>}>Include AI
                         stories<Switch checked={includeAIstories}
