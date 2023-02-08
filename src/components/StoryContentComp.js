@@ -49,7 +49,6 @@ export default function StoryContentComp(props) {
     const asset = story.asset
     const content = story.content
     const cover_img = `./static/images/stories/${story.cover_img}.jpg`
-    console.log(content)
     return (
             <Grid container spacing={0.5} style={{paddingTop:30}}>
                 <Grid xs={8}>

@@ -9,7 +9,7 @@ import {
     Card,
     CardActionArea,
     CardContent,
-    Checkbox,
+    Checkbox, Chip,
     Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider,
     FormControl,
     Grid,
@@ -34,9 +34,9 @@ import {
     FormatAlignLeft,
     FormatAlignRight,
     FormatBold,
-    FormatItalic, FormatUnderlined,
+    FormatItalic, FormatUnderlined, Publish,
     Refresh,
-    Star, Upload, UploadFile,
+    Star, StarRate,
     Verified
 } from "@mui/icons-material";
 import Grid2 from "@mui/material/Unstable_Grid2";
@@ -46,8 +46,6 @@ import {useNavigate} from "react-router-dom";
 import FileUploader from "./FileUploader";
 import AddCoverImage from "./AddCoverImage";
 import List from "@mui/material/List";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import AddVideoPresentation from "./AddVideoPresentation";
 
 const steps = ['Select Investments', 'Choose Modality', 'Write the story', 'Upload Material', 'Overview'];
@@ -70,7 +68,11 @@ function CreateStoryStepper(props) {
     const [aiPicked, setAiPicked] = useState(true)
     const [openRateDialog, setOpenRateDialog] = useState(false);
     const [openGenerateAgainDialog, setOpenGenerateAgainDialog] = useState(false);
+    const [openPublishStory, setOpenPublishStory] = useState(false)
     const [ratingSent, setRatingSent] = useState(false)
+    const [coverImage, setCoverImage] = useState(undefined)
+    const [videoPresentation, setVideoPresentation] = useState(undefined)
+    const [quote, setQuote] = useState('Example of AI-generated Quote')
 
     const [notebook, setNotebook] = useState([{
         type: 'Subtitle',
@@ -111,6 +113,7 @@ function CreateStoryStepper(props) {
         }
         if (activeStep === 1 && !aiPicked) {
             setNotebookTitle('')
+            setQuote('')
             setNotebook([{type: 'Subtitle', content: '', show_buttons: false, alignment: 'left', formats: []}])
         }
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -138,10 +141,17 @@ function CreateStoryStepper(props) {
         });
     };
 
-    const handleReset = () => {
-        setActiveStep(0);
-    };
-
+    const publishStory = () => {
+        sessionStorage.setItem('title', notebookTitle)
+        sessionStorage.setItem('coverImage', JSON.stringify(coverImage))
+        sessionStorage.setItem('videoPresentation', JSON.stringify(videoPresentation))
+        sessionStorage.setItem('notebook', JSON.stringify(notebook))
+        sessionStorage.setItem('quote', JSON.stringify(quote))
+        sessionStorage.setItem('storycreated', 'true')
+        console.log(coverImage)
+        navigate('/Stories')
+        setOpenPublishStory(false)
+    }
 
     const handleRatingSentClose = (event, reason) => {
         setRatingSent(false);
@@ -207,11 +217,11 @@ function CreateStoryStepper(props) {
     }
 
     const uploadCoverImage = (fileUploaded) => {
-        console.log(fileUploaded)
+        setCoverImage(URL.createObjectURL(fileUploaded))
     }
 
     const uploadVideo = (fileUploaded) => {
-        console.log(fileUploaded)
+        setVideoPresentation(URL.createObjectURL(fileUploaded))
     }
 
     const deleteFragment = (index) => {
@@ -455,6 +465,22 @@ function CreateStoryStepper(props) {
 
                                     <div style={{paddingTop: '30px'}}></div>
 
+                                    <Typography variant="h3">Remarkable quote</Typography>
+                                    <div style={{paddingTop: '20px'}}></div>
+                                    <Box sx={{p: 2}}>
+                                        <TextField InputProps={{
+                                            startAdornment: (
+                                                <InputAdornment position="start">
+                                                    <Verified color={"primary"}/>
+                                                </InputAdornment>
+                                            ),
+                                        }} style={{width: '40%'}} label="Quote" variant="filled"
+                                                   defaultValue={quote}
+                                                   onChange={(e) => setQuote(e.target.value)}></TextField>
+                                    </Box>
+
+                                    <div style={{paddingTop: '30px'}}></div>
+
                                     <Typography variant="h3">Body</Typography>
                                     <div style={{paddingTop: '20px'}}></div>
                                     {notebook.map((fragment, index) => {
@@ -689,14 +715,121 @@ function CreateStoryStepper(props) {
                                         ''
                     }
                     {activeStep === 4 ? (
-                            <>
-                                <Typography sx={{mt: 2, mb: 1}}>
-                                    All steps completed - you&apos;re finished
-                                </Typography>
-                                <Box sx={{display: 'flex', flexDirection: 'row', pt: 2}}>
-                                    <Box sx={{flex: '1 1 auto'}}/>
-                                    <Button onClick={handleReset}>Reset</Button>
+                            <>  <Typography variant={"h2"}>{notebookTitle}</Typography>
+                                <Typography variant={"h5"}>{`"${quote}"`}</Typography>
+                                <Typography variant={"body1"}>Written by: Test User</Typography>
+                                <div style={{paddingTop: '20px'}}></div>
+                                <Box sx={{justifyContent: 'space-between', alignItems: 'flex-end'}}>
+                                    <Stack
+                                        direction="row"
+                                        spacing={1}
+                                    >
+                                        {['BTC'].map((element,index) => (
+                                            <Chip label={element} variant="outlined" />
+                                        ) )}
+                                        <Grid2
+                                            xs={12}
+                                            container
+                                            justifyContent="space-between"
+                                            alignItems="center"
+                                            flexDirection={{ xs: 'column', sm: 'row' }}
+                                            sx={{ fontSize: '12px' }}
+                                        >
+                                            <Grid2 sx={{ order: { xs: 2, sm: 1 } }}>
+                                            </Grid2>
+                                            <Grid2 container columnSpacing={1} sx={{ order: { xs: 1, sm: 2 } }}>
+                                                <Grid2>
+                                                    <Button style={{display: 'none'}} variant={"outlined"} startIcon={<StarRate></StarRate>}>Rate</Button>                                </Grid2>
+                                            </Grid2>
+                                        </Grid2>
+                                    </Stack>
+                                    <br></br>
+
                                 </Box>
+                                <br></br>
+                                {coverImage ? <><Box
+                                    component="img"
+                                    sx={{
+                                        width: "100%" ,
+                                    }}
+                                    alt="The house from the offer."
+                                    src={coverImage}
+                                /><br></br><br></br></> : ''}
+                                {videoPresentation ? <><Box
+                                    controls
+                                    component="video"
+                                    sx={{
+                                        width: "100%" ,
+                                    }}
+                                    alt="The house from the offer."
+                                    src={videoPresentation}
+                                /><br></br><br></br></> : ''}
+                                <Divider></Divider>
+                                <br></br>
+
+
+                                {notebook.map((fragment) => (
+                                    fragment.type === 'Subtitle' ? <><Typography variant={"h4"}>{fragment.content}</Typography></>
+                                        : (fragment.type === 'Paragraph' ?
+                                            <>
+                                            <Typography align={fragment.alignment} fontSize={18} fontFamily={"`\"Roboto\", \"Helvetica\", \"Arial\", sans-serif`,"} variant={"body1"}>{fragment.content}</Typography>
+                                                <br></br>
+                                            </> :
+                                            <>
+                                                <Box
+                                                    component="img"
+
+                                                    alt="The house from the offer."
+                                                    src={fragment.content}
+                                                /><br></br>
+                                            </>)
+                                ))}
+
+
+                                <Stack spacing={12} direction={"row"}
+                                       sx={{display: 'flex', pt: 4, alignItems: "center", justifyContent: "center"}}>
+                                    <Button
+                                        startIcon={<ArrowLeft></ArrowLeft>}
+                                        variant={"outlined"}
+                                        color="inherit"
+                                        onClick={handleBack}
+
+                                    >
+                                        Back
+                                    </Button>
+
+                                    {isStepOptional(activeStep) && (
+                                        <Button variant={"outlined"} color="inherit" onClick={handleSkip} sx={{mr: 1}}>
+                                            Skip
+                                        </Button>
+                                    )}
+                                    <Dialog
+                                        open={openPublishStory}
+                                        onClose={() => setOpenPublishStory(false)}
+                                        aria-labelledby="alert-dialog-title"
+                                        aria-describedby="alert-dialog-description"
+                                    >
+                                        <DialogTitle id="alert-dialog-title">
+                                            {"Are you sure?"}
+                                        </DialogTitle>
+                                        <DialogContent>
+                                            <DialogContentText id="alert-dialog-description">
+                                                Are you sure you want to publish the story?
+                                                <br/><br/>
+                                                Our team will process your publication request and, after verifying that your story complies with the rules, will publish it.
+                                            </DialogContentText>
+                                        </DialogContent>
+                                        <DialogActions>
+                                            <Button onClick={() => setOpenPublishStory(false)}>Undo</Button>
+                                            <Button
+                                                onClick={publishStory}>Confirm</Button>
+                                        </DialogActions>
+                                    </Dialog>
+                                    <Button endIcon={<Publish></Publish>} variant={"contained"}
+                                            onClick={() => setOpenPublishStory(true)}>
+                                        Publish story
+                                    </Button>
+                                </Stack>
                             </>
                         ) :
                         <Stack spacing={12} direction={"row"}
@@ -712,7 +845,7 @@ function CreateStoryStepper(props) {
                             </Button>
 
                             {isStepOptional(activeStep) && (
-                                <Button variant={"outlined"} color="inherit" onClick={handleSkip} sx={{mr: 1}}>
+                                <Button style={{display: 'none'}} variant={"outlined"} color="inherit" onClick={handleSkip} sx={{mr: 1}}>
                                     Skip
                                 </Button>
                             )}
@@ -720,7 +853,7 @@ function CreateStoryStepper(props) {
                             <Button endIcon={<ArrowRight></ArrowRight>} variant={"contained"}
                                     disabled={activeStep === 0 && !investments.find((i) => i.selected === true)}
                                     onClick={handleNext}>
-                                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                                Next
                             </Button>
                         </Stack>}
                 </CardContent>

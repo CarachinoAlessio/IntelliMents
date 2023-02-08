@@ -19,7 +19,7 @@ import {
     Search,
 } from "@mui/icons-material";
 import Grid2 from "@mui/material/Unstable_Grid2";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import * as React from 'react';
 import {useNavigate} from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
@@ -29,6 +29,31 @@ import ListItemText from "@mui/material/ListItemText";
 import {Autocomplete} from "@mui/lab";
 
 export default function StoriesComp(props) {
+    const [storyCreated, setStoryCreated] = useState(false)
+
+    useEffect(() => {
+        if (!storyCreated && sessionStorage.getItem('storycreated'))
+            setStoryCreated(true)
+    },[])
+
+    useEffect(() => {
+        if (storyCreated && storiesState.length === 4){
+            let newStory = {...stories[0]}
+            newStory.id = 5
+            newStory.isAI = false
+            newStory.date_idx = 5
+            newStory.asset = ['BTC']
+            newStory.generateDate = 'One minute ago'
+            newStory.title = sessionStorage.getItem('title')
+            newStory.body = sessionStorage.getItem('quote').slice(1,-1)
+            newStory.by = 'Test User'
+            newStory.generate = 'Test User'
+            newStory.cover_img = JSON.parse(sessionStorage.getItem('coverImage'))
+            console.log(newStory.cover_img)
+            setStoriesState((old) => [...old, newStory])
+            stories.push(newStory)
+        }
+    }, [storyCreated])
     const stocks_list = [
         {title: 'Apollo', AKA: 'APL'},
         {title: 'Bitcoin', AKA: 'BTC'},
@@ -123,7 +148,8 @@ export default function StoriesComp(props) {
         {
             id: 3,
             title: "This is the right pattern to start",
-            body: 'I lost $2000 in two days. <br> Please avoid these mistakes</br>',
+            body: 'I lost $2000 in two days.\n' +
+                'Please avoid these mistakes',
             content: [{
                 type: 'Subtitle',
                 content: 'The Secret to Financial Freedom Is Investing Over Time\n',
@@ -526,7 +552,7 @@ export default function StoriesComp(props) {
                                 <CardMedia
                                     component="img"
                                     height="194"
-                                    image={`./static/images/stories/${i.cover_img}.jpg`}
+                                    image={i.cover_img.startsWith('cover') ? `./static/images/stories/${i.cover_img}.jpg` : `${i.cover_img}`}
                                     alt="Paella dish"
                                 />
                                 <CardContent>
