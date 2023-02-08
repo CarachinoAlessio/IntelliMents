@@ -16,7 +16,7 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 
 import {
     Button, CardActions, Chip,
-    Dialog, DialogActions,
+    Dialog, DialogActions, CardMedia, Divider,
     DialogContent,
     DialogContentText,
     DialogTitle,
@@ -63,13 +63,19 @@ export default function InvestorsProfileComp(props) {
     });
 
     const stories = [
-        {id: 1, title: 'AI', body:'I lost $2000 in two days.\n' +
-                'Please avoid these mistakes', content: [{
+            {
+                id: 1, 
+                title: 'AI', 
+                body:'I lost $2000 in two days.\n' +
+                'Please avoid these mistakes', 
+                content: [{
                 type: 'Subtitle',
                 content: 'The Secret to Financial Freedom Is Investing Over Time\n',
                 show_buttons: false,
                 alignment: 'left',
-                formats: []
+                formats: [], 
+                cover_img: 'cover_1',
+                video_available: false
             }, {
                 type: 'Paragraph',
                 content: 'Jack\'s earnings will grow so large, they\'ll exceed all of his contributions combined. After 20 years of investing, Jack contributed $48,000 total. That same year, his $48,000 earned over $56,000. By year 25, his earnings ($103,000) are over 70 percent larger than his total contributions ($60,000).\n' +
@@ -79,13 +85,22 @@ export default function InvestorsProfileComp(props) {
                 image: './static/images/story/graph_story.png',
                 alignment: 'left',
                 formats: []
-            }], asset: ['JUVE.MI', 'APL'], by: '',generateDate: '17 hours ago', generate: 'AI',views: 213, likes: 90, liked: true, bookMark: false, width: 6, isAI: true, review: '80%'},
-        {id: 2, title: 'Gain over time', body:'Dollar-cost averaging is a simple technique that entails investing a fixed amount of money in the same fund or stock at regular intervals over a long period of time.', content: [{
+            }], asset: ['JUVE.MI', 'APL'], by: '',generateDate: '17 hours ago', generate: 'AI',views: 213, likes: 90, liked: true, bookMark: false, width: 6, isAI: true, review: '80%', 
+            cover_img: 'cover_2',
+            video_available: false},
+        {
+                id: 2, 
+                title: 'Gain over time', 
+                body:'Dollar-cost averaging is a simple technique that entails investing a fixed amount of money in the same fund or stock at regular intervals over a long period of time.', 
+                content: [{
                 type: 'Subtitle',
                 content: 'Use Dollar-Cost Averaging to Build Wealth Over Time',
                 show_buttons: false,
+                image: './static/images/story/graph_story.png',
                 alignment: 'left',
-                formats: []
+                formats: [], 
+                cover_img: 'cover_3',
+                video_available: false
             }, {
                 type: 'Paragraph',
                 content : 'Dollar-cost averaging is a simple technique that entails investing a fixed amount of money in the same fund or stock at regular intervals over a long period of time.\n' +
@@ -94,22 +109,42 @@ export default function InvestorsProfileComp(props) {
                     '\n' +
                     'Make no mistake, dollar-cost averaging is a strategy, and it\'s one that can get results that are as good or better than aiming to buy low and sell high. As many experts will tell you, nobody can time the market.',
                 show_buttons: false,
+                image: './static/images/story/graph_story.png',
                 alignment: 'left',
-                formats: []
+                formats: [] , 
+                cover_img: 'cover_2',
+                video_available: false
             }, {
                 type: 'Subtitle',
                 content: 'Lorem Ipsum',
                 show_buttons: false,
+                image: './static/images/story/graph_story.png',
                 alignment: 'left',
-                formats: []
+                formats: [], 
+                cover_img: 'cover_4',
+                video_available: false
             }, {
                 type: 'Paragraph',
                 content: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
                 show_buttons: false,
+                image: './static/images/story/graph_story.png',
                 alignment: 'left',
-                formats: []
+                formats: [], 
+                cover_img: 'cover_3',
+                video_available: false
             }],
-            asset: ['ETH', 'APL'], by: 'Mario Rossi',generateDate: '20 minutes ago',generate: 'HUMAN',views: 132, likes: 90, liked: true, bookMark: true, width: 3, isAI: false, review: '55%'},
+            asset: ['ETH', 'APL'], by: 'Mario Rossi',
+            generateDate: '20 minutes ago',
+            generate: 'HUMAN',
+            views: 132, 
+            likes: 90, 
+            liked: true, 
+            bookMark: true, 
+            width: 3, 
+            isAI: false, 
+            review: '55%', 
+            cover_img: 'cover_4',
+            video_available: false},
     ]
 
     const [storiesState, setStoriesState] = useState(stories);
@@ -204,63 +239,66 @@ export default function InvestorsProfileComp(props) {
                             (includeAIstories) || (!includeAIstories && !story.isAI)
                         ).map(i => (
                             <Grid key={i.id} item xs={6}>
-                                <Card sx style={{ padding: "10px", marginTop: "5px", marginBottom: "5px"}}>
-                                    <CardActionArea onClick={()=>showStory(i)}>
-                                        <CardContent>
-                                            <Grid2 container spacing={0}>
-                                                <Grid2 item xs={5}>
-                                                    <Typography variant="h5" component="div">
-                                                        {i.title}
-                                                    </Typography>
-                                                </Grid2>
-                                                <Grid2 item xs={2} display={"flex"} justifyContent={"center"} alignItems={"center"}>
-                                                    <Tooltip title="Approval Rating">
-                                                        <ReviewsOutlined>
-                                                        </ReviewsOutlined>
-                                                    </Tooltip>
-                                                    <div>&nbsp;</div>
-                                                    <Typography variant="subtitle1">{i.review}</Typography>
-                                                </Grid2>
-                                                <Grid2 item xs={2} display={"flex"} justifyContent={"center"} alignItems={"center"}>
-                                                    <Tooltip title="Video available">
-                                                        <VoiceChatOutlined>
-                                                        </VoiceChatOutlined>
-                                                    </Tooltip>
-                                                </Grid2>
-                                                <Grid2 item xsOffset={1} xs={2} display={"flex"} justifyContent={"end"} alignItems={"end"}>
-                                                    {i.asset.map((element,index) => (
-                                                        <><Chip label={element} variant="outlined" /><div>&nbsp;</div></>
-                                                    ) )}
-                                                </Grid2>
-                                            </Grid2>
-                                            <Typography variant="subtitle2">Generated by: {i.generate}</Typography>
-                                            <br></br>
-                                            <hr className="solid"></hr>
-                                            <br></br>
-                                            <Typography variant="body1">
-                                                {i.body}
-                                            </Typography>
-                                        </CardContent>
-                                    </CardActionArea>
-                                    <Grid2 container spacing={0} style={{paddingLeft:25}}>
+                        <Card variant="outlined" sx={{minWidth: 350}}>
+                            <CardActionArea onClick={() => showStory(i)}>
+                                <CardMedia
+                                    component="img"
+                                    height="194"
+                                    image={i.cover_img.startsWith('cover') ? `/static/images/stories/${i.cover_img}.jpg` : `${i.image}`}
+                                    alt="Paella dish"
+                                />
+                                <CardContent>
+                                    <Grid2 container spacing={0}>
                                         <Grid2 item xs={9}>
-                                            <Typography variant="body2">Published: {i.generateDate}</Typography>
+                                            <Typography variant="h4" component="div">
+                                                {i.title}
+                                            </Typography>
                                         </Grid2>
-                                        <Grid2 item xsOffset={1} xs={2} display={"flex"} justifyContent={"end"} alignItems={"end"}>
-                                            <CardActions style={{ float:'right'}}>
-                                                <IconButton onClick={() => setFavourite(i)} color={i.bookMark ? "primary" : ""} aria-label="like">
-                                                    <Bookmark />
-                                                </IconButton>
-                                            </CardActions>
+
+                                        <Grid2 item xsOffset={1} xs={2} display={"flex"} justifyContent={"end"}
+                                               alignItems={"end"}>
+                                            {i.asset.map((element, index) => (
+                                                <><Chip label={element} variant="outlined"/>
+                                                    <div>&nbsp;</div>
+                                                </>
+                                            ))}
                                         </Grid2>
                                     </Grid2>
-                                </Card>
-                            </Grid>
+                                    <Typography variant="subtitle2">Written by: {i.generate}</Typography>
+                                    <br></br>
+                                    <Divider/>
+                                    <br></br>
+
+                                    <Typography  variant="h6" >
+                                        "{i.body}"
+                                    </Typography>
+                                </CardContent>
+                            </CardActionArea>
+                            <Grid2 container spacing={0} style={{paddingLeft: 25}}>
+                                <Grid2 item xs={9}>
+                                    <Typography variant="body2">Published: {i.generateDate}</Typography>
+                                </Grid2>
+                                <Grid2 item xsOffset={1} xs={2} display={"flex"} justifyContent={"end"}
+                                       alignItems={"end"}>
+                                    <CardActions style={{float: 'right'}}>
+                                        <Tooltip title={'Add to favourites'}>
+                                            <IconButton onClick={() => setFavourite(i)}
+                                                        color={i.bookMark ? "primary" : ""} aria-label="like">
+                                                <Bookmark sx={{fontSize: 30}}/>
+                                            </IconButton>
+                                        </Tooltip>
+                                    </CardActions>
+                                </Grid2>
+                            </Grid2>
+
+                        </Card>
+                    </Grid>
                         ))}
                     </Grid>
                 </Col>
             </Row>
-        </Grid></>
+        </Grid>
+        </>
         );
     }
 export {InvestorsProfileComp}
