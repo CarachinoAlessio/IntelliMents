@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styled, useTheme } from '@mui/material/styles';
+import {styled, useTheme} from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
@@ -21,6 +21,7 @@ import {useNavigate} from "react-router-dom";
 import {useLocation} from "react-router";
 import {cloneElement, useEffect, useState} from "react";
 import Button from '@mui/material/Button';
+import {Tooltip} from "@mui/material";
 
 
 const drawerWidth = 240;
@@ -46,7 +47,7 @@ const closedMixin = (theme) => ({
     },
 });
 
-const DrawerHeader = styled('div')(({ theme }) => ({
+const DrawerHeader = styled('div')(({theme}) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
@@ -57,7 +58,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open',
-})(({ theme, open }) => ({
+})(({theme, open}) => ({
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
         easing: theme.transitions.easing.sharp,
@@ -73,8 +74,8 @@ const AppBar = styled(MuiAppBar, {
     }),
 }));
 
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-    ({ theme, open }) => ({
+const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})(
+    ({theme, open}) => ({
         width: drawerWidth,
         flexShrink: 0,
         whiteSpace: 'nowrap',
@@ -94,36 +95,58 @@ export default function MiniDrawer() {
     const theme = useTheme()
     const navigate = useNavigate()
     const [open, setOpen] = React.useState(false)
-    const menuOptionsArr = [{text: 'Stories', icon: <Movie></Movie>}, 
-                            {text: 'News', icon: <Newspaper></Newspaper>},
-                            {text: 'Investors', icon: <Work></Work>}, 
-                            {text: 'Exchange', icon: <CurrencyExchange></CurrencyExchange>},
-                            {text: 'About', icon: <Info></Info>}, 
-                            {text:'Help', icon:<Help></Help>},
-                            {text:'Login', icon:<Help></Help>}]
+    const menuOptionsArr = [{
+        text: 'Stories',
+        icon: <Tooltip style={{fontSize: '28px'}} title={'Stories'} placement={'right'}><Movie></Movie></Tooltip>
+    },
+        {
+            text: 'News',
+            icon: <Tooltip style={{fontSize: '28px'}} title={'News'}
+                           placement={'right'}><Newspaper></Newspaper></Tooltip>
+        },
+        {
+            text: 'Investors',
+            icon: <Tooltip style={{fontSize: '28px'}} title={'Investors'} placement={'right'}><Work></Work></Tooltip>
+        },
+        {
+            text: 'Exchange',
+            icon: <Tooltip style={{fontSize: '28px'}} title={'Exchange'}
+                           placement={'right'}><CurrencyExchange></CurrencyExchange></Tooltip>
+        },
+        {
+            text: 'About',
+            icon: <Tooltip style={{fontSize: '28px'}} title={'About'} placement={'right'}><Info></Info></Tooltip>
+        },
+        {
+            text: 'Help',
+            icon: <Tooltip style={{fontSize: '28px'}} title={'Help'} placement={'right'}><Help></Help></Tooltip>
+        },
+        {
+            text: 'Login',
+            icon: <Tooltip style={{fontSize: '28px'}} title={'Login'} placement={'right'}><Help></Help></Tooltip>
+        }]
     const [menuOptions, setMenuOptions] = useState(menuOptionsArr)
     const location = useLocation();
     let pathname = location.pathname
     let currentOption = menuOptions.find((i) => pathname.includes(i.text))
-    let login=false
-    if (pathname.includes("login")){
-        login=true
+    let login = false
+    if (pathname.includes("login")) {
+        login = true
     }
     let index = 0
-    if (currentOption !== undefined){
+    if (currentOption !== undefined) {
         index = menuOptions.indexOf(currentOption)
     }
     const [activeIndex, setActiveIndex] = React.useState(index)
-    useEffect(()=>{
+    useEffect(() => {
         setActiveIndex(index)
-    },[index])
-    useEffect(()=>{
+    }, [index])
+    useEffect(() => {
         setMenuOptions(menuOptions.map((o, index) => {
             let newI
-            if (activeIndex === index){
+            if (activeIndex === index) {
                 newI = cloneElement(o.icon, {color: "primary"});
-            }
-            else{
+            } else {
                 newI = cloneElement(o.icon, {color: ""});
             }
             return {...o, icon: newI}
@@ -138,29 +161,29 @@ export default function MiniDrawer() {
         setOpen(false);
     };
 
-        //check authentification of user
-        if (!sessionStorage.getItem('auth-token')) {
-            console.log('No auth token set.');
+    //check authentification of user
+    if (!sessionStorage.getItem('auth-token')) {
+        console.log('No auth token set.');
+    } else {
+        const authToken = '123456abcdef';
+        if (sessionStorage.getItem('auth-token') === authToken) {
+            console.log('Good token. Log in.')
         } else {
-            const authToken = '123456abcdef';
-            if (sessionStorage.getItem('auth-token') === authToken) {
-                console.log('Good token. Log in.')
-            } else {
-                console.log('Bad token.')
-            }
+            console.log('Bad token.')
         }
-        const handleLoginPage = () => {
-            navigate("/login");
-        }
+    }
+    const handleLoginPage = () => {
+        navigate("/login");
+    }
 
-        const handleLogout = () => {
-            sessionStorage.clear()
-            navigate("/");
-        }
+    const handleLogout = () => {
+        sessionStorage.clear()
+        navigate("/");
+    }
 
     return (
-        <Box sx={{ display: 'flex' }}>
-            <CssBaseline />
+        <Box sx={{display: 'flex'}}>
+            <CssBaseline/>
             <AppBar position="fixed" open={open}>
                 <Toolbar>
                     <IconButton
@@ -170,37 +193,45 @@ export default function MiniDrawer() {
                         edge="start"
                         sx={{
                             marginRight: 5,
-                            ...(open && { display: 'none' }),
+                            ...(open && {display: 'none'}),
                         }}
                     >
-                        <MenuIcon />
+                        <MenuIcon/>
                     </IconButton>
-                    <Typography variant="h6" noWrap component="div" sx={{flexGrow:1}}>
-                        {login ? "Login":menuOptions[activeIndex].text}
+                    <Typography variant="h6" noWrap component="div" sx={{flexGrow: 1}}>
+                        {login ? "Login" : menuOptions[activeIndex].text}
                     </Typography>
                     {/**Logged in or not */}
-                    {sessionStorage.getItem('auth-token')!=null ? <div style={{fontSize: '18px', paddingRight:'15px'}}>Welcome, Mario Rossi</div> :
-                                                                    <Typography></Typography>}
-                    {sessionStorage.getItem('auth-token')!=null ? <Button variant={'outlined'} size='large' sx={{fontSize: '16px'}} color="inherit" onClick={handleLogout}>Log-out</Button> :
-                                                                    <Button variant={'outlined'} size='large' sx={{fontSize: '16'}} color="inherit" onClick={handleLoginPage}>Log-in</Button>}
+                    {sessionStorage.getItem('auth-token') != null ?
+                        <div style={{fontSize: '18px', paddingRight: '15px'}}>Welcome, Test user</div> :
+                        <Typography></Typography>}
+                    {sessionStorage.getItem('auth-token') != null ?
+                        <Button variant={'outlined'} size='large' sx={{fontSize: '16px'}} color="inherit"
+                                onClick={handleLogout}>Log-out</Button> :
+                        <Button variant={'outlined'} size='large' sx={{fontSize: '16'}} color="inherit"
+                                onClick={handleLoginPage}>Log-in</Button>}
                 </Toolbar>
             </AppBar>
             <Drawer variant="permanent" open={open}>
                 <DrawerHeader>
                     <IconButton onClick={handleDrawerClose}>
-                        {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                        {theme.direction === 'rtl' ? <ChevronRightIcon/> : <ChevronLeftIcon/>}
                     </IconButton>
                 </DrawerHeader>
-                <Divider />
+                <Divider/>
                 <List>
-                    {menuOptions.slice(0,4).map(({text, icon}, index) => (
-                        <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-                            <ListItemButton onClick={()=>{setActiveIndex(index); navigate('/'+text); handleDrawerClose()}} selected={index === activeIndex}
-                                sx={{
-                                    minHeight: 60,
-                                    justifyContent: open ? 'initial' : 'center',
-                                    px: 2.5,
-                                }}
+                    {menuOptions.slice(0, 4).map(({text, icon}, index) => (
+                        <ListItem key={text} disablePadding sx={{display: 'block'}}>
+                            <ListItemButton onClick={() => {
+                                setActiveIndex(index);
+                                navigate('/' + text);
+                                handleDrawerClose()
+                            }} selected={index === activeIndex}
+                                            sx={{
+                                                minHeight: 60,
+                                                justifyContent: open ? 'initial' : 'center',
+                                                px: 2.5,
+                                            }}
                             >
                                 <ListItemIcon
                                     sx={{
@@ -211,21 +242,24 @@ export default function MiniDrawer() {
                                 >
                                     {icon}
                                 </ListItemIcon>
-                                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                                <ListItemText primary={text} sx={{opacity: open ? 1 : 0}}/>
                             </ListItemButton>
                         </ListItem>
                     ))}
                 </List>
-                <Divider />
+                <Divider/>
                 <List>
                     {menuOptions.slice(4, 6).map(({text, icon}, index) => (
-                        <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-                            <ListItemButton onClick={()=>{setActiveIndex(4+index); navigate('/'+text)}} selected={4+index === activeIndex}
-                                sx={{
-                                    minHeight: 60,
-                                    justifyContent: open ? 'initial' : 'center',
-                                    px: 2.5,
-                                }}
+                        <ListItem key={text} disablePadding sx={{display: 'block'}}>
+                            <ListItemButton onClick={() => {
+                                setActiveIndex(4 + index);
+                                navigate('/' + text)
+                            }} selected={4 + index === activeIndex}
+                                            sx={{
+                                                minHeight: 60,
+                                                justifyContent: open ? 'initial' : 'center',
+                                                px: 2.5,
+                                            }}
                             >
                                 <ListItemIcon
                                     sx={{
@@ -236,7 +270,7 @@ export default function MiniDrawer() {
                                 >
                                     {icon}
                                 </ListItemIcon>
-                                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                                <ListItemText primary={text} sx={{opacity: open ? 1 : 0}}/>
                             </ListItemButton>
                         </ListItem>
                     ))}

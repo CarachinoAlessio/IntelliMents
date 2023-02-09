@@ -15,8 +15,8 @@ import {
     Bookmark,
     FilterList,
     Folder,
-    Info,
-    Search,
+    Info, PlayCircle, Recommend, ReviewsOutlined,
+    Search, Star, VideoCall,
 } from "@mui/icons-material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {useEffect, useState} from "react";
@@ -48,7 +48,16 @@ export default function StoriesComp(props) {
             newStory.body = sessionStorage.getItem('quote').slice(1,-1)
             newStory.by = 'Test User'
             newStory.generate = 'Test User'
-            newStory.cover_img = JSON.parse(sessionStorage.getItem('coverImage'))
+            let covimg = sessionStorage.getItem('coverImage')
+            if (covimg !== "undefined"){
+                newStory.cover_img = JSON.parse(covimg)
+            }
+            let videoPres = sessionStorage.getItem('videoPresentation')
+            if (videoPres !== "undefined"){
+                newStory.video_available = true
+                newStory.video = JSON.parse(videoPres)
+            }
+            else newStory.video_available = false
             console.log(newStory.cover_img)
             setStoriesState((old) => [...old, newStory])
             stories.push(newStory)
@@ -601,13 +610,27 @@ export default function StoriesComp(props) {
                                         <Grid2 item xsOffset={1} xs={2} display={"flex"} justifyContent={"end"}
                                                alignItems={"end"}>
                                             {i.asset.map((element, index) => (
-                                                <><Chip label={element} variant="outlined"/>
+                                                <><Tooltip title={stocks_list.find((e) => e.AKA === element).title} placement={"top"}><Chip label={element} variant="outlined"/></Tooltip>
                                                     <div>&nbsp;</div>
                                                 </>
                                             ))}
                                         </Grid2>
                                     </Grid2>
-                                    <Typography variant="subtitle2">Written by: {i.generate}</Typography>
+                                    <Typography style={{fontSize: 16}} variant="subtitle2">Written by {i.generate}</Typography>
+                                    <br></br>
+                                    <Stack direction="row"
+                                           justifyContent="start"
+                                           alignItems="center"
+                                    >   <Box sx={{display: 'flex', justifyContent: 'start', alignItems: 'center'}}>
+                                        <Tooltip style={{fontSize: '28px'}} title={'Satisfaction rate'} placement={'top'}><Recommend fontSize={'inherit'} color={'primary'}></Recommend></Tooltip>
+                                        <Typography style={{fontSize: '16px'}} color={'primary'} variant={'body 1'}>{i.review}</Typography>
+                                        </Box>
+
+                                        {/*{i.video_available ? <Divider orientation={'vertical'} flexItem ></Divider> : ''}*/}
+                                        {i.video_available ? <div style={{paddingLeft: '8px'}}></div> : ''}
+
+                                        {i.video_available ? <Tooltip style={{fontSize: '28px'}} title={'Video available'} placement={'top'}><PlayCircle fontSize={'inherit'} color={'error'}></PlayCircle></Tooltip> : ''}
+                                    </Stack>
                                     <br></br>
                                     <Divider/>
                                     <br></br>
