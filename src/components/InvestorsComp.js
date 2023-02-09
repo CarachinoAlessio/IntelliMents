@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
 import IconButton from "@mui/material/IconButton";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import TextField from '@mui/material/TextField';
@@ -102,25 +102,52 @@ export default function InvestorsComp(props) {
 
     //end of sort by function
 
-        //search
-        const [anchorSearch, setAnchorSearch] = useState(null)
-        const openSearch = Boolean(anchorSearch)
-    
-            const handleOpenFilter = (event) => {
-                setAnchorEl(anchorEl ? null : event.currentTarget);
+    //search
+    const [anchorSearch, setAnchorSearch] = useState(null)
+    const openSearch = Boolean(anchorSearch)
+
+        const handleOpenFilter = (event) => {
+            setAnchorEl(anchorEl ? null : event.currentTarget);
+        };
+        const idSearch = openSearch ? 'simple-popper' : undefined;
+
+const setFollowing = (i) => {
+    let newProfilesState = [...investorsState]
+    newProfilesState[i.id-1].followed = !newProfilesState[i.id-1].followed
+    setInvestorsState((newProfilesState) => [...newProfilesState])
+}
+
+const showProfile = (i) => {
+    navigate('/Investors/Profile',{state: i});
+}
+
+
+            //search function
+            const [query,setQuery] = useState("")
+            const handleQuery = event => {
+                setQuery(event.target.value);
             };
-            const idSearch = openSearch ? 'simple-popper' : undefined;
+            const searchInvestor = () => {
+                setAnchorSearch(null)
+                //console.log(query,"query")
+                let newInvestorsState
+                if (query===""||query===null){
+                    setInvestorsState(investorsState)
+                }
+                else{
+                    newInvestorsState=investorsState.filter(k=>k.name.includes(query))
+                    //console.log(newInvestorsState, "nis")
+                    setShowButtonAll(true)
+                    setInvestorsState(newInvestorsState)
+                }
+            }
 
-    const setFollowing = (i) => {
-        let newProfilesState = [...investorsState]
-        newProfilesState[i.id-1].followed = !newProfilesState[i.id-1].followed
-        setInvestorsState((newProfilesState) => [...newProfilesState])
-    }
+            const [showButtonAll,setShowButtonAll] = useState(false)
 
-    const showProfile = (i) => {
-        navigate('/Investors/Profile',{state: i});
-    }
-
+            const showAllPressed = () => {
+                setInvestorsState(profilesArr)
+                setShowButtonAll(false)
+            }
 
     return (
         <>
@@ -140,7 +167,9 @@ export default function InvestorsComp(props) {
                                     justifyContent: 'center',
                                     alignItems: 'center'
                                 }}>
-                                <TextField style={{width: '80%'}} id="outlined-basic" placeholder='Enter key words' variant="outlined" />
+                                <TextField style={{width: '80%'}} id="outlined-basic" placeholder='Enter key words' variant="outlined" 
+                                    onChange={handleQuery}
+                                />
                                 </Box>
                                 <div style={{paddingTop: '32px'}}></div>
                                 <Box style={{
@@ -149,7 +178,8 @@ export default function InvestorsComp(props) {
                                     alignItems: 'center'
                                 }}>
                                     <Button size="medium" variant={'contained'} onClick={() => {
-                                    setAnchorSearch(null);
+                                    searchInvestor()
+                                    //setAnchorSearch(null);
                                     //setStoriesState(searchStoriesByKeywords(stories))
                                 }}>Apply changes</Button></Box>
                             </CardContent>
@@ -157,7 +187,9 @@ export default function InvestorsComp(props) {
                     </Popper>
                         <Button onClick={() => navigate('/Investors/Tops')} variant={"outlined"} startIcon={<LeaderboardIcon></LeaderboardIcon>}>Top Investors</Button> &nbsp;&nbsp;
                         <Button onClick={() => navigate('/Investors/Followed')} variant={"outlined"} startIcon={<FavoriteIcon></FavoriteIcon>}>Followed</Button> &nbsp;&nbsp;
-                        <Button aria-describedby={id} onClick={handleOpenFilter} variant={"outlined"} startIcon={<FilterList></FilterList>}>Sort by</Button>
+                        <Button aria-describedby={id} onClick={handleOpenFilter} variant={"outlined"} startIcon={<FilterList></FilterList>}>Sort by</Button> &nbsp;&nbsp;
+                        {showButtonAll ? <Button onClick={showAllPressed} variant={"outlined"} startIcon={<FormatListBulletedIcon></FormatListBulletedIcon>}>Show all</Button> : ""}
+
                         <Popper id={id} open={openFilter} anchorEl={anchorEl}>
                             <Card raised={true} sx={{ minWidth: 350 }}>
                                 <CardContent>

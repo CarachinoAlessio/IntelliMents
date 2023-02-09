@@ -15,6 +15,7 @@ import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Filter1Icon from '@mui/icons-material/Filter1';
 import Filter2Icon from '@mui/icons-material/Filter2';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import {
     Box,
     Card, CardActionArea, CardActions, CardContent, Chip,
@@ -107,6 +108,34 @@ export default function InvestorsFollowedComp(props) {
                 newProfilesState[i.id-1].followed = !newProfilesState[i.id-1].followed
                 setInvestorsState((newProfilesState) => [...newProfilesState])
             }
+
+
+                //search function
+                const [query,setQuery] = useState("")
+                const handleQuery = event => {
+                    setQuery(event.target.value);
+                };
+                const searchInvestor = () => {
+                    setAnchorSearch(null)
+                    //console.log(query,"query")
+                    let newInvestorsState
+                    if (query===""||query===null){
+                        setInvestorsState(investorsState)
+                    }
+                    else{
+                        newInvestorsState=investorsState.filter(k=>k.name.includes(query))
+                        //console.log(newInvestorsState, "nis")
+                        setShowButtonAll(true)
+                        setInvestorsState(newInvestorsState)
+                    }
+                }
+
+                const [showButtonAll,setShowButtonAll] = useState(false)
+
+                const showAllPressed = () => {
+                    setInvestorsState(profilesArr)
+                    setShowButtonAll(false)
+                }
     
 
     return (
@@ -127,7 +156,7 @@ export default function InvestorsFollowedComp(props) {
                                     justifyContent: 'center',
                                     alignItems: 'center'
                                 }}>
-                                <TextField style={{width: '80%'}} id="outlined-basic" placeholder='Enter key words' variant="outlined" />
+                                <TextField style={{width: '80%'}} id="outlined-basic" placeholder='Enter key words' variant="outlined" onChange={handleQuery}/>
                                 </Box>
                                 <div style={{paddingTop: '32px'}}></div>
                                 <Box style={{
@@ -136,7 +165,8 @@ export default function InvestorsFollowedComp(props) {
                                     alignItems: 'center'
                                 }}>
                                     <Button size="medium" variant={'contained'} onClick={() => {
-                                    setAnchorSearch(null);
+                                    searchInvestor()
+                                    //setAnchorSearch(null);
                                     //setStoriesState(searchStoriesByKeywords(stories))
                                 }}>Apply changes</Button></Box>
                             </CardContent>
@@ -144,7 +174,8 @@ export default function InvestorsFollowedComp(props) {
                     </Popper>
                     <Button onClick={() => navigate('/Investors/Tops')} variant={"outlined"} startIcon={<LeaderboardIcon></LeaderboardIcon>}>Top Investors</Button> &nbsp;&nbsp;
                     <Button onClick={() => navigate('/Investors/Followed')} variant={"outlined"} startIcon={<FavoriteIcon></FavoriteIcon>}>Followed</Button> &nbsp;&nbsp;
-                        <Button aria-describedby={id} onClick={handleOpenFilter} variant={"outlined"} startIcon={<FilterList></FilterList>}>Sort by</Button>
+                        <Button aria-describedby={id} onClick={handleOpenFilter} variant={"outlined"} startIcon={<FilterList></FilterList>}>Sort by</Button> &nbsp;&nbsp;
+                        {showButtonAll ? <Button onClick={showAllPressed} variant={"outlined"} startIcon={<FormatListBulletedIcon></FormatListBulletedIcon>}>Show all</Button> : ""}
                         <Popper id={id} open={openFilter} anchorEl={anchorEl}>
                             <Card raised={true} sx={{ minWidth: 350 }}>
                                 <CardContent>
