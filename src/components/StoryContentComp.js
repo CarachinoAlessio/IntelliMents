@@ -70,8 +70,18 @@ export default function StoryContentComp(props) {
     const story = location.state
     const asset = story.asset
     const content = story.content
-    const cover_img = `./static/images/stories/${story.cover_img}.jpg`
-    const videoPresentation = `./static/videos/stories/${story.video}.mp4`
+
+    let cover_img
+    let videoPresentation
+    if (story.id === 5)
+        cover_img=story.cover_img
+    else
+        cover_img = `./static/images/stories/${story.cover_img}.jpg`
+
+    if (story.id === 5)
+        videoPresentation = story.video
+    else
+        videoPresentation = `./static/videos/stories/${story.video}.mp4`
     return (
             <Grid container spacing={0.5} style={{paddingTop:30}}>
                 <Grid xs={8}>

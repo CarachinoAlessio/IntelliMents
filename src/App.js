@@ -28,6 +28,8 @@ import ExchangeBuyComp from "./components/ExchangeBuyComp"
 import ExchangeExploreComp from "./components/ExchangeExploreComp"
 
 function App() {
+    sessionStorage.setItem('auth-token', 'example');
+    sessionStorage.setItem('userData', 'Test user')
     return (
         <Router>
             <App2/>
@@ -37,7 +39,7 @@ function App() {
 
 function App2() {
     //login
-    const [loggedIn, setLoggedIn] = useState();
+    const [loggedIn, setLoggedIn] = useState(true);
 
 
     const navigate = useNavigate();
@@ -94,8 +96,6 @@ function App2() {
 function Layout(props) {
 
     let {param} = useParams();
-
-    let {student, setStudent, loggedIn} = props
 
     if (param !== undefined && param !== 'login')
         return <h1>404 Page not found</h1>
