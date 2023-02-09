@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
 import IconButton from "@mui/material/IconButton";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import TextField from '@mui/material/TextField';
@@ -212,7 +213,11 @@ export default function InvestorsComp(props) {
                                 <CardActionArea onClick={()=>showProfile(i)}>
                                     <CardContent variant={"outlined"}>
                                         <Typography variant="h3" component="div">
-                                            {i.name}
+                                        <Grid aria-label="chart">
+                                            {i.position==="1"? <Tooltip title="Position"><Filter1Icon></Filter1Icon></Tooltip> : <Tooltip title="Position"><Filter2Icon></Filter2Icon></Tooltip>}
+                                                            <Tooltip title="Position"><LeaderboardIcon>
+                                                            </LeaderboardIcon></Tooltip>&nbsp;&nbsp;{i.name}
+                                                    </Grid>
                                         </Typography>
                                         <Typography variant="body1" color="text.secondary">
                                             {i.description}
@@ -228,14 +233,12 @@ export default function InvestorsComp(props) {
                                 <Grid container>
                                                 <Grid item xs={8}></Grid>
                                                 <Grid item xs={4} display={"flex"} justifyContent={"right"} alignItems={"center"}>
+                                                    
                                                     <IconButton onClick={() => setFollowing(i)} color={i.followed ? "primary" : ""} aria-label="favorite" >
-                                                        <FavoriteBorderIcon variant="contained"/>
+                                                    <Tooltip title="Follow"><FavoriteIcon variant="contained"/>
+                                                    </Tooltip>
                                                     </IconButton>
-                                                    <Grid aria-label="chart">
-                                                            {i.position==="1"? <Filter1Icon></Filter1Icon> : <Filter2Icon></Filter2Icon>}
-                                                            <LeaderboardIcon>
-                                                            </LeaderboardIcon>
-                                                    </Grid>
+                                                    
                                                 </Grid>
                                             </Grid>
                             </Card>

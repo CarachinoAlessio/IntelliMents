@@ -220,7 +220,18 @@ export default function InvestorsTopComp(props) {
                                 <CardActionArea onClick={()=>showProfile(i)}>
                                     <CardContent variant={"outlined"}>
                                         <Typography variant="h3" component="div">
-                                            {i.name}
+                                        <Grid aria-label="chart">
+                                                            {i.position==="1"? <Tooltip title="Position"><Filter1Icon></Filter1Icon></Tooltip> : 
+                                                            
+                                                            i.position==="2" ? <Tooltip title="Position"><Filter2Icon></Filter2Icon></Tooltip> :
+                                                            
+                                                            i.position==="3" ? <Tooltip title="Position"><Filter3Icon></Filter3Icon></Tooltip> :
+                                                            
+                                                            i.position==="4" ? <Tooltip title="Position"><Filter4Icon></Filter4Icon></Tooltip> : ""}
+                                                            <Tooltip title="Position"><LeaderboardIcon>
+                                                            </LeaderboardIcon></Tooltip>&nbsp;&nbsp;{i.name}
+
+                                                    </Grid>
                                         </Typography>
                                         <Typography variant="body1" color="text.secondary">
                                             {i.description}
@@ -235,19 +246,9 @@ export default function InvestorsTopComp(props) {
                                                 <Grid item xs={8}></Grid>
                                                 <Grid item xs={4} display={"flex"} justifyContent={"right"} alignItems={"center"}>
                                                     <IconButton onClick={() => setFollowing(i)} color={i.followed ? "primary" : ""} aria-label="favorite">
-                                                        <FavoriteBorderIcon />
-                                                    </IconButton>
-                                                    <Grid aria-label="chart">
-                                                            {i.position==="1"? <Filter1Icon></Filter1Icon> : 
-                                                            
-                                                            i.position==="2" ?<Filter2Icon></Filter2Icon> :
-                                                            
-                                                            i.position==="3" ? <Filter3Icon></Filter3Icon> :
-                                                            
-                                                            i.position==="4" ? <Filter4Icon></Filter4Icon> : ""}
-                                                            <LeaderboardIcon>
-                                                            </LeaderboardIcon>
-                                                    </Grid>
+                                                    <Tooltip title="Follow"><FavoriteIcon variant="contained"/>
+                                                    </Tooltip>
+                                                    </IconButton>                                                
                                                 </Grid>
                                             </Grid>
                             </Card>

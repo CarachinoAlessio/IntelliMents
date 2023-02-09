@@ -13,6 +13,8 @@ import ListItemText from "@mui/material/ListItemText";
 import List from "@mui/material/List";
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import Filter1Icon from '@mui/icons-material/Filter1';
+import Filter2Icon from '@mui/icons-material/Filter2';
 import {
     Box,
     Card, CardActionArea, CardActions, CardContent, Chip,
@@ -33,12 +35,16 @@ const profilesArr = [
     name: 'Alessio Carachino', 
     description: 'Since 2 years', 
     followed: true,
-    content: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents',},
+    content: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents',
+    position: '1'
+    },
     {id: 2, 
     name: 'Lorenzo Carachino', 
     description: 'Since 3 years', 
-    followed: false,
-    content: 'Use Dollar-Cost Averaging to Build Wealth Over Time',},
+    followed: true,
+    content: 'Use Dollar-Cost Averaging to Build Wealth Over Time',
+    position: '2'
+    },
 ]
 
 
@@ -84,7 +90,7 @@ export default function InvestorsFollowedComp(props) {
                 console.log(result)
                 return result
             }
-            const [investorsState, setInvestorsState] = useState(filterAndSortAuthors(profilesArr));
+            const [investorsState, setInvestorsState] = useState((profilesArr));
         
                 const handleOpenFilter = (event) => {
                     setAnchorEl(anchorEl ? null : event.currentTarget);
@@ -96,6 +102,11 @@ export default function InvestorsFollowedComp(props) {
             }
 
             
+            const setFollowing = (i) => {
+                let newProfilesState = [...investorsState]
+                newProfilesState[i.id-1].followed = !newProfilesState[i.id-1].followed
+                setInvestorsState((newProfilesState) => [...newProfilesState])
+            }
     
 
     return (
@@ -188,7 +199,13 @@ export default function InvestorsFollowedComp(props) {
                                 <CardActionArea>
                                     <CardContent onClick={()=>showProfile(i)} variant={"outlined"}>
                                         <Typography variant="h3" component="div">
-                                            {i.name}
+                                            
+                                        <Grid aria-label="chart">
+                                                            {i.position==="1" ? <Tooltip title="Position"><Filter1Icon></Filter1Icon></Tooltip> : 
+                                                            <Tooltip title="Position"><Filter2Icon></Filter2Icon></Tooltip>}
+                                                            <Tooltip title="Position"><LeaderboardIcon>
+                                                            </LeaderboardIcon></Tooltip>&nbsp;&nbsp;{i.name}
+                                                    </Grid>
                                         </Typography>
                                         <Typography variant="body1" color="text.secondary">
                                             {i.description}
@@ -203,11 +220,9 @@ export default function InvestorsFollowedComp(props) {
                                             <Grid container>
                                                 <Grid item xs={8}></Grid>
                                                 <Grid item xs={4} display={"flex"} justifyContent={"right"} alignItems={"center"}>
-                                                    <IconButton aria-label="favorite">
-                                                        <HeartBrokenIcon />
-                                                    </IconButton>
-                                                    <IconButton aria-label="chart">
-                                                        <ShowChartIcon />
+                                                    <IconButton aria-label="favorite" onClick={() => setFollowing(i)} color={i.followed ? "primary" : ""}>
+                                                        {i.followed ? <Tooltip title="Unfollow"><FavoriteIcon /></Tooltip> : 
+                                                                    <Tooltip title="Follow"><FavoriteIcon /></Tooltip>}
                                                     </IconButton>
                                                 </Grid>
                                             </Grid>
