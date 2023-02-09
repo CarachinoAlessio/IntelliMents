@@ -1,6 +1,6 @@
 import React from 'react';
 import {Button} from "@mui/material";
-import {Add} from "@mui/icons-material";
+import {Add, AddAPhoto, AddPhotoAlternate} from "@mui/icons-material";
 
 const FileUploader = props => {
     const addMedia = props.addMedia
@@ -17,8 +17,8 @@ const FileUploader = props => {
     };
     return (
         <>
-            <Button startIcon={<Add></Add>} size={"small"} variant="outlined" onClick={handleClick}>
-                Add Media
+            <Button startIcon={<AddPhotoAlternate fontSize='large'></AddPhotoAlternate>} size={"small"} variant="outlined" onClick={handleClick}>
+                Add Image
             </Button>
             <input type="file"
                    ref={hiddenFileInput}

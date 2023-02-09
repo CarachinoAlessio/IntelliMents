@@ -34,7 +34,7 @@ import {
     FormatAlignLeft,
     FormatAlignRight,
     FormatBold,
-    FormatItalic, FormatUnderlined, Publish,
+    FormatItalic, FormatUnderlined, PostAdd, Publish,
     Refresh,
     Star, StarRate,
     Verified
@@ -505,7 +505,7 @@ function CreateStoryStepper(props) {
 
                                                     {fragment.show_buttons ? <><Box display="flex" justifyContent="center"
                                                                                     alignItems="flex-start">
-                                                        <Button startIcon={<Add></Add>} size={"small"} variant="outlined"
+                                                        <Button startIcon={<PostAdd></PostAdd>} size={"small"} variant="outlined"
                                                                 onClick={() => addFragment(index, true)}>Add
                                                             Fragment</Button>
                                                         <div>{"\u00A0"}</div>
@@ -655,7 +655,7 @@ function CreateStoryStepper(props) {
                                                     <div style={{paddingBottom: '15px'}}></div>
                                                     {fragment.show_buttons ? <><Box display="flex" justifyContent="center"
                                                                                     alignItems="flex-start">
-                                                        <Button startIcon={<Add></Add>} size={"small"} variant="outlined"
+                                                        <Button startIcon={<PostAdd></PostAdd>} size={"small"} variant="outlined"
                                                                 onClick={() => addFragment(index, false)}>Add
                                                             Fragment</Button>
                                                         <div>{"\u00A0"}</div>

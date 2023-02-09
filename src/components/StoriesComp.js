@@ -15,8 +15,8 @@ import {
     Bookmark,
     FilterList,
     Folder,
-    Info, PlayCircle, Recommend, ReviewsOutlined,
-    Search, Star, VideoCall,
+    Info, PlayCircle, Recommend,
+    Search,
 } from "@mui/icons-material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {useEffect, useState} from "react";
@@ -30,39 +30,6 @@ import {Autocomplete} from "@mui/lab";
 
 export default function StoriesComp(props) {
     const [storyCreated, setStoryCreated] = useState(false)
-
-    useEffect(() => {
-        if (!storyCreated && sessionStorage.getItem('storycreated'))
-            setStoryCreated(true)
-    },[])
-
-    useEffect(() => {
-        if (storyCreated && storiesState.length === 4){
-            let newStory = {...stories[0]}
-            newStory.id = 5
-            newStory.isAI = false
-            newStory.date_idx = 5
-            newStory.asset = ['BTC']
-            newStory.generateDate = 'One minute ago'
-            newStory.title = sessionStorage.getItem('title')
-            newStory.body = sessionStorage.getItem('quote').slice(1,-1)
-            newStory.by = 'Test User'
-            newStory.generate = 'Test User'
-            let covimg = sessionStorage.getItem('coverImage')
-            if (covimg !== "undefined"){
-                newStory.cover_img = JSON.parse(covimg)
-            }
-            let videoPres = sessionStorage.getItem('videoPresentation')
-            if (videoPres !== "undefined"){
-                newStory.video_available = true
-                newStory.video = JSON.parse(videoPres)
-            }
-            else newStory.video_available = false
-            console.log(newStory.cover_img)
-            setStoriesState((old) => [...old, newStory])
-            stories.push(newStory)
-        }
-    }, [storyCreated])
     const stocks_list = [
         {title: 'Apollo', AKA: 'APL'},
         {title: 'Bitcoin', AKA: 'BTC'},
@@ -195,7 +162,7 @@ export default function StoriesComp(props) {
         {
             id: 4,
             title: 'Learn from my mistakes',
-            body: 'Nobody\'s perfect. We are all going to have our wins and losses, especially when it comes to investing. But some of the mistakes you might make when trading stocks are actually pretty common and by no means reserved exclusively for [...]',
+            body: 'Nobody\'s perfect. We are all going to have our wins and losses, especially when it comes to investing. But some of the stocks are actually pretty common and by no means reserved exclusively for [...]',
             content: [{
                 type: 'Subtitle',
                 content: 'The Secret to Financial Freedom Is Investing Over Time\n',
@@ -229,7 +196,6 @@ export default function StoriesComp(props) {
             video: 'video_3'
         },
     ]
-
     const [open, setOpen] = useState(false);
 
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -245,6 +211,7 @@ export default function StoriesComp(props) {
     const navigate = useNavigate();
 
     const filterAndSortStories = (stories) => {
+        console.log(stories)
         const assetIsCompatible = (verifyTheseAssets) => {
             for (let i in verifyTheseAssets) {
                 if (filters.assets.find((el) => el === verifyTheseAssets[i]))
@@ -292,10 +259,10 @@ export default function StoriesComp(props) {
         if (orderType === 'Descending') {
             result = result.reverse()
         }
-
+        console.log(result)
         return result
     };
-    const [storiesState, setStoriesState] = useState(filterAndSortStories(stories));
+    const [storiesState, setStoriesState] = useState(JSON.parse(JSON.stringify(stories)));
     const handleOpenFilter = (event) => {
         setAnchorSearch(null)
         setAnchorEl(anchorEl ? null : event.currentTarget);
@@ -307,16 +274,18 @@ export default function StoriesComp(props) {
     }
 
     const setFavourite = (i) => {
-        let newStoriesState = [...storiesState]
+        let newStoriesState = JSON.parse(JSON.stringify([...storiesState]))
         for (let index in stories){
-            if (stories[index].id === i.id)
-                stories[index].bookMark = !stories[index].bookMark
+            if (stories[index].id === i.id) {
+                stories[index] = {...stories[index], bookMark: !stories[index].bookMark}
+            }
         }
         for (let index in newStoriesState){
-            if (newStoriesState[index].id === i.id)
+            if (newStoriesState[index].id === i.id){
                 newStoriesState[index].bookMark = !newStoriesState[index].bookMark
+                setStoriesState([...newStoriesState])
+            }
         }
-        setStoriesState((newStoriesState) => [...newStoriesState])
     }
 
     const handleClickOpen = () => {
@@ -330,6 +299,39 @@ export default function StoriesComp(props) {
     const showStory = (i) => {
         navigate('/watchStory', {state: i});
     }
+
+    useEffect(() => {
+        if (!storyCreated && sessionStorage.getItem('storycreated'))
+            setStoryCreated(true)
+    },[])
+
+    useEffect(() => {
+        if (storyCreated && storiesState.length === 4){
+            let newStory = {...stories[0]}
+            newStory.id = 5
+            newStory.isAI = false
+            newStory.date_idx = 5
+            newStory.asset = ['BTC']
+            newStory.generateDate = 'One minute ago'
+            newStory.title = sessionStorage.getItem('title')
+            newStory.body = sessionStorage.getItem('quote').slice(1,-1)
+            newStory.by = 'Test User'
+            newStory.generate = 'Test User'
+            let covimg = sessionStorage.getItem('coverImage')
+            if (covimg !== "undefined"){
+                newStory.cover_img = JSON.parse(covimg)
+            }
+            let videoPres = sessionStorage.getItem('videoPresentation')
+            if (videoPres !== "undefined"){
+                newStory.video_available = true
+                newStory.video = JSON.parse(videoPres)
+            }
+            else newStory.video_available = false
+            console.log(newStory.cover_img)
+            setStoriesState((old) => [...old, newStory])
+            stories.push(newStory)
+        }
+    }, [stories])
 //onClick={()=>watchStory(this.id,this.title,this.body,this.img,this.views,this.likes,this.liked,this.width)}
     return (
         <>
@@ -521,6 +523,7 @@ export default function StoriesComp(props) {
                                         alignItems: 'center'
                                     }}><Button size="medium" variant={'contained'} onClick={() => {
                                         setAnchorEl(null);
+                                        console.log(stories)
                                         setStoriesState(filterAndSortStories(stories))
                                     }}>Apply changes</Button></Box>
 
@@ -635,7 +638,7 @@ export default function StoriesComp(props) {
                                     <Divider/>
                                     <br></br>
 
-                                    <Typography  variant="h6" >
+                                    <Typography style={{minHeight: '75px'}} variant="h6" >
                                         "{i.body}"
                                     </Typography>
                                 </CardContent>
