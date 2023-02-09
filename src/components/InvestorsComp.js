@@ -27,6 +27,7 @@ import List from "@mui/material/List";
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 import Filter1Icon from '@mui/icons-material/Filter1';
 import Filter2Icon from '@mui/icons-material/Filter2';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 // import {
 //     Grid, Card, CardContent,
 //     CardActionArea, Typography, CardActions,
@@ -39,6 +40,11 @@ function Item(props) {
 
 Item.propTypes = {children: PropTypes.node};
 export default function InvestorsComp(props) {
+
+    const handleOpenSearch = (event) => {
+        setAnchorEl(null);
+        setAnchorSearch(anchorSearch ? null : event.currentTarget)
+    }
 
     const profilesArr = [
         {id: 1, 
@@ -91,10 +97,18 @@ export default function InvestorsComp(props) {
     }
     const [investorsState, setInvestorsState] = useState(profilesArr);
 
-        const handleOpenFilter = (event) => {
-            setAnchorEl(anchorEl ? null : event.currentTarget);
-        };
+
+
     //end of sort by function
+
+        //search
+        const [anchorSearch, setAnchorSearch] = useState(null)
+        const openSearch = Boolean(anchorSearch)
+    
+            const handleOpenFilter = (event) => {
+                setAnchorEl(anchorEl ? null : event.currentTarget);
+            };
+            const idSearch = openSearch ? 'simple-popper' : undefined;
 
     const setFollowing = (i) => {
         let newProfilesState = [...investorsState]
@@ -116,9 +130,32 @@ export default function InvestorsComp(props) {
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center'}}>
-                        <Button onClick={() => navigate('/Investors')} variant={"outlined"}>Search</Button> &nbsp;&nbsp;
-                        <Button onClick={() => navigate('/Investors/Tops')} variant={"outlined"}>Top Investors</Button> &nbsp;&nbsp;
-                        <Button onClick={() => navigate('/Investors/Followed')} variant={"outlined"}>Followed</Button> &nbsp;&nbsp;
+                    <Button aria-describedby={idSearch} onClick={handleOpenSearch} variant={"outlined"} startIcon={<Search></Search>}>Search</Button>&nbsp;&nbsp;
+                    <Popper id={idSearch} open={openSearch} anchorEl={anchorSearch}>
+                        <Card raised={true} sx={{minWidth: 450}}>
+                            <CardContent>
+                                <Box style={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center'
+                                }}>
+                                <TextField style={{width: '80%'}} id="outlined-basic" placeholder='Enter key words' variant="outlined" />
+                                </Box>
+                                <div style={{paddingTop: '32px'}}></div>
+                                <Box style={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center'
+                                }}>
+                                    <Button size="medium" variant={'contained'} onClick={() => {
+                                    setAnchorSearch(null);
+                                    //setStoriesState(searchStoriesByKeywords(stories))
+                                }}>Apply changes</Button></Box>
+                            </CardContent>
+                        </Card>
+                    </Popper>
+                        <Button onClick={() => navigate('/Investors/Tops')} variant={"outlined"} startIcon={<LeaderboardIcon></LeaderboardIcon>}>Top Investors</Button> &nbsp;&nbsp;
+                        <Button onClick={() => navigate('/Investors/Followed')} variant={"outlined"} startIcon={<FavoriteIcon></FavoriteIcon>}>Followed</Button> &nbsp;&nbsp;
                         <Button aria-describedby={id} onClick={handleOpenFilter} variant={"outlined"} startIcon={<FilterList></FilterList>}>Sort by</Button>
                         <Popper id={id} open={openFilter} anchorEl={anchorEl}>
                             <Card raised={true} sx={{ minWidth: 350 }}>
@@ -161,15 +198,10 @@ export default function InvestorsComp(props) {
                             </Card>
                         </Popper>
                     </Grid>
-
-                    <Grid sx={{ borderRadius: '16px' }} display="flex" justifyContent="center" alignItems="center" style={{ padding: "7px", marginTop: "15px", marginBottom: "45px", backgroundColor: "#eee"}}>
-                        <TextField fullWidth id="input-with-sx" label="Search" variant="standard" placeholder="Carachino_"/>
-                        <Search sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
-                    </Grid>
                 </Col>
             </Row>
         </Grid>
-
+        <br></br>
         <Grid container fluid>
             <Row>
                 <Col>
@@ -196,8 +228,8 @@ export default function InvestorsComp(props) {
                                 <Grid container>
                                                 <Grid item xs={8}></Grid>
                                                 <Grid item xs={4} display={"flex"} justifyContent={"right"} alignItems={"center"}>
-                                                    <IconButton onClick={() => setFollowing(i)} color={i.followed ? "primary" : ""} aria-label="favorite">
-                                                        <FavoriteBorderIcon />
+                                                    <IconButton onClick={() => setFollowing(i)} color={i.followed ? "primary" : ""} aria-label="favorite" >
+                                                        <FavoriteBorderIcon variant="contained"/>
                                                     </IconButton>
                                                     <Grid aria-label="chart">
                                                             {i.position==="1"? <Filter1Icon></Filter1Icon> : <Filter2Icon></Filter2Icon>}

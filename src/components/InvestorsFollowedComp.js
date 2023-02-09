@@ -3,12 +3,16 @@ import Col from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
 import IconButton from "@mui/material/IconButton";
+import TextField from '@mui/material/TextField';
+import Search from '@mui/icons-material/Search';
 import HeartBrokenIcon from '@mui/icons-material/HeartBroken';
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {FilterList} from "@mui/icons-material";
 import ListItemText from "@mui/material/ListItemText";
 import List from "@mui/material/List";
+import LeaderboardIcon from '@mui/icons-material/Leaderboard';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import {
     Box,
     Card, CardActionArea, CardActions, CardContent, Chip,
@@ -42,6 +46,16 @@ export default function InvestorsFollowedComp(props) {
     const navigate=useNavigate();
 
     const [profiles, setProfiles] = useState(profilesArr)
+
+            //search
+        //search
+        const [anchorSearch, setAnchorSearch] = useState(null)
+        const openSearch = Boolean(anchorSearch)
+        const idSearch = openSearch ? 'simple-popper' : undefined;
+        const handleOpenSearch = (event) => {
+            setAnchorEl(null);
+            setAnchorSearch(anchorSearch ? null : event.currentTarget)
+        }
 
             //sort by 
             const [anchorEl, setAnchorEl] = React.useState(null);
@@ -93,9 +107,32 @@ export default function InvestorsFollowedComp(props) {
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center'}}>
-                        <Button onClick={() => navigate('/Investors')} variant={"outlined"}>Search</Button> &nbsp;&nbsp;
-                        <Button onClick={() => navigate('/Investors/Tops')} variant={"outlined"}>Top Investors</Button> &nbsp;&nbsp;
-                        <Button onClick={() => navigate('/Investors/Followed')} variant={"outlined"}>Followed</Button> &nbsp;&nbsp;
+                        <Button aria-describedby={idSearch} onClick={handleOpenSearch} variant={"outlined"} startIcon={<Search></Search>}>Search</Button>&nbsp;&nbsp;
+                        <Popper id={idSearch} open={openSearch} anchorEl={anchorSearch}>
+                        <Card raised={true} sx={{minWidth: 450}}>
+                            <CardContent>
+                                <Box style={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center'
+                                }}>
+                                <TextField style={{width: '80%'}} id="outlined-basic" placeholder='Enter key words' variant="outlined" />
+                                </Box>
+                                <div style={{paddingTop: '32px'}}></div>
+                                <Box style={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center'
+                                }}>
+                                    <Button size="medium" variant={'contained'} onClick={() => {
+                                    setAnchorSearch(null);
+                                    //setStoriesState(searchStoriesByKeywords(stories))
+                                }}>Apply changes</Button></Box>
+                            </CardContent>
+                        </Card>
+                    </Popper>
+                    <Button onClick={() => navigate('/Investors/Tops')} variant={"outlined"} startIcon={<LeaderboardIcon></LeaderboardIcon>}>Top Investors</Button> &nbsp;&nbsp;
+                    <Button onClick={() => navigate('/Investors/Followed')} variant={"outlined"} startIcon={<FavoriteIcon></FavoriteIcon>}>Followed</Button> &nbsp;&nbsp;
                         <Button aria-describedby={id} onClick={handleOpenFilter} variant={"outlined"} startIcon={<FilterList></FilterList>}>Sort by</Button>
                         <Popper id={id} open={openFilter} anchorEl={anchorEl}>
                             <Card raised={true} sx={{ minWidth: 350 }}>
@@ -140,7 +177,7 @@ export default function InvestorsFollowedComp(props) {
                 </Col>
             </Row>
         </Grid>
-
+        <br></br>
         <Grid container fluid>
             <Row>
                 <Col>

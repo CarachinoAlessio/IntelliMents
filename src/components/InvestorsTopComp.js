@@ -1,4 +1,5 @@
 import Row from '@mui/material/Container';
+import TextField from '@mui/material/TextField';
 import Col from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
@@ -11,6 +12,13 @@ import * as PropTypes from "prop-types";
 import * as React from 'react';
 import ListItemText from "@mui/material/ListItemText";
 import List from "@mui/material/List";
+import LeaderboardIcon from '@mui/icons-material/Leaderboard';
+import Filter1Icon from '@mui/icons-material/Filter1';
+import Filter2Icon from '@mui/icons-material/Filter2';
+import Filter3Icon from '@mui/icons-material/Filter3';
+import Filter4Icon from '@mui/icons-material/Filter4';
+import Search from '@mui/icons-material/Search';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import {
     Box,
     Card, CardActionArea, CardActions, CardContent, Chip,
@@ -33,14 +41,37 @@ Item.propTypes = {children: PropTypes.node};
 export default function InvestorsTopComp(props) {
 
     const profilesArr = [
-        {id: 1, name: 'Hossein Javadi', description: 'Since 3 years', followed: true,
-            content: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents',},
-        {id: 2, name: 'Alessio Carachino', description: 'Since 2 years', followed: true,
-        content: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents',},
-        {id: 3, name: 'Lorenzo Santo', description: 'Since 3 years', followed: false,
-        content: 'Use Dollar-Cost Averaging to Build Wealth Over Time',},
-        {id: 4, name: 'Francesco Di Gangi', description: 'Since 3 years', followed: false,
-        content: 'Use Dollar-Cost Averaging to Build Wealth Over Time',},
+        {
+            id: 1, 
+            name: 'Hossein Javadi', 
+            description: 'Since 3 years', 
+            followed: true,
+            content: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents',
+            position: "4"
+        },
+        {id: 2, 
+        name: 'Alessio Carachino', 
+        description: 'Since 2 years', 
+        followed: true,
+        content: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents',
+        position: "1"
+        },
+        {
+            id: 3, 
+            name: 'Lorenzo Santo', 
+            description: 'Since 3 years', 
+            followed: false,
+            content: 'Use Dollar-Cost Averaging to Build Wealth Over Time',
+            position: "2"
+        },
+        {
+            id: 4, 
+            name: 'Francesco Di Gangi', 
+            description: 'Since 3 years', 
+            followed: false,
+            content: 'Use Dollar-Cost Averaging to Build Wealth Over Time',
+            position: "3"
+        },
     ]
 
     const [profilesState, setProfilesState] = useState(profilesArr)
@@ -50,6 +81,14 @@ export default function InvestorsTopComp(props) {
     const showProfile = (i) => {
         navigate('/Investors/Profile',{state: i});
     }
+        //search
+        const [anchorSearch, setAnchorSearch] = useState(null)
+        const openSearch = Boolean(anchorSearch)
+        const idSearch = openSearch ? 'simple-popper' : undefined;
+        const handleOpenSearch = (event) => {
+            setAnchorEl(null);
+            setAnchorSearch(anchorSearch ? null : event.currentTarget)
+        }
 
         //sort by 
         const [anchorEl, setAnchorEl] = React.useState(null);
@@ -99,9 +138,32 @@ export default function InvestorsTopComp(props) {
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center'}}>
-                        <Button onClick={() => navigate('/Investors')} variant={"outlined"}>Search</Button> &nbsp;&nbsp;
-                        <Button onClick={() => navigate('/Investors/Tops')} variant={"outlined"}>Top Investors</Button> &nbsp;&nbsp;
-                        <Button onClick={() => navigate('/Investors/Followed')} variant={"outlined"}>Followed</Button> &nbsp;&nbsp;
+                        <Button aria-describedby={idSearch} onClick={handleOpenSearch} variant={"outlined"} startIcon={<Search></Search>}>Search</Button>&nbsp;&nbsp;
+                        <Popper id={idSearch} open={openSearch} anchorEl={anchorSearch}>
+                        <Card raised={true} sx={{minWidth: 450}}>
+                            <CardContent>
+                                <Box style={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center'
+                                }}>
+                                <TextField style={{width: '80%'}} id="outlined-basic" placeholder='Enter key words' variant="outlined" />
+                                </Box>
+                                <div style={{paddingTop: '32px'}}></div>
+                                <Box style={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center'
+                                }}>
+                                    <Button size="medium" variant={'contained'} onClick={() => {
+                                    setAnchorSearch(null);
+                                    //setStoriesState(searchStoriesByKeywords(stories))
+                                }}>Apply changes</Button></Box>
+                            </CardContent>
+                        </Card>
+                    </Popper>
+                        <Button onClick={() => navigate('/Investors/Tops')} variant={"outlined"} startIcon={<LeaderboardIcon></LeaderboardIcon>}>Top Investors</Button> &nbsp;&nbsp;
+                        <Button onClick={() => navigate('/Investors/Followed')} variant={"outlined"} startIcon={<FavoriteIcon></FavoriteIcon>}>Followed</Button> &nbsp;&nbsp;
                         <Button aria-describedby={id} onClick={handleOpenFilter} variant={"outlined"} startIcon={<FilterList></FilterList>}>Sort by</Button>
                         <Popper id={id} open={openFilter} anchorEl={anchorEl}>
                             <Card raised={true} sx={{ minWidth: 350 }}>
@@ -147,7 +209,7 @@ export default function InvestorsTopComp(props) {
                 </Col>
             </Row>
         </Grid>
-
+        <br></br>
         <Grid container fluid>
             <Row>
                 <Col>
@@ -175,9 +237,17 @@ export default function InvestorsTopComp(props) {
                                                     <IconButton onClick={() => setFollowing(i)} color={i.followed ? "primary" : ""} aria-label="favorite">
                                                         <FavoriteBorderIcon />
                                                     </IconButton>
-                                                    <IconButton aria-label="chart">
-                                                        <ShowChartIcon />
-                                                    </IconButton>
+                                                    <Grid aria-label="chart">
+                                                            {i.position==="1"? <Filter1Icon></Filter1Icon> : 
+                                                            
+                                                            i.position==="2" ?<Filter2Icon></Filter2Icon> :
+                                                            
+                                                            i.position==="3" ? <Filter3Icon></Filter3Icon> :
+                                                            
+                                                            i.position==="4" ? <Filter4Icon></Filter4Icon> : ""}
+                                                            <LeaderboardIcon>
+                                                            </LeaderboardIcon>
+                                                    </Grid>
                                                 </Grid>
                                             </Grid>
                             </Card>
