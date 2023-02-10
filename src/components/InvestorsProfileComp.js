@@ -45,7 +45,6 @@ export default function InvestorsProfileComp(props) {
     const story = location.state
     const name = story.name
     const content = story.content
-    console.log(content,name)
 
     const stocks_list = [
         {title: 'Apollo', AKA: 'APL'},
@@ -294,7 +293,6 @@ export default function InvestorsProfileComp(props) {
                                     <Card display="flex" m="auto" style={{float:'right', marginBottom: "5px"}}>
                                         <IconButton aria-label="favorite" onClick={()=>setChangeState(!changeState)}>
                                             {changeState===true ? <Favorite></Favorite> : <FavoriteBorder></FavoriteBorder>}
-                                            {console.log(changeState)}
                                         </IconButton>
                                     </Card>
                                 </Grid>

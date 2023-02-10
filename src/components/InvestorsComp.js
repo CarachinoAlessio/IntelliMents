@@ -110,8 +110,6 @@ export default function InvestorsComp(props) {
                 else
                     return 1
             })}
-        
-        //console.log(result)
         return result
     }
     const [investorsState, setInvestorsState] = useState(profilesArr);
@@ -147,7 +145,6 @@ const showProfile = (i) => {
             };
             const searchInvestor = () => {
                 setAnchorSearch(null)
-                //console.log(query,"query")
                 let newInvestorsState
                 if (query===""||query===null){
                     setInvestorsState(investorsState)
@@ -157,7 +154,6 @@ const showProfile = (i) => {
                     if (newInvestorsState.length===0){
                         setShowAlert(true)
                     }
-                    //console.log(newInvestorsState, "nis")
                     setShowButtonAll(true)
                     setInvestorsState(newInvestorsState)
                 }
