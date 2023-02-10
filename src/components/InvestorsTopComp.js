@@ -19,6 +19,7 @@ import Filter3Icon from '@mui/icons-material/Filter3';
 import Filter4Icon from '@mui/icons-material/Filter4';
 import Search from '@mui/icons-material/Search';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {
     Box,
     Card, CardActionArea, CardActions, CardContent, Chip,
@@ -165,6 +166,9 @@ export default function InvestorsTopComp(props) {
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center'}}>
+                        <IconButton aria-label="account" onClick={() => navigate(-1)}>
+                        <ArrowBackIcon sx={{ fontSize: 30 }} />
+                        </IconButton>
                         <Button aria-describedby={idSearch} onClick={handleOpenSearch} variant={"outlined"} startIcon={<Search></Search>}>Search</Button>&nbsp;&nbsp;
                         <Popper id={idSearch} open={openSearch} anchorEl={anchorSearch}>
                         <Card raised={true} sx={{minWidth: 450}}>

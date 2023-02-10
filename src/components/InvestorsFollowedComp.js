@@ -16,6 +16,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import Filter1Icon from '@mui/icons-material/Filter1';
 import Filter2Icon from '@mui/icons-material/Filter2';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {
     Box,
     Card, CardActionArea, CardActions, CardContent, Chip,
@@ -141,12 +142,18 @@ export default function InvestorsFollowedComp(props) {
     return (
         <>
         <Grid container fluid>
+                    
+        </Grid>
+        <Grid container fluid>
             <Row>
                 <Col>
                     <Grid style={{
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center'}}>
+                        <IconButton aria-label="account" onClick={() => navigate(-1)}>
+                        <ArrowBackIcon sx={{ fontSize: 30 }} />
+                        </IconButton>
                         <Button aria-describedby={idSearch} onClick={handleOpenSearch} variant={"outlined"} startIcon={<Search></Search>}>Search</Button>&nbsp;&nbsp;
                         <Popper id={idSearch} open={openSearch} anchorEl={anchorSearch}>
                         <Card raised={true} sx={{minWidth: 450}}>
