@@ -282,6 +282,7 @@ export default function StoriesComp(props) {
             if (newStoriesState[index].id === i.id){
                 newStoriesState[index].bookMark = !newStoriesState[index].bookMark
                 setStoriesState([...newStoriesState])
+                sessionStorage.setItem('stories', JSON.stringify([...newStoriesState]))
             }
         }
     }
@@ -301,6 +302,13 @@ export default function StoriesComp(props) {
     useEffect(() => {
         if (!storyCreated && sessionStorage.getItem('storycreated'))
             setStoryCreated(true)
+        let saved = JSON.parse(sessionStorage.getItem('stories'))
+        if (saved) {
+            stories = [...saved]
+            setStoriesState([...saved])
+        }
+        else
+            sessionStorage.setItem('stories', JSON.stringify(stories))
     },[])
 
     useEffect(() => {
