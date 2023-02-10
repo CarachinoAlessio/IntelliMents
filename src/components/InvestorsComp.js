@@ -58,7 +58,7 @@ export default function InvestorsComp(props) {
         {id: 2,
         name: 'Lorenzo Santo',
         description: 'Since 3 years he has been trying harder to became one of the best',
-        followed: false,
+        followed: true,
         content: 'Use Dollar-Cost Averaging to Build Wealth Over Time',
         position: "2"
         },

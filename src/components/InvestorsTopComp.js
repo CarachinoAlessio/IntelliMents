@@ -50,7 +50,7 @@ export default function InvestorsTopComp(props) {
             id: 1, 
             name: 'Hossein Javadi', 
             description: 'Since 3 years', 
-            followed: true,
+            followed: false,
             content: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents',
             position: "4"
         },
@@ -65,7 +65,7 @@ export default function InvestorsTopComp(props) {
             id: 3, 
             name: 'Lorenzo Santo', 
             description: 'Since 3 years', 
-            followed: false,
+            followed: true,
             content: 'Use Dollar-Cost Averaging to Build Wealth Over Time',
             position: "2"
         },
@@ -155,6 +155,7 @@ export default function InvestorsTopComp(props) {
             else
                 sessionStorage.setItem('topInvestors', JSON.stringify(profilesArr))
         },[])
+
         const setFollowing = (i) => {
             let newProfilesState = [...investorsState]
             newProfilesState[i.id-1].followed = !newProfilesState[i.id-1].followed

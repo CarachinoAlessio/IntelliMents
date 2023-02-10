@@ -1,6 +1,7 @@
 import Row from '@mui/material/Container';
 import Col from '@mui/material/Container';
 import Button from '@mui/material/Button';
+import { useEffect } from 'react';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
 import IconButton from "@mui/material/IconButton";
 import TextField from '@mui/material/TextField';
@@ -35,7 +36,7 @@ import * as React from 'react';
 
 
 
-const profilesArr = [
+let profilesArr = [
     {id: 1, 
     name: 'Alessio Carachino', 
     description: 'Since 2 years', 
@@ -44,7 +45,7 @@ const profilesArr = [
     position: '1'
     },
     {id: 2, 
-    name: 'Lorenzo Carachino', 
+    name: 'Lorenzo Santo', 
     description: 'Since 3 years', 
     followed: true,
     content: 'Use Dollar-Cost Averaging to Build Wealth Over Time',
@@ -112,7 +113,7 @@ export default function InvestorsFollowedComp(props) {
                     })}
                 return result
             }
-            const [investorsState, setInvestorsState] = useState((profilesArr));
+            const [investorsState, setInvestorsState] = useState(profilesArr);
         
                 const handleOpenFilter = (event) => {
                     setAnchorEl(anchorEl ? null : event.currentTarget);
@@ -123,11 +124,36 @@ export default function InvestorsFollowedComp(props) {
                 navigate('/Investors/Profile',{state: i});
             }
 
+            useEffect(() => {
+                let saved = JSON.parse(sessionStorage.getItem('followedInv'))
+                if (saved) {
+                    profilesArr = [...saved]
+                    setInvestorsState([...saved])
+                }
+                else
+                    sessionStorage.setItem('followedInv', JSON.stringify(profilesArr))
+
+                let topToAdd=JSON.parse(sessionStorage.getItem('topInvestors'))
+                if (topToAdd){
+                    topToAdd=topToAdd.filter(i=>i.followed===true)
+                    console.log(topToAdd)
+                    setInvestorsState([...topToAdd])
+                    //sessionStorage.setItem('followedInv', JSON.stringify([...topToAdd]))
+                    //setInvestorsState([...topToAdd])
+                }
+                let investorsToAdd=JSON.parse(sessionStorage.getItem('investors'))
+                if (investorsToAdd){
+                    investorsToAdd=investorsToAdd.filter(i=>i.followed===true)
+                    //sessionStorage.setItem('followedInv', JSON.stringify([...investorsToAdd]))
+                    setInvestorsState([...investorsToAdd])
+                }
+            },[])
             
             const setFollowing = (i) => {
                 let newProfilesState = [...investorsState]
                 newProfilesState[i.id-1].followed = !newProfilesState[i.id-1].followed
                 setInvestorsState((newProfilesState) => [...newProfilesState])
+                sessionStorage.setItem('followedInv', JSON.stringify([...newProfilesState]))
             }
 
 
@@ -282,6 +308,7 @@ export default function InvestorsFollowedComp(props) {
                             <Alert onClose={() => {setShowAlert(!showAlert)}} severity="error">No investors found. Click Show all to see them all.</Alert>
                           </Stack>
                         : ""}
+                        {console.log(investorsState, "_____-")}
                         {investorsState.map(i => (
                         <Grid key={i.id} item xs={6}>
                             <Card raised={true} style={{ padding: "10px", marginTop: "5px", marginBottom: "5px"}}>
