@@ -33,7 +33,7 @@ export default function ContactComp(props) {
                         <div>
                             <TextField id="filled-multiline-flexible" label="Email" multiline maxRows={4} variant="filled"/>
 
-                            <TextField id="filled-multiline-static" label="Message" multiline rows={4} defaultValue="Your message" variant="filled"/>
+                            <TextField id="filled-multiline-static" label="Message" multiline rows={4} placeholder="Your message" variant="filled"/>
                         </div>
                         </Card>
 
