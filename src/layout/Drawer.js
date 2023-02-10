@@ -161,17 +161,17 @@ export default function MiniDrawer() {
         setOpen(false);
     };
 
-    //check authentification of user
-    if (!sessionStorage.getItem('auth-token')) {
-        console.log('No auth token set.');
-    } else {
-        const authToken = '123456abcdef';
-        if (sessionStorage.getItem('auth-token') === authToken) {
-            console.log('Good token. Log in.')
-        } else {
-            console.log('Bad token.')
-        }
-    }
+    // //check authentification of user
+    // if (!sessionStorage.getItem('auth-token')) {
+    //     console.log('No auth token set.');
+    // } else {
+    //     const authToken = '123456abcdef';
+    //     if (sessionStorage.getItem('auth-token') === authToken) {
+    //         console.log('Good token. Log in.')
+    //     } else {
+    //         console.log('Bad token.')
+    //     }
+    // }
     const handleLoginPage = () => {
         navigate("/login");
     }
