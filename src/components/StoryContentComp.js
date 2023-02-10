@@ -38,6 +38,13 @@ export default function StoryContentComp(props) {
     const [open, setOpen] = useState(false);
     const [ratingSent, setRatingSent] = useState(false)
 
+    const stocks_list = [
+        {title: 'Apollo', AKA: 'APL'},
+        {title: 'Bitcoin', AKA: 'BTC'},
+        {title: 'Ethereum', AKA: 'ETH'},
+        {title: 'Juventus', AKA: 'JUVE.MI'}
+    ]
+
     const handleRatingSentClose = () => {
         setRatingSent(false)
     }

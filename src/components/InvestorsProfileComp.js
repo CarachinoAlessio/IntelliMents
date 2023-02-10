@@ -317,7 +317,7 @@ export default function InvestorsProfileComp(props) {
                 </Col>
 
                 <Col>
-                    <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                    <Grid container spacing={4} style={{paddingBottom: '50px'}} columnSpacing={{xs: 3, sm: 4, md: 5}}>
                         {storiesState.map(i => (
                             <Grid key={i.id} item xs={6}>
                                 <Card variant="outlined" sx={{minWidth: 350}}>
@@ -325,7 +325,7 @@ export default function InvestorsProfileComp(props) {
                                         <CardMedia
                                             component="img"
                                             height="194"
-                                            image={i.cover_img.startsWith('cover') ? `./static/images/stories/${i.cover_img}.jpg` : `${i.cover_img}`}
+                                            image={i.cover_img.startsWith('cover') ? `../static/images/stories/${i.cover_img}.jpg` : `${i.cover_img}`}
                                             alt="Paella dish"
                                         />
                                         <CardContent>
@@ -339,7 +339,8 @@ export default function InvestorsProfileComp(props) {
                                                 <Grid2 item xsOffset={1} xs={2} display={"flex"} justifyContent={"end"}
                                                        alignItems={"end"}>
                                                     {i.asset.map((element, index) => (
-                                                        <><Tooltip title={stocks_list.find((e) => e.AKA === element).title} placement={"top"}><Chip label={element} variant="outlined"/></Tooltip>
+                                                        <>
+                                                            <Tooltip title={stocks_list.find((e) => e.AKA === element).title} placement={"top"}><Chip label={element} variant="outlined"/></Tooltip>
                                                             <div>&nbsp;</div>
                                                         </>
                                                     ))}
