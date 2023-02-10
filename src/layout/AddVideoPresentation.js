@@ -1,11 +1,13 @@
 import React, {useState} from 'react';
-import {Button} from "@mui/material";
-import {Delete, Upload} from "@mui/icons-material";
+import {Button, Tooltip} from "@mui/material";
+import {Clear, Delete, Upload} from "@mui/icons-material";
 import ListItemText from "@mui/material/ListItemText";
 import LinearWithValueLabel from "./LinearProgressWithLabel";
+import IconButton from "@mui/material/IconButton";
 
 const FileUploader = props => {
-    const [fileIsUploaded, setFileIsUploaded] = useState(false)
+    let videoPresentationIsUploaded = props.videoPresentationIsUploaded
+    let setVideoPresentationIsUploaded = props.setVideoPresentationIsUploaded
     const uploadVideo = props.uploadVideo
     const [loading, setLoading] = useState(false)
 
@@ -17,29 +19,33 @@ const FileUploader = props => {
     const handleChange = event => {
         const fileUploaded = event.target.files[0];
         uploadVideo(fileUploaded)
-        setFileIsUploaded(true)
+        setVideoPresentationIsUploaded(true)
         setLoading(true)
     };
 
     const handleDelete = () => {
         uploadVideo(undefined)
-        setFileIsUploaded(false)
+        setVideoPresentationIsUploaded(false)
         setLoading(false)
     };
 
     return (
         <>
-            {!loading && !fileIsUploaded ? <ListItemText id="switch-list-label-wifi" primary="No video presentation uploaded" /> :
-                (!loading && fileIsUploaded ? <ListItemText id="switch-list-label-wifi" primary="Video uploaded! (42MB)" /> : <ListItemText id="switch-list-label-wifi" primary="Video uploading..." />)
+            {!loading && !videoPresentationIsUploaded ? <ListItemText id="switch-list-label-wifi" primary="No video presentation uploaded" /> :
+                (!loading && videoPresentationIsUploaded ? <ListItemText id="switch-list-label-wifi" primary="Video uploaded! (42MB)" /> : <ListItemText id="switch-list-label-wifi" primary="Video uploading..." />)
             }
 
             {
-                !loading && !fileIsUploaded ?
+                !loading && !videoPresentationIsUploaded ?
                     <Button onClick={handleClick} size={"large"} startIcon={<Upload></Upload>}
                             variant={"text"}>Upload video</Button>
                     :
-                    (!loading && fileIsUploaded ? <Button color={"error"} onClick={handleDelete} size={"large"} startIcon={<Delete></Delete>}
-                                                          variant={"text"}>Delete video</Button> : <LinearWithValueLabel setLoading={setLoading}></LinearWithValueLabel>)
+                    (!loading && videoPresentationIsUploaded ? <Button color={"error"} onClick={handleDelete} size={"large"} startIcon={<Delete></Delete>}
+                                                          variant={"text"}>Delete video</Button> :
+                        <><LinearWithValueLabel setLoading={setLoading}></LinearWithValueLabel>
+                            <Tooltip title={"Stop uploading"}>
+                                <IconButton onClick={() => {setLoading(false); uploadVideo(undefined)
+                                    setVideoPresentationIsUploaded(false)}}><Clear /></IconButton></Tooltip></>)
 
             }
 

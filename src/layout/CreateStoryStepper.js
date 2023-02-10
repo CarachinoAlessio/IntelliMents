@@ -71,6 +71,8 @@ function CreateStoryStepper(props) {
     const [openPublishStory, setOpenPublishStory] = useState(false)
     const [ratingSent, setRatingSent] = useState(false)
     const [coverImage, setCoverImage] = useState(undefined)
+    const [coverImageIsUploaded, setCoverImageIsUploaded] = useState(false)
+    const [videoPresentationIsUploaded, setVideoPresentationIsUploaded] = useState(false)
     const [videoPresentation, setVideoPresentation] = useState(undefined)
     const [quote, setQuote] = useState('Example of AI-generated Quote')
 
@@ -217,11 +219,15 @@ function CreateStoryStepper(props) {
     }
 
     const uploadCoverImage = (fileUploaded) => {
-        setCoverImage(URL.createObjectURL(fileUploaded))
+        if (fileUploaded)
+            setCoverImage(URL.createObjectURL(fileUploaded))
+        else setCoverImage(undefined)
     }
 
     const uploadVideo = (fileUploaded) => {
-        setVideoPresentation(URL.createObjectURL(fileUploaded))
+        if (fileUploaded)
+            setVideoPresentation(URL.createObjectURL(fileUploaded))
+        else setVideoPresentation(undefined)
     }
 
     const deleteFragment = (index) => {
@@ -686,12 +692,12 @@ function CreateStoryStepper(props) {
                                                 <ListItem>
 
 
-                                                    <AddCoverImage uploadCoverImage={uploadCoverImage}></AddCoverImage>
+                                                    <AddCoverImage coverImageIsUploaded={coverImageIsUploaded} setCoverImageIsUploaded={setCoverImageIsUploaded} uploadCoverImage={uploadCoverImage}></AddCoverImage>
                                                 </ListItem>
                                                 <Divider></Divider>
                                                 <ListItem>
 
-                                                    <AddVideoPresentation uploadVideo={uploadVideo}></AddVideoPresentation>
+                                                    <AddVideoPresentation videoPresentationIsUploaded={videoPresentationIsUploaded} setVideoPresentationIsUploaded={setVideoPresentationIsUploaded} uploadVideo={uploadVideo}></AddVideoPresentation>
                                                 </ListItem>
                                             </List>
                                             {/*<Stack direction="column"
