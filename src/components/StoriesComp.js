@@ -211,7 +211,6 @@ export default function StoriesComp(props) {
     const navigate = useNavigate();
 
     const filterAndSortStories = (stories) => {
-        console.log(stories)
         const assetIsCompatible = (verifyTheseAssets) => {
             for (let i in verifyTheseAssets) {
                 if (filters.assets.find((el) => el === verifyTheseAssets[i]))
@@ -259,7 +258,6 @@ export default function StoriesComp(props) {
         if (orderType === 'Descending') {
             result = result.reverse()
         }
-        console.log(result)
         return result
     };
     const [storiesState, setStoriesState] = useState(JSON.parse(JSON.stringify(stories)));
@@ -327,7 +325,6 @@ export default function StoriesComp(props) {
                 newStory.video = JSON.parse(videoPres)
             }
             else newStory.video_available = false
-            console.log(newStory.cover_img)
             setStoriesState((old) => [...old, newStory])
             stories.push(newStory)
         }
@@ -523,7 +520,6 @@ export default function StoriesComp(props) {
                                         alignItems: 'center'
                                     }}><Button size="medium" variant={'contained'} onClick={() => {
                                         setAnchorEl(null);
-                                        console.log(stories)
                                         setStoriesState(filterAndSortStories(stories))
                                     }}>Apply changes</Button></Box>
 

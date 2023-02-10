@@ -69,13 +69,14 @@ function CreateStoryStepper(props) {
     const [openRateDialog, setOpenRateDialog] = useState(false);
     const [openGenerateAgainDialog, setOpenGenerateAgainDialog] = useState(false);
     const [openPublishStory, setOpenPublishStory] = useState(false)
+    const [snackBarOpen, setSnackBarOpen] = useState(false)
     const [ratingSent, setRatingSent] = useState(false)
     const [coverImage, setCoverImage] = useState(undefined)
     const [coverImageIsUploaded, setCoverImageIsUploaded] = useState(false)
     const [videoPresentationIsUploaded, setVideoPresentationIsUploaded] = useState(false)
     const [videoPresentation, setVideoPresentation] = useState(undefined)
     const [quote, setQuote] = useState('Example of AI-generated Quote')
-
+    const [ratingValue, setRatingValue] = useState(null)
     const [notebook, setNotebook] = useState([{
         type: 'Subtitle',
         content: 'Lorem Ipsum',
@@ -150,18 +151,17 @@ function CreateStoryStepper(props) {
         sessionStorage.setItem('notebook', JSON.stringify(notebook))
         sessionStorage.setItem('quote', JSON.stringify(quote))
         sessionStorage.setItem('storycreated', 'true')
-        console.log(coverImage)
         navigate('/Stories')
         setOpenPublishStory(false)
     }
 
     const handleRatingSentClose = (event, reason) => {
-        setRatingSent(false);
+        setSnackBarOpen(false);
     };
 
     const sendRating = (
         <Fragment>
-            <Button variant="contained" color="primary" size="small" onClick={() => {handleRatingSentClose(); setOpenRateDialog(true)}}>
+            <Button variant="contained" color="primary" size="small" onClick={() => {handleRatingSentClose(); setOpenRateDialog(true); setRatingSent(false)}}>
                 UNDO
             </Button>
             <IconButton
@@ -395,7 +395,7 @@ function CreateStoryStepper(props) {
                             </>
                             : activeStep === 2 ?
                                 <>  <Snackbar
-                                    open={ratingSent}
+                                    open={snackBarOpen}
                                     autoHideDuration={6000}
                                     onClose={handleRatingSentClose}
                                     message="Rating sent! Thank you for your contribution"
@@ -430,8 +430,11 @@ function CreateStoryStepper(props) {
                                                 </DialogActions>
                                             </Dialog>
                                             <div style={{paddingRight: '15px'}}></div>
-                                            <Button onClick={() => setOpenRateDialog(true)} variant={"outlined"}
-                                                    startIcon={<Star></Star>}>Rate suggested story</Button>
+                                            {((ratingValue === null) || (!ratingSent)) ? <Button onClick={() => setOpenRateDialog(true)} variant={"outlined"}
+                                                                    startIcon={<Star></Star>}>Rate suggested story</Button> :
+                                                <Button disabled variant={"outlined"}
+                                                        startIcon={<Star></Star>}>Rating sent!</Button>}
+
                                             <Dialog
                                                 open={openRateDialog}
                                                 onClose={() => setOpenRateDialog(false)}
@@ -444,12 +447,15 @@ function CreateStoryStepper(props) {
                                                 <DialogContent>
                                                     <DialogContentText id="alert-dialog-description">
                                                         Do you like what our AI suggested to you?
-                                                        <Rating></Rating>
+                                                        <Rating value={ratingValue}
+                                                                onChange={(event, newValue) => {
+                                                                    setRatingValue(newValue);
+                                                                }}></Rating>
                                                     </DialogContentText>
                                                 </DialogContent>
                                                 <DialogActions>
                                                     <Button onClick={() => setOpenRateDialog(false)}>Cancel</Button>
-                                                    <Button onClick={() => {setOpenRateDialog(() => false); setRatingSent(true)}}>Send</Button>
+                                                    <Button disabled={ratingValue === 0 || ratingValue === null} onClick={() => {setOpenRateDialog(false); setRatingSent(true); setSnackBarOpen(true)}}>Send</Button>
                                                 </DialogActions>
                                             </Dialog>
                                         </Grid2>
@@ -522,8 +528,8 @@ function CreateStoryStepper(props) {
 
                                                     {fragment.type === 'Image' ?
                                                         <>
-                                                                {fragment.type === 'Image'?
-                                                                    <Grid justifyContent='right' display='flex' alignItems={"flex-end"} item xs={4}>
+                                                            {fragment.type === 'Image'?
+                                                                <Grid justifyContent='right' display='flex' alignItems={"flex-end"} item xs={4}>
                                                                     <Box>
                                                                         {fragment.show_buttons && notebook.length !== 1 ? <>
                                                                                 <Tooltip arrow title={"Delete"}><IconButton
@@ -542,11 +548,11 @@ function CreateStoryStepper(props) {
                                                                                     fontSize="inherit"></ArrowDownward></IconButton></Tooltip></>
                                                                             : ''}<br/>
                                                                     </Box></Grid>
-                                                                    : ''}
+                                                                : ''}
 
                                                             {fragment.show_buttons ? <><Divider></Divider><Divider></Divider></> : ''}
                                                             <div style={{paddingTop: '10px', display: 'flex', justifyContent: 'center', alignItems: 'flex-start'}}>
-                                                                <img src={fragment.content} alt={""} />
+                                                                <img style={{width: '100%'}} src={fragment.content} alt={""} />
                                                             </div>
                                                         </>
                                                         :
@@ -625,7 +631,7 @@ function CreateStoryStepper(props) {
                                                                 </Grid>
                                                                 <Grid justifyContent='right' display='flex' alignItems={"flex-end"} item xs={4}>
                                                                     {fragment.type === 'Paragraph' || fragment.type === 'Subtitle' ?
-                                                                       <Box>
+                                                                        <Box>
                                                                             {fragment.show_buttons && notebook.length !== 1 ? <>
                                                                                     <Tooltip arrow title={"Delete"}><IconButton
                                                                                         color={"primary"} size={"large"}
@@ -652,10 +658,10 @@ function CreateStoryStepper(props) {
                                                             <Divider></Divider>
                                                             <div style={{paddingTop: '10px'}}></div>
                                                         </FormControl><TextField multiline rows={fragment.type === 'Subtitle' ? 1 : 5}
-                                                        style={{width: '100%', backgroundColor: 'f0f0f0'}}
-                                                        label={fragment.type} variant="filled"
-                                                        value={fragment.content}
-                                                        onChange={(e) => (updateContent(e.target.value, index))}></TextField></>}
+                                                                                 style={{width: '100%', backgroundColor: 'f0f0f0'}}
+                                                                                 label={fragment.type} variant="filled"
+                                                                                 value={fragment.content}
+                                                                                 onChange={(e) => (updateContent(e.target.value, index))}></TextField></>}
 
 
                                                     <div style={{paddingBottom: '15px'}}></div>
@@ -778,13 +784,13 @@ function CreateStoryStepper(props) {
                                     fragment.type === 'Subtitle' ? <><Typography variant={"h4"}>{fragment.content}</Typography></>
                                         : (fragment.type === 'Paragraph' ?
                                             <>
-                                            <Typography align={fragment.alignment} fontSize={18} fontFamily={"`\"Roboto\", \"Helvetica\", \"Arial\", sans-serif`,"} variant={"body1"}>{fragment.content}</Typography>
+                                                <Typography align={fragment.alignment} fontSize={18} fontFamily={"`\"Roboto\", \"Helvetica\", \"Arial\", sans-serif`,"} variant={"body1"}>{fragment.content}</Typography>
                                                 <br></br>
                                             </> :
                                             <>
                                                 <Box
+                                                    width={"100%"}
                                                     component="img"
-
                                                     alt="The house from the offer."
                                                     src={fragment.content}
                                                 /><br></br>
