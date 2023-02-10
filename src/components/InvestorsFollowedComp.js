@@ -174,13 +174,14 @@ export default function InvestorsFollowedComp(props) {
         <Grid container fluid>
             <Row>
                 <Col>
+                <IconButton aria-label="account" onClick={() => navigate(-1)} >
+                        <ArrowBackIcon sx={{ fontSize: 30 }} />
+                        </IconButton>
                     <Grid style={{
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center'}}>
-                        <IconButton aria-label="account" onClick={() => navigate(-1)}>
-                        <ArrowBackIcon sx={{ fontSize: 30 }} />
-                        </IconButton>
+                        
                         <Button aria-describedby={idSearch} onClick={handleOpenSearch} variant={"outlined"} startIcon={<Search></Search>}>Search</Button>&nbsp;&nbsp;
                         <Popper id={idSearch} open={openSearch} anchorEl={anchorSearch}>
                         <Card raised={true} sx={{minWidth: 450}}>
