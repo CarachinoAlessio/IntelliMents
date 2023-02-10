@@ -151,6 +151,7 @@ const showProfile = (i) => {
             const [showButtonAll,setShowButtonAll] = useState(false)
 
             const showAllPressed = () => {
+                setShowAlert(false)
                 setInvestorsState(profilesArr)
                 setShowButtonAll(false)
             }

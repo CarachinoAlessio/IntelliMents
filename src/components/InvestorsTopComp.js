@@ -159,6 +159,7 @@ export default function InvestorsTopComp(props) {
         const [showButtonAll,setShowButtonAll] = useState(false)
 
         const showAllPressed = () => {
+            setShowAlert(false)
             setInvestorsState(profilesArr)
             setShowButtonAll(false)
         }
