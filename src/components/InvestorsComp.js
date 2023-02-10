@@ -5,7 +5,7 @@ import ShowChartIcon from '@mui/icons-material/ShowChart';
 import IconButton from "@mui/material/IconButton";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import TextField from '@mui/material/TextField';
 import {Search} from "@mui/icons-material";
@@ -46,18 +46,18 @@ export default function InvestorsComp(props) {
         setAnchorSearch(anchorSearch ? null : event.currentTarget)
     }
 
-    const profilesArr = [
-        {id: 1, 
-        name: 'Alessio Carachino', 
-        description: 'Since 2 years he has been able to gain a huge amount of experience', 
+    let profilesArr = [
+        {id: 1,
+        name: 'Alessio Carachino',
+        description: 'Since 2 years he has been able to gain a huge amount of experience',
         followed: true,
         content: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents except Antarctica with ranging across all continents',
         position: "1"
         },
-        
-        {id: 2, 
-        name: 'Lorenzo Santo', 
-        description: 'Since 3 years he has been trying harder to became one of the best', 
+
+        {id: 2,
+        name: 'Lorenzo Santo',
+        description: 'Since 3 years he has been trying harder to became one of the best',
         followed: false,
         content: 'Use Dollar-Cost Averaging to Build Wealth Over Time',
         position: "2"
@@ -68,14 +68,14 @@ export default function InvestorsComp(props) {
     const [followed, setFollowed] = React.useState(false)
     const navigate=useNavigate();
 
-    //sort by 
+    //sort by
     const [anchorEl, setAnchorEl] = React.useState(null);
     const openFilter = Boolean(anchorEl)
     const id = openFilter ? 'simple-popper' : undefined;
     const [orderType, setOrderType] = useState('Descending')
-    
+
     const filterAndSortAuthors = (profilesArr) => {
-    
+
         let result = []
         for (let i in profilesArr){
             let auths = profilesArr[i]
@@ -113,7 +113,15 @@ export default function InvestorsComp(props) {
         return result
     }
     const [investorsState, setInvestorsState] = useState(profilesArr);
-
+    useEffect(() => {
+        let saved = JSON.parse(sessionStorage.getItem('investors'))
+        if (saved) {
+            profilesArr = [...saved]
+            setInvestorsState([...saved])
+        }
+        else
+            sessionStorage.setItem('investors', JSON.stringify(profilesArr))
+    },[])
 
 
     //end of sort by function
@@ -131,6 +139,7 @@ const setFollowing = (i) => {
     let newProfilesState = [...investorsState]
     newProfilesState[i.id-1].followed = !newProfilesState[i.id-1].followed
     setInvestorsState((newProfilesState) => [...newProfilesState])
+    sessionStorage.setItem('investors', JSON.stringify([...newProfilesState]))
 }
 
 const showProfile = (i) => {

@@ -140,7 +140,7 @@ export default function InvestorsTopComp(props) {
             //console.log(result)
             return result
         }
-        const [investorsState, setInvestorsState] = useState(filterAndSortAuthors(profilesArr))
+        const [investorsState, setInvestorsState] = useState((profilesArr))
             const handleOpenFilter = (event) => {
                 setAnchorEl(anchorEl ? null : event.currentTarget);
             };
