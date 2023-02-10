@@ -6,6 +6,7 @@ import ShowChartIcon from '@mui/icons-material/ShowChart';
 import IconButton from "@mui/material/IconButton";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import {useState} from "react";
+import { useEffect } from 'react';
 import {useNavigate} from "react-router-dom";
 import {FilterList} from "@mui/icons-material";
 import * as PropTypes from "prop-types";
@@ -44,7 +45,7 @@ function Item(props) {
 Item.propTypes = {children: PropTypes.node};
 export default function InvestorsTopComp(props) {
 
-    const profilesArr = [
+    let profilesArr = [
         {
             id: 1, 
             name: 'Hossein Javadi', 
@@ -145,11 +146,20 @@ export default function InvestorsTopComp(props) {
                 setAnchorEl(anchorEl ? null : event.currentTarget);
             };
         //end of sort by function
-
+        useEffect(() => {
+            let saved = JSON.parse(sessionStorage.getItem('topInvestors'))
+            if (saved) {
+                profilesArr = [...saved]
+                setInvestorsState([...saved])
+            }
+            else
+                sessionStorage.setItem('topInvestors', JSON.stringify(profilesArr))
+        },[])
         const setFollowing = (i) => {
             let newProfilesState = [...investorsState]
             newProfilesState[i.id-1].followed = !newProfilesState[i.id-1].followed
             setInvestorsState((newProfilesState) => [...newProfilesState])
+            sessionStorage.setItem('topInvestors', JSON.stringify([...newProfilesState]))
         }
 
         //search function
