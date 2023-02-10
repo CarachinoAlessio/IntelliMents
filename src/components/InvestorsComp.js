@@ -32,11 +32,7 @@ import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 import Filter1Icon from '@mui/icons-material/Filter1';
 import Filter2Icon from '@mui/icons-material/Filter2';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-// import {
-//     Grid, Card, CardContent,
-//     CardActionArea, Typography, CardActions,
-// } from "@mui/material";
-
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 
 function Item(props) {
     return null;
@@ -79,13 +75,13 @@ export default function InvestorsComp(props) {
     const [orderType, setOrderType] = useState('Descending')
     
     const filterAndSortAuthors = (profilesArr) => {
-
+    
         let result = []
         for (let i in profilesArr){
             let auths = profilesArr[i]
             result.push(auths)
         }
-        if (orderType === 'Ascending') {
+        if (orderType === 'Ascending_name') {
             result.sort((a,b) => {
                 if (a.name < b.name)
                     return -1
@@ -93,9 +89,28 @@ export default function InvestorsComp(props) {
                     return 1
             })
         }
-        if (orderType === 'Descending'){
-            result = result.reverse()
-        }
+        if (orderType === 'Descending_name'){
+            result.sort((a,b) => {
+                if (a.name < b.name)
+                    return 1
+                else
+                    return -1
+            })}
+        if (orderType === 'Descending_position'){
+            result.sort((a,b) => {
+                if (a.position < b.position)
+                    return 1
+                else
+                    return -1
+            })}
+        if (orderType === 'Ascending_position'){
+            result.sort((a,b) => {
+                if (a.position < b.position)
+                    return -1
+                else
+                    return 1
+            })}
+        
         //console.log(result)
         return result
     }
@@ -213,26 +228,48 @@ const showProfile = (i) => {
                                         <ListItem>
 
 
-                                            <ListItemText id="switch-list-label-wifi" primary="Ascending" />
-                                            <Radio
-                                                edge="end"
-                                                onClick={() => setOrderType("Ascending")}
-                                                checked={orderType === "Ascending"}
-                                                inputProps={{
-                                                    'aria-labelledby': 'switch-list-label-wifi',
-                                                }}
-                                            />
+                                        <ListItemText id="switch-list-label-wifi" primary="Ascending name (A-Z)" />
+                                        <Radio
+                                            edge="end"
+                                            onClick={() => setOrderType("Ascending_name")}
+                                            checked={orderType === "Ascending_name"}
+                                            inputProps={{
+                                                'aria-labelledby': 'switch-list-label-wifi',
+                                            }}
+                                        />
                                         </ListItem>
                                         <ListItem>
-                                            <ListItemText id="switch-list-label-bluetooth" primary="Descending" />
-                                            <Radio
-                                                edge="end"
-                                                onClick={() => setOrderType("Descending")}
-                                                checked={orderType === "Descending"}
-                                                inputProps={{
-                                                    'aria-labelledby': 'switch-list-label-bluetooth',
-                                                }}
-                                            />
+                                        <ListItemText id="switch-list-label-bluetooth" primary="Descending name (A-Z)" />
+                                        <Radio
+                                            edge="end"
+                                            onClick={() => setOrderType("Descending_name")}
+                                            checked={orderType === "Descending_name"}
+                                            inputProps={{
+                                                'aria-labelledby': 'switch-list-label-bluetooth',
+                                            }}
+                                        />
+                                        </ListItem>
+                                        <ListItem>
+                                        <ListItemText id="switch-list-label-bluetooth" primary="Ascending position (first - last)" />
+                                        <Radio
+                                            edge="end"
+                                            onClick={() => setOrderType("Ascending_position")}
+                                            checked={orderType === "Ascending_position"}
+                                            inputProps={{
+                                                'aria-labelledby': 'switch-list-label-bluetooth',
+                                            }}
+                                        />
+                                        </ListItem>
+                                        <ListItem>
+                                        <ListItemText id="switch-list-label-bluetooth" primary="Descending position (last - first)" />
+                                        <Radio
+                                            edge="end"
+                                            onClick={() => setOrderType("Descending_position")}
+                                            checked={orderType === "Descending_position"}
+                                            inputProps={{
+                                                'aria-labelledby': 'switch-list-label-bluetooth',
+                                            }}
+                                        />
                                         </ListItem>
                                     </List>
                                     <Divider></Divider>
@@ -264,9 +301,20 @@ const showProfile = (i) => {
                                     <CardContent variant={"outlined"}>
                                         <Typography variant="h3" component="div">
                                         <Grid aria-label="chart">
-                                            {i.position==="1"? <Tooltip title="Position"><Filter1Icon></Filter1Icon></Tooltip> : <Tooltip title="Position"><Filter2Icon></Filter2Icon></Tooltip>}
-                                                            <Tooltip title="Position"><LeaderboardIcon>
-                                                            </LeaderboardIcon></Tooltip>&nbsp;&nbsp;{i.name}
+                                        {i.position==="1"? <Tooltip title="Position"><Filter1Icon color="primary"></Filter1Icon></Tooltip> : 
+                                                            
+                                                            i.position==="2" ? <Tooltip title="Position"><Filter2Icon></Filter2Icon></Tooltip> :
+                                                            ""}
+                                                            {i.position==="1"? <Tooltip title="Position"><EmojiEventsIcon color="primary">
+                                                            </EmojiEventsIcon></Tooltip> : 
+                                                            
+                                                            i.position==="2" ? <Tooltip title="Position"><EmojiEventsIcon>
+                                                            </EmojiEventsIcon></Tooltip> :
+                                                            
+                                                            <Tooltip title="Position"><EmojiEventsIcon>
+                                                            </EmojiEventsIcon></Tooltip>}
+                                                            
+                                                            &nbsp;&nbsp;{i.name}
                                                     </Grid>
                                         </Typography>
                                         <Typography variant="body1" color="text.secondary">
