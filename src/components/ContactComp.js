@@ -20,7 +20,7 @@ export default function ContactComp(props) {
                     <Card style={{ padding: "15px", marginTop: "25px", marginBottom: "5px"}}>
                         <Typography variant="h5" gutterBottom style={styleObj}>Mobile phone: +123456789</Typography>
                         
-                        <p>Our live chat is now: <b>closed</b></p>
+                        <p>Our live chat is now: <b>closed - We are open on Saturday and Sunday, both days from 08:00 CET to 20:00 CET</b></p>
                         <Box display="flex" justifyContent="center" alignItems="center">
                             <Button style={{marginTop: "20px"}} variant="contained" color="primary" size='large'>Chat with us</Button>
                         </Box>
