@@ -17,6 +17,8 @@ import Filter1Icon from '@mui/icons-material/Filter1';
 import Filter2Icon from '@mui/icons-material/Filter2';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 import {
     Box,
     Card, CardActionArea, CardActions, CardContent, Chip,
@@ -125,6 +127,9 @@ export default function InvestorsFollowedComp(props) {
                     }
                     else{
                         newInvestorsState=investorsState.filter(k=>k.name.toLowerCase().includes(query))
+                        if (newInvestorsState.length===0){
+                            setShowAlert(true)
+                        }
                         //console.log(newInvestorsState, "nis")
                         setShowButtonAll(true)
                         setInvestorsState(newInvestorsState)
@@ -138,7 +143,8 @@ export default function InvestorsFollowedComp(props) {
                     setShowButtonAll(false)
                 }
     
-
+        //search failed
+        const [showAlert,setShowAlert] = useState(false)
     return (
         <>
         <Grid container fluid>
@@ -231,6 +237,11 @@ export default function InvestorsFollowedComp(props) {
             <Row>
                 <Col>
                     <Grid container rowSpacing={1} columnSpacing={{ xs: 6, sm: 6, md: 6 }}>
+                    {showAlert ? 
+                            <Stack sx={{ width: '100%' }} spacing={2}>
+                            <Alert onClose={() => {setShowAlert(!showAlert)}} severity="error">No investors found. Click Show all to see them all.</Alert>
+                          </Stack>
+                        : ""}
                         {investorsState.map(i => (
                         <Grid key={i.id} item xs={6}>
                             <Card raised={true} style={{ padding: "10px", marginTop: "5px", marginBottom: "5px"}}>

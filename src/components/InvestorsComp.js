@@ -13,6 +13,8 @@ import * as PropTypes from "prop-types";
 import * as React from 'react';
 import {FilterList} from "@mui/icons-material";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 import {
     Box,
     Card, CardActionArea, CardActions, CardContent, Chip,
@@ -137,6 +139,9 @@ const showProfile = (i) => {
                 }
                 else{
                     newInvestorsState=investorsState.filter(k=>k.name.toLowerCase().includes(query))
+                    if (newInvestorsState.length===0){
+                        setShowAlert(true)
+                    }
                     //console.log(newInvestorsState, "nis")
                     setShowButtonAll(true)
                     setInvestorsState(newInvestorsState)
@@ -149,6 +154,9 @@ const showProfile = (i) => {
                 setInvestorsState(profilesArr)
                 setShowButtonAll(false)
             }
+
+        //search failed
+        const [showAlert,setShowAlert] = useState(false)
 
     return (
         <>
@@ -243,6 +251,11 @@ const showProfile = (i) => {
             <Row>
                 <Col>
                     <Grid container rowSpacing={1} columnSpacing={{ xs: 6, sm: 6, md: 6 }}>
+                    {showAlert ? 
+                            <Stack sx={{ width: '100%' }} spacing={2}>
+                            <Alert onClose={() => {setShowAlert(!showAlert)}} severity="error">No investors found. Click Show all to see them all.</Alert>
+                          </Stack>
+                        : ""}
                         {investorsState.map(i => (
                         <Grid key={i.id} item xs={6}>
                             <Card raised={true} style={{ padding: "10px", marginTop: "5px", marginBottom: "5px"}}>
