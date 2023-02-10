@@ -123,7 +123,7 @@ export default function InvestorsFollowedComp(props) {
                         setInvestorsState(investorsState)
                     }
                     else{
-                        newInvestorsState=investorsState.filter(k=>k.name.includes(query))
+                        newInvestorsState=investorsState.filter(k=>k.name.toLowerCase().includes(query))
                         //console.log(newInvestorsState, "nis")
                         setShowButtonAll(true)
                         setInvestorsState(newInvestorsState)
