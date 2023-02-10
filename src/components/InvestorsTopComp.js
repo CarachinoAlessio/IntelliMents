@@ -98,7 +98,7 @@ export default function InvestorsTopComp(props) {
         const [anchorEl, setAnchorEl] = React.useState(null);
         const openFilter = Boolean(anchorEl)
         const id = openFilter ? 'simple-popper' : undefined;
-        const [orderType, setOrderType] = useState('Descending')
+        const [orderType, setOrderType] = useState('Ascending_position')
         
         const filterAndSortAuthors = (profilesArr) => {
     
@@ -140,8 +140,7 @@ export default function InvestorsTopComp(props) {
             //console.log(result)
             return result
         }
-        const [investorsState, setInvestorsState] = useState((profilesArr));
-    
+        const [investorsState, setInvestorsState] = useState(filterAndSortAuthors(profilesArr))
             const handleOpenFilter = (event) => {
                 setAnchorEl(anchorEl ? null : event.currentTarget);
             };
