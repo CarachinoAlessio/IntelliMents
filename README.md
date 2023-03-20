@@ -13,6 +13,10 @@ Since we wanted to focus on HCI principles, AI data are still hard-coded.
 
 In the feature, we will implement a model based on Natural Language Processing.
 
+## Just two screenshots...
+![Screenshot1](./img/screenshot1.png)
+![Screenshot2](./img/screenshot2.png)
+
 ## Launch
 1) Run ```npm install``` to install all the dependencies
 2) Run ```npm start``` to run the application
